@@ -44,3 +44,11 @@ position = Vector2( 12.4272, 4.31299 )
 
 [node name="ReloadTimer" type="Timer" parent="."]
 one_shot = true
+
+[node name="Camera2D" type="Camera2D" parent="."]
+current = true
+limit_left = 0
+limit_top = 0
+limit_right = 3450
+limit_bottom = 450
+limit_smoothed = true

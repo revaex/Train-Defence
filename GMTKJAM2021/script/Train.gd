@@ -1,24 +1,16 @@
 extends Node2D
 
+var carriages = []
 
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
-
-
-# Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
+	for i in get_children():
+		if i.is_in_group("carriages"):
+			carriages.append(i)
 
 func lose_carriages(connector):
 	if connector > 0 and connector < 12:
 		for i in get_children():
-			if i.name.begins_with("Carriage"):
+			if i.is_in_group("carriages"):
 				var carriage_num = i.name.rsplit("Carriage", false)[0] as int
 				if carriage_num <= connector:
 					if carriage_num == connector: 
@@ -26,7 +18,7 @@ func lose_carriages(connector):
 					lose_carriage(i)
 				elif carriage_num == connector+1:
 					break_carriage_left(i)
-			elif i.name.begins_with("Connector"):
+			elif i.is_in_group("connectors"):
 				if i.name.rsplit("Connector", false)[0] as int < connector:
 					lose_connector(i)
 	return
@@ -41,6 +33,8 @@ func break_carriage_left(carriage : Node):
 
 func lose_carriage(carriage : Node):
 	carriage.die()
+	carriages.erase(carriage)
+	print("Total carriages " + str(carriages.size()))
 	return
 	
 func lose_connector(connector : Node):

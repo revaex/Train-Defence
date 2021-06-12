@@ -4,6 +4,8 @@ var speed = 90
 var acceleration = 0.1
 var velocity = Vector2.ZERO
 
+var scaled_hp = 100.0
+
 signal connector_has_broken(connector_num)
 
 export var hp : int
@@ -19,8 +21,6 @@ func _physics_process(delta):
 		velocity = lerp(velocity, direction.normalized() * speed, acceleration)
 		velocity = move_and_slide(velocity)
 	return
-
-var scaled_hp = 100.0
 
 
 func damage(dmg : int):

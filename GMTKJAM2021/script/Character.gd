@@ -7,6 +7,7 @@ var speed = 180
 var friction = 0.2
 var acceleration = 0.1
 
+var item_damage_increase = 0
 
 var velocity = Vector2.ZERO
 
@@ -29,15 +30,21 @@ func get_movement_input():
 
 func _input(event):
 	if Input.is_action_just_pressed("Left_Click"):
-		if $ReloadTimer.is_stopped():
+		
+		# So we can hold shift and shoot 'enemy' bullets for debug
+		if OS.is_debug_build() and Input.is_action_pressed("Shift"):
+			shoot(true)
+			
+		elif $ReloadTimer.is_stopped():
 			shoot()
 
-func shoot():
+func shoot(debug_friendly_fire=false):
 	var projectile_instance = load(current_weapon.projectile).instance()
 	get_tree().current_scene.add_child(projectile_instance)
-	projectile_instance.damage = current_weapon.damage
+	projectile_instance.damage = current_weapon.damage + item_damage_increase
 	projectile_instance.transform = $Gun/Position2D.global_transform
-	projectile_instance.friendly = true
+	if not debug_friendly_fire:
+		projectile_instance.friendly = true
 	$ReloadTimer.set_wait_time(current_weapon.reload_time)
 	$ReloadTimer.start()
 
