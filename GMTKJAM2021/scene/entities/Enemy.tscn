@@ -1,24 +1,23 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://scene/entities/Gun.tscn" type="PackedScene" id=1]
 [ext_resource path="res://script/Enemy.gd" type="Script" id=2]
-[ext_resource path="res://script/Gun.gd" type="Script" id=3]
 [ext_resource path="res://assets/sprite/enemy_spritesheet.png" type="Texture" id=4]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 8.11679
 
-[sub_resource type="AtlasTexture" id=5]
+[sub_resource type="AtlasTexture" id=2]
 atlas = ExtResource( 4 )
 region = Rect2( 0, 0, 32, 32 )
 
-[sub_resource type="AtlasTexture" id=6]
+[sub_resource type="AtlasTexture" id=3]
 atlas = ExtResource( 4 )
 region = Rect2( 32, 0, 32, 32 )
 
 [sub_resource type="SpriteFrames" id=4]
 animations = [ {
-"frames": [ SubResource( 5 ), SubResource( 6 ) ],
+"frames": [ SubResource( 2 ), SubResource( 3 ) ],
 "loop": true,
 "name": "walking",
 "speed": 2.0
@@ -41,9 +40,8 @@ frames = SubResource( 4 )
 animation = "walking"
 frame = 1
 
-[node name="Gun" type="Node2D" parent="." instance=ExtResource( 1 )]
-position = Vector2( 12.4272, 4.31299 )
-script = ExtResource( 3 )
+[node name="Gun" parent="." instance=ExtResource( 1 )]
+position = Vector2( 12.824, -4.21929 )
 
 [node name="ReloadTimer" type="Timer" parent="."]
 one_shot = true
