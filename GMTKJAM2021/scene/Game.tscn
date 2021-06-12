@@ -19,7 +19,7 @@ position = Vector2( 567.652, 56.7593 )
 rotation = 1.5708
 
 [node name="CarSpawn" type="Position2D" parent="."]
-position = Vector2( -125.017, 77.3408 )
+position = Vector2( -125.017, 104.341 )
 
 [node name="CarSpawnTimer" type="Timer" parent="."]
 autostart = true
