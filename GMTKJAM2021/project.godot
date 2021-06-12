@@ -8,16 +8,6 @@
 
 config_version=4
 
-_global_script_classes=[ {
-"base": "Position2D",
-"class": "Gun",
-"language": "GDScript",
-"path": "res://script/Gun.gd"
-} ]
-_global_script_class_icons={
-"Gun": ""
-}
-
 [application]
 
 config/name="GMTKJAM2021"

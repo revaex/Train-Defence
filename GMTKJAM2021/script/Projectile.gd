@@ -15,5 +15,6 @@ func _physics_process(delta):
 
 func _on_Projectile_body_entered(body):
 	if body.is_in_group("enemies"):
+		print("Dealing " + str(damage) + " damage.")
 		body.queue_free()
 	queue_free()
