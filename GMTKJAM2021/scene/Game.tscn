@@ -9,10 +9,10 @@
 script = ExtResource( 3 )
 
 [node name="Train" parent="." instance=ExtResource( 2 )]
-position = Vector2( 400.819, 234.142 )
+position = Vector2( 1616.71, 294.205 )
 
 [node name="Character" parent="." instance=ExtResource( 1 )]
-position = Vector2( 297.32, 100.051 )
+position = Vector2( 176.678, 292.126 )
 
 [node name="Car" parent="." instance=ExtResource( 4 )]
 position = Vector2( -100.051, 72.6785 )

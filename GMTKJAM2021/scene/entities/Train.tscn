@@ -6,70 +6,70 @@
 [node name="Train" type="Node2D"]
 
 [node name="Carriage1" parent="." instance=ExtResource( 1 )]
-position = Vector2( -900, 225 )
+position = Vector2( -1430.32, -0.000923157 )
 
 [node name="Carriage2" parent="." instance=ExtResource( 1 )]
-position = Vector2( -640, 225 )
+position = Vector2( -1170.32, -0.000923157 )
 
 [node name="Carriage3" parent="." instance=ExtResource( 1 )]
-position = Vector2( -380, 225 )
+position = Vector2( -910.315, -0.000923157 )
 
 [node name="Carriage4" parent="." instance=ExtResource( 1 )]
-position = Vector2( -120, 225 )
+position = Vector2( -650.315, -0.000923157 )
 
 [node name="Carriage5" parent="." instance=ExtResource( 1 )]
-position = Vector2( 140, 225 )
+position = Vector2( -390.315, -0.000923157 )
 
 [node name="Carriage6" parent="." instance=ExtResource( 1 )]
-position = Vector2( 400, 225 )
+position = Vector2( -130.315, -0.000923157 )
 
 [node name="Carriage7" parent="." instance=ExtResource( 1 )]
-position = Vector2( 660, 225 )
+position = Vector2( 129.685, -0.000923157 )
 
 [node name="Carriage8" parent="." instance=ExtResource( 1 )]
-position = Vector2( 920, 225 )
+position = Vector2( 389.685, -0.000923157 )
 
 [node name="Carriage9" parent="." instance=ExtResource( 1 )]
-position = Vector2( 1180, 225 )
+position = Vector2( 649.685, -0.000923157 )
 
 [node name="Carriage10" parent="." instance=ExtResource( 1 )]
-position = Vector2( 1440, 225 )
+position = Vector2( 909.685, -0.000923157 )
 
 [node name="Carriage11" parent="." instance=ExtResource( 1 )]
-position = Vector2( 1700, 225 )
+position = Vector2( 1169.68, -0.000923157 )
 
 [node name="Carriage12" parent="." instance=ExtResource( 1 )]
-position = Vector2( 1960, 225 )
+position = Vector2( 1429.68, -0.000923157 )
 
-[node name="Connector" parent="." instance=ExtResource( 2 )]
-position = Vector2( -770, 225 )
+[node name="Connector1" parent="." instance=ExtResource( 2 )]
+position = Vector2( -1300.32, -0.000923157 )
 
 [node name="Connector2" parent="." instance=ExtResource( 2 )]
-position = Vector2( -510, 225 )
+position = Vector2( -1040.32, -0.000923157 )
 
 [node name="Connector3" parent="." instance=ExtResource( 2 )]
-position = Vector2( -250, 225 )
+position = Vector2( -780.315, -0.000923157 )
 
 [node name="Connector4" parent="." instance=ExtResource( 2 )]
-position = Vector2( 10.0244, 225 )
+position = Vector2( -520.291, -0.000923157 )
 
 [node name="Connector5" parent="." instance=ExtResource( 2 )]
-position = Vector2( 270.024, 225 )
+position = Vector2( -260.291, -0.000923157 )
 
 [node name="Connector6" parent="." instance=ExtResource( 2 )]
-position = Vector2( 530.024, 225 )
+position = Vector2( -0.29126, -0.000923157 )
 
 [node name="Connector7" parent="." instance=ExtResource( 2 )]
-position = Vector2( 790, 225 )
+position = Vector2( 259.685, -0.000923157 )
 
 [node name="Connector8" parent="." instance=ExtResource( 2 )]
-position = Vector2( 1050.02, 225 )
+position = Vector2( 519.705, -0.000923157 )
 
 [node name="Connector9" parent="." instance=ExtResource( 2 )]
-position = Vector2( 1310, 225 )
+position = Vector2( 779.685, -0.000923157 )
 
 [node name="Connector10" parent="." instance=ExtResource( 2 )]
-position = Vector2( 1570, 225 )
+position = Vector2( 1039.68, -0.000923157 )
 
 [node name="Connector11" parent="." instance=ExtResource( 2 )]
-position = Vector2( 1830.02, 225 )
+position = Vector2( 1299.7, -0.000923157 )
