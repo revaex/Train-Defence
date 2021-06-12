@@ -1,13 +1,75 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://assets/sprite/train/Carriage.tscn" type="PackedScene" id=1]
+[ext_resource path="res://scene/entities/Carriage.tscn" type="PackedScene" id=1]
+[ext_resource path="res://scene/entities/Connector.tscn" type="PackedScene" id=2]
 
 [node name="Train" type="Node2D"]
 
 [node name="Carriage1" parent="." instance=ExtResource( 1 )]
-position = Vector2( -255, 0 )
+position = Vector2( -900, 225 )
 
 [node name="Carriage2" parent="." instance=ExtResource( 1 )]
+position = Vector2( -640, 225 )
 
 [node name="Carriage3" parent="." instance=ExtResource( 1 )]
-position = Vector2( 255, 0 )
+position = Vector2( -380, 225 )
+
+[node name="Carriage4" parent="." instance=ExtResource( 1 )]
+position = Vector2( -120, 225 )
+
+[node name="Carriage5" parent="." instance=ExtResource( 1 )]
+position = Vector2( 140, 225 )
+
+[node name="Carriage6" parent="." instance=ExtResource( 1 )]
+position = Vector2( 400, 225 )
+
+[node name="Carriage7" parent="." instance=ExtResource( 1 )]
+position = Vector2( 660, 225 )
+
+[node name="Carriage8" parent="." instance=ExtResource( 1 )]
+position = Vector2( 920, 225 )
+
+[node name="Carriage9" parent="." instance=ExtResource( 1 )]
+position = Vector2( 1180, 225 )
+
+[node name="Carriage10" parent="." instance=ExtResource( 1 )]
+position = Vector2( 1440, 225 )
+
+[node name="Carriage11" parent="." instance=ExtResource( 1 )]
+position = Vector2( 1700, 225 )
+
+[node name="Carriage12" parent="." instance=ExtResource( 1 )]
+position = Vector2( 1960, 225 )
+
+[node name="Connector" parent="." instance=ExtResource( 2 )]
+position = Vector2( -770, 225 )
+
+[node name="Connector2" parent="." instance=ExtResource( 2 )]
+position = Vector2( -510, 225 )
+
+[node name="Connector3" parent="." instance=ExtResource( 2 )]
+position = Vector2( -250, 225 )
+
+[node name="Connector4" parent="." instance=ExtResource( 2 )]
+position = Vector2( 10.0244, 225 )
+
+[node name="Connector5" parent="." instance=ExtResource( 2 )]
+position = Vector2( 270.024, 225 )
+
+[node name="Connector6" parent="." instance=ExtResource( 2 )]
+position = Vector2( 530.024, 225 )
+
+[node name="Connector7" parent="." instance=ExtResource( 2 )]
+position = Vector2( 790, 225 )
+
+[node name="Connector8" parent="." instance=ExtResource( 2 )]
+position = Vector2( 1050.02, 225 )
+
+[node name="Connector9" parent="." instance=ExtResource( 2 )]
+position = Vector2( 1310, 225 )
+
+[node name="Connector10" parent="." instance=ExtResource( 2 )]
+position = Vector2( 1570, 225 )
+
+[node name="Connector11" parent="." instance=ExtResource( 2 )]
+position = Vector2( 1830.02, 225 )
