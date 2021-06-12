@@ -44,7 +44,7 @@ func get_movement():
 	return movement
 	
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	var direction = get_movement()
 	if direction.length() > 0:
 		if current_state == CarStates.STOPPING:

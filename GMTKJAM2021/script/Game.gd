@@ -8,16 +8,15 @@ func _ready():
 	randomize()
 	Global.train = $Train # train reference so we know what carriages are alive
 	
+	# Spawning in test item
+	var item = load("res://scene/entities/ItemHP.tscn").instance()
+	add_child(item)
+	item.position = Vector2(150,100)
+	
 	# So cars dont stack up
 	if OS.is_debug_build():
 		$CarSpawnTimer.one_shot = true
 
-
-func _unhandled_input(event):
-	if OS.is_debug_build():
-		if Input.is_action_just_pressed("ui_select"):
-			var car = get_node("Car")
-			print(str(car.target) + "     " + str(car.target.get_index()))
 
 
 func _on_CarSpawnTimer_timeout():

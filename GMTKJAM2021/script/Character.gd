@@ -7,6 +7,7 @@ var speed = 180
 var friction = 0.2
 var acceleration = 0.1
 
+var hp = 10
 var item_damage_increase = 0
 
 var velocity = Vector2.ZERO
@@ -48,7 +49,7 @@ func shoot(debug_friendly_fire=false):
 	$ReloadTimer.set_wait_time(current_weapon.reload_time)
 	$ReloadTimer.start()
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	look_at(get_global_mouse_position())
 	var direction = get_movement_input()
 	if direction.length() > 0:
@@ -58,4 +59,14 @@ func _physics_process(delta):
 		velocity = lerp(velocity, Vector2.ZERO, friction)
 		$AnimatedSprite.stop()
 	velocity = move_and_slide(velocity)
+
+func _on_Item_picked_up(item):
+	print('picked up: ' + str(item.display_name))
+	match item.type:
+		item.ItemType.POWER_UP:
+			pass
+		item.ItemType.HEALTH:
+			self.hp += item.value
+		item.ItemType.GUN:
+			pass
 

@@ -6,7 +6,7 @@ var velocity = Vector2.ZERO
 var alive = true
 
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	if !alive:
 		var direction = Vector2(-1,0)
 		velocity = lerp(velocity, direction.normalized() * speed, acceleration)

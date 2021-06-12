@@ -12,10 +12,11 @@ export var hp : int
 var alive = true
 
 func _ready():
+# warning-ignore:return_value_discarded
 	connect("connector_has_broken", get_parent(), "lose_carriages")
 	return
 	
-func _physics_process(delta):
+func _physics_process(_delta):
 	if !alive:
 		var direction = Vector2(-1,0)
 		velocity = lerp(velocity, direction.normalized() * speed, acceleration)
@@ -25,7 +26,6 @@ func _physics_process(delta):
 
 func damage(dmg : int):
 	var scaled_damage = (float(dmg) / float(hp) * 100.0)
-	print(scaled_damage)
 	scaled_hp -= scaled_damage
 	$HPBar.visible = true
 	$HPBar.value = scaled_hp

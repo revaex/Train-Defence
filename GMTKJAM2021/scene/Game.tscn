@@ -15,7 +15,7 @@ position = Vector2( 1616.71, 294.205 )
 position = Vector2( 176.678, 292.126 )
 
 [node name="Enemy" parent="." instance=ExtResource( 5 )]
-position = Vector2( 567.652, 56.7593 )
+position = Vector2( 569.896, 188.087 )
 rotation = 1.5708
 
 [node name="CarSpawn" type="Position2D" parent="."]
