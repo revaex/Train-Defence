@@ -19,11 +19,8 @@ func _on_Projectile_body_entered(body):
 		body.queue_free()
 	if body.is_in_group("character") and friendly == false:
 		print("Dealing " + str(damage) + " damage to character.")
-
+	if body.is_in_group("connectors"):
+		print("Dealing " + str(damage) + " damage to connector.")
+		body.damage(damage)
 	if not body.is_in_group("cars"):
 		queue_free()
-
-func _on_Projectile_area_entered(area):
-	if area.is_in_group("connectors"):
-		print("Dealing " + str(damage) + " damage to connector.")
-		area.damage(damage)

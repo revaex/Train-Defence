@@ -6,7 +6,7 @@ var speed = 180
 var friction = 0.2
 var acceleration = 0.1
 var vertical_Variation = 300 # How much the car can move vertically
-onready var horizontal_variation = train_reference.get_node("Carriage1/Area2D/CollisionShape2D").shape.extents.x * 2
+onready var horizontal_variation = train_reference.get_node("Carriage1/CollisionShape2D").shape.extents.x * 2
 
 var velocity = Vector2.ZERO
 
