@@ -17,16 +17,14 @@ func _ready():
 
 func get_movement():
 	var movement = Vector2()
-
+	movement.x += 1
 	return movement
 	
 
 func _physics_process(delta):
 	var direction = get_movement()
 	if direction.length() > 0:
-		$AnimatedSprite.play("walking")
 		velocity = lerp(velocity, direction.normalized() * speed, acceleration)
 	else:
 		velocity = lerp(velocity, Vector2.ZERO, friction)
-		$AnimatedSprite.stop()
 	velocity = move_and_slide(velocity)

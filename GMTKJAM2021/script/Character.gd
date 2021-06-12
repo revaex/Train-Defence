@@ -33,10 +33,11 @@ func _input(event):
 			shoot()
 
 func shoot():
-	var projectile_instance = current_weapon.projectile.instance()
+	var projectile_instance = load(current_weapon.projectile).instance()
 	get_tree().current_scene.add_child(projectile_instance)
 	projectile_instance.damage = current_weapon.damage
 	projectile_instance.transform = $Gun/Position2D.global_transform
+	projectile_instance.friendly = true
 	$ReloadTimer.set_wait_time(current_weapon.reload_time)
 	$ReloadTimer.start()
 

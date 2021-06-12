@@ -10,7 +10,7 @@ extents = Vector2( 16, 11 )
 
 [node name="Connector" type="Area2D"]
 script = ExtResource( 4 )
-hp = 100
+hp = 5
 
 [node name="HPBar" type="TextureProgress" parent="."]
 visible = false

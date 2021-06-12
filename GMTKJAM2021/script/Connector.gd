@@ -4,14 +4,17 @@ extends Area2D
 
 export var hp : int
 
+var scaled_hp = 100.0
+
+
 func damage(dmg : int):
-	hp -= dmg
-	if hp < 100:
-		$HPBar.visible
-		$HPBar.value = hp
-		
-		if hp <= 0:
-			break_connector()
+	var scaled_damage = (float(dmg) / float(hp) * 100.0)
+	print(scaled_damage)
+	scaled_hp -= scaled_damage
+	$HPBar.visible = true
+	$HPBar.value = scaled_hp
+	if scaled_hp <= 0:
+		break_connector()
 	return
 	
 func break_connector():
