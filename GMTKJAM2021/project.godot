@@ -15,12 +15,14 @@ _global_script_class_icons={
 [application]
 
 config/name="GMTKJAM2021"
-run/main_scene="res://scene/Master.tscn"
-config/icon="res://icon.png"
+run/main_scene="res://scene/MainMenu.tscn"
+config/icon="res://assets/sprite/icon.png"
 
 [autoload]
 
 Global="*res://script/Global.gd"
+Master="*res://scene/Master.tscn"
+GlobalSceneChange="*res://script/GlobalSceneChange.gd"
 
 [display]
 
