@@ -19,7 +19,8 @@ var velocity = Vector2.ZERO
 var current_carriage = 1
 
 func _ready():
-	connect("blink",get_parent(), "tele_to_carriage")
+# warning-ignore:return_value_discarded
+	connect("blink",get_tree().current_scene, "tele_to_carriage")
 	return
 
 

@@ -12,7 +12,6 @@ export var hp : int
 var alive = true
 
 func _ready():
-	set_physics_process(false)
 # warning-ignore:return_value_discarded
 	connect("connector_has_broken", get_parent(), "lose_carriages")
 	return
@@ -44,7 +43,6 @@ func break_connector():
 
 func die():
 	alive = false
-	set_physics_process(true)
 	return
 
 

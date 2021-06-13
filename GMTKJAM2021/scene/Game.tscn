@@ -34,15 +34,15 @@ position = Vector2( -125.017, 104.341 )
 autostart = true
 
 [node name="ItemHP" parent="." instance=ExtResource( 4 )]
-position = Vector2( 230.173, 80.9574 )
+position = Vector2( 525.327, 197.842 )
 
 [node name="MachineGun" parent="." instance=ExtResource( 7 )]
-position = Vector2( 260.223, 381.221 )
+position = Vector2( 250.132, 258.45 )
 
 [node name="RocketLauncher" parent="." instance=ExtResource( 8 )]
-position = Vector2( 147.157, 376.721 )
+position = Vector2( 163.975, 260.678 )
 
 [node name="Pistol" parent="." instance=ExtResource( 9 )]
-position = Vector2( 63.0671, 382.607 )
+position = Vector2( 106.794, 256.473 )
 
 [connection signal="timeout" from="CarSpawnTimer" to="." method="_on_CarSpawnTimer_timeout"]
