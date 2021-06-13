@@ -62,7 +62,7 @@ func shoot(debug_friendly_fire=false):
 		projectile_instance.friendly = true
 	$ReloadTimer.set_wait_time(current_weapon.reload_time)
 	$ReloadTimer.start()
-	Global.audio.playGunshot()
+	Global.audio.playGunshot(current_weapon.name)
 
 func _physics_process(_delta):
 	look_at(get_global_mouse_position())
