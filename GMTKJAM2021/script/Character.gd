@@ -1,7 +1,7 @@
 extends KinematicBody2D
 
 
-onready var current_weapon = load("res://scene/entities/Gun.tscn").instance()
+onready var current_weapon = load("res://scene/entities/Pistol.tscn").instance()
 
 var speed = 180
 var friction = 0.2
@@ -19,7 +19,7 @@ func _ready():
 	pass
 
 
-func _process(delta):
+func _process(_delta):
 	$HPBarNode.global_rotation = 0
 
 
@@ -35,7 +35,7 @@ func get_movement_input():
 		input.x += 1
 	return input
 
-func _input(event):
+func _input(_event):
 	if Input.is_action_just_pressed("Left_Click"):
 		
 		# So we can hold shift and shoot 'enemy' bullets for debug
@@ -49,7 +49,7 @@ func shoot(debug_friendly_fire=false):
 	var projectile_instance = load(current_weapon.projectile).instance()
 	get_tree().current_scene.add_child(projectile_instance)
 	projectile_instance.damage = current_weapon.damage + item_damage_increase
-	projectile_instance.transform = $Gun/Position2D.global_transform
+	projectile_instance.transform = get_node(current_weapon.name + "/Position2D").global_transform
 	if not debug_friendly_fire:
 		projectile_instance.friendly = true
 	$ReloadTimer.set_wait_time(current_weapon.reload_time)
@@ -72,6 +72,7 @@ func _on_Item_picked_up(item):
 		item.ItemType.POWER_UP:
 			pass
 		item.ItemType.HEALTH:
+			$HPBarNode.visible = true
 			if scaled_hp < 100:
 				var scaled_health_increase = (float(item.value) / float(MAX_HP) * 100.0)
 				scaled_hp += scaled_health_increase
@@ -81,8 +82,11 @@ func _on_Item_picked_up(item):
 				$HPBarTimer.stop()
 				$HPBarTimer.start()
 		item.ItemType.GUN:
-			pass
-
+			call_deferred("remove_child",get_node(current_weapon.name))
+			current_weapon = load("res://scene/entities/" + item.name + ".tscn").instance()
+			current_weapon.picked_up = true
+			current_weapon.position = $GunPosition.position
+			call_deferred("add_child", current_weapon)
 func damage(dmg : int):
 	var scaled_damage = (float(dmg) / float(MAX_HP) * 100.0)
 	scaled_hp -= scaled_damage

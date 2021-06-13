@@ -1,9 +1,12 @@
-extends Node2D
+extends Item
 
-var projectile = "res://scene/entities/Projectile.tscn"
-var damage = 1
-var reload_time = 0.5
+class_name Gun
 
+var projectile
+var damage
+var reload_time
+
+var picked_up = false
 
 func _ready():
 	pass

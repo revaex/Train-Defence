@@ -9,12 +9,18 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "Item",
+"class": "Gun",
+"language": "GDScript",
+"path": "res://script/Gun.gd"
+}, {
 "base": "Node",
 "class": "Item",
 "language": "GDScript",
 "path": "res://script/Item.gd"
 } ]
 _global_script_class_icons={
+"Gun": "",
 "Item": ""
 }
 

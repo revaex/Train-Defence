@@ -12,6 +12,4 @@ func _ready():
 
 
 func _on_ItemHP_body_entered(body):
-	if body.is_in_group("character"):
-		$Item.emit_signal("item_picked_up", self)
-		queue_free()
+	picked_up_by(body)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://scene/entities/Character.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scene/entities/Train.tscn" type="PackedScene" id=2]
@@ -6,6 +6,9 @@
 [ext_resource path="res://scene/entities/ItemHP.tscn" type="PackedScene" id=4]
 [ext_resource path="res://scene/entities/Enemy.tscn" type="PackedScene" id=5]
 [ext_resource path="res://scene/environment/Environment.tscn" type="PackedScene" id=6]
+[ext_resource path="res://scene/entities/MachineGun.tscn" type="PackedScene" id=7]
+[ext_resource path="res://scene/entities/RocketLauncher.tscn" type="PackedScene" id=8]
+[ext_resource path="res://scene/entities/Pistol.tscn" type="PackedScene" id=9]
 
 [node name="Game" type="Node2D"]
 script = ExtResource( 3 )
@@ -36,5 +39,14 @@ autostart = true
 
 [node name="ItemHP" parent="." instance=ExtResource( 4 )]
 position = Vector2( 230.173, 80.9574 )
+
+[node name="MachineGun" parent="." instance=ExtResource( 7 )]
+position = Vector2( 260.223, 381.221 )
+
+[node name="RocketLauncher" parent="." instance=ExtResource( 8 )]
+position = Vector2( 147.157, 376.721 )
+
+[node name="Pistol" parent="." instance=ExtResource( 9 )]
+position = Vector2( 63.0671, 382.607 )
 
 [connection signal="timeout" from="CarSpawnTimer" to="." method="_on_CarSpawnTimer_timeout"]

@@ -17,7 +17,7 @@ func _ready():
 	rotation_degrees = randomize_rotation()
 	return
 
-func _process(delta):
+func _physics_process(delta):
 	position.x -= speed * delta
 	
 	if position.x <= -5000:

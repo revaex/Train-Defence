@@ -1,7 +1,7 @@
 extends KinematicBody2D
 
 
-onready var current_weapon = load("res://scene/entities/Gun.tscn").instance()
+onready var current_weapon = load("res://scene/entities/Pistol.tscn").instance()
 const MAX_HP = 3 # EDIT THIS HP VARIABLE INITIALLY
 var scaled_hp = 100 # handled internally
 
@@ -9,7 +9,7 @@ var scaled_hp = 100 # handled internally
 func _ready():
 	pass
 	
-func _process(delta):
+func _process(_delta):
 	$HPBarNode.global_rotation = 0
 	
 	shoot()
@@ -33,7 +33,8 @@ func shoot():
 		var projectile_instance = load(current_weapon.projectile).instance()
 		get_tree().current_scene.add_child(projectile_instance)
 		projectile_instance.damage = current_weapon.damage
-		projectile_instance.transform = $Gun/Position2D.global_transform
+		#projectile_instance.transform = $Gun/Position2D.global_transform
+		projectile_instance.transform = get_node(current_weapon.name + "/Position2D").global_transform
 		projectile_instance.friendly = false
 
 

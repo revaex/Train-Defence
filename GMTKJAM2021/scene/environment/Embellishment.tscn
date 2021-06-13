@@ -4,4 +4,4 @@
 
 [node name="Embellishment" type="Sprite"]
 script = ExtResource( 1 )
-speed = 600.0
+speed = 500.0

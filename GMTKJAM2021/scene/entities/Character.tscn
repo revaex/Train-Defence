@@ -2,7 +2,7 @@
 
 [ext_resource path="res://assets/sprite/mc_spritesheet.png" type="Texture" id=1]
 [ext_resource path="res://script/Character.gd" type="Script" id=2]
-[ext_resource path="res://scene/entities/Gun.tscn" type="PackedScene" id=3]
+[ext_resource path="res://scene/entities/Pistol.tscn" type="PackedScene" id=3]
 [ext_resource path="res://assets/ui/hp_bar_over.png" type="Texture" id=4]
 [ext_resource path="res://assets/ui/hp_bar_progress.png" type="Texture" id=5]
 
@@ -41,11 +41,11 @@ scale = Vector2( 1.2, 1.2 )
 frames = SubResource( 4 )
 animation = "walking"
 
-[node name="Gun" parent="." instance=ExtResource( 3 )]
-position = Vector2( 12.4272, 4.31299 )
-
 [node name="ReloadTimer" type="Timer" parent="."]
 one_shot = true
+
+[node name="Pistol" parent="." instance=ExtResource( 3 )]
+position = Vector2( 13, 4 )
 
 [node name="Camera2D" type="Camera2D" parent="."]
 current = true
@@ -78,6 +78,9 @@ one_shot = true
 [node name="HPBarTimer" type="Timer" parent="."]
 wait_time = 2.0
 one_shot = true
+
+[node name="GunPosition" type="Position2D" parent="."]
+position = Vector2( 13, 4 )
 
 [connection signal="timeout" from="StunTimer" to="." method="_on_StunTimer_timeout"]
 [connection signal="timeout" from="HPBarTimer" to="." method="_on_HPBarTimer_timeout"]
