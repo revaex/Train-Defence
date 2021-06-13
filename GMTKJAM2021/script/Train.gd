@@ -1,39 +1,36 @@
 extends Node2D
 
-var carriages = []
+var carriages = ["PADDING"]
+var carriage_buffer = 0
 
 func _ready():
-	for i in get_children():
-		if i.is_in_group("carriages"):
-			carriages.append(i)
+	pass
 
 func lose_carriages(connector):
+	print("index: " + str(connector))
 	if connector > 0 and connector < 12:
-		for i in get_children():
-			if i.is_in_group("carriages"):
-				var carriage_num = i.name.rsplit("Carriage", false)[0] as int
-				if carriage_num <= connector:
-					if carriage_num == connector: 
-						break_carriage_right(i)
+		var tmp_index = -1
+		for i in carriages:
+			tmp_index += 1
+			if tmp_index == 0:
+				continue
+			if not i is String:
+				if tmp_index <= connector:
+					if tmp_index == connector: 
+						i.break_right()
 					lose_carriage(i)
-				elif carriage_num == connector+1:
-					break_carriage_left(i)
-			elif i.is_in_group("connectors"):
-				if i.name.rsplit("Connector", false)[0] as int < connector:
-					lose_connector(i)
-	return
+				elif tmp_index == connector + 1:
+					i.break_left()
+	#			elif i.is_in_group("connectors"):
+	#				if i.name.rsplit("Connector", false)[0] as int < connector:
+	#					lose_connector(i)
 
-func break_carriage_right(carriage : Node):
-	carriage.break_right()
-	return
-	
-func break_carriage_left(carriage : Node):
-	carriage.break_left()
-	return
+
 
 func lose_carriage(carriage : Node):
 	carriage.die()
-	carriages.erase(carriage)
+	carriages[carriages.find(carriage)] = "DEAD_CARRIAGE"
+	carriage_buffer += 1
 	print("Total carriages left: " + str(carriages.size()))
 	return
 	

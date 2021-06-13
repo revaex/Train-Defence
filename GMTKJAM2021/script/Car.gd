@@ -8,7 +8,7 @@ var acceleration = 0.05
 
 var drift_speed = 10
 var drift_acceleration = 0.04
-var drift_bound = Vector2(20, 30)
+var drift_bound = Vector2(20, 5)
 
 enum CarStates {
 	MOVING,
@@ -20,11 +20,12 @@ var target = null # Target train connector
 var drift_direction = Vector2.ZERO
 var velocity = Vector2.ZERO
 onready var car_spawn = get_tree().current_scene.get_node("CarSpawn")
+onready var train = get_tree().current_scene.get_node("Train")
 
 
 func get_movement():
 	var movement = Vector2()
-	target = Global.train.carriages[0]
+	target = train.carriages[1 + train.carriage_buffer]
 	if target.alive:
 		var padding = -20 # So the trailer lines up with the connector (changes depending on speed)
 		if position.x < target.get_global_transform().origin.x + \

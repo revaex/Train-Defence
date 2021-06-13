@@ -125,7 +125,6 @@ func stun():
 	
 func _on_Projectile_hit(projectile):
 	damage(projectile.damage)
-	projectile.queue_free()
 
 
 func _on_StunTimer_timeout():

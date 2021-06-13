@@ -1,8 +1,10 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://assets/sprite/train/train.png" type="Texture" id=1]
 [ext_resource path="res://assets/sprite/train/connector_broken.png" type="Texture" id=2]
 [ext_resource path="res://script/Carriage.gd" type="Script" id=3]
+[ext_resource path="res://scene/entities/Connector.tscn" type="PackedScene" id=4]
+[ext_resource path="res://assets/sprite/train/connector.png" type="Texture" id=5]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 118.499, 40.2221 )
@@ -46,3 +48,11 @@ shape = SubResource( 2 )
 [node name="CollisionShape2D3" type="CollisionShape2D" parent="."]
 position = Vector2( 125.483, 0.749161 )
 shape = SubResource( 2 )
+
+[node name="Connector" parent="." instance=ExtResource( 4 )]
+position = Vector2( 128.693, 0 )
+
+[node name="LeftConnector" type="Sprite" parent="."]
+visible = false
+position = Vector2( -130.229, 0.707108 )
+texture = ExtResource( 5 )

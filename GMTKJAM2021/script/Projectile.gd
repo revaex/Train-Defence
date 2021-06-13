@@ -9,7 +9,8 @@ var friendly =  false
 
 
 func _ready():
-	pass
+	if friendly:
+		set_collision_mask_bit(5, true)
 
 func _physics_process(delta):
 	position += transform.x * speed * delta

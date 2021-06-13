@@ -1,10 +1,12 @@
 extends KinematicBody2D
 
-var speed = 90
+var speed = 110
 var acceleration = 0.1
 var velocity = Vector2.ZERO
 var alive = true
 
+func _ready():
+	get_parent().carriages.append(self)
 
 func _physics_process(_delta):
 	if !alive:

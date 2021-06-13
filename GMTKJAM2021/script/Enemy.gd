@@ -1,13 +1,17 @@
 extends KinematicBody2D
 
 
-onready var current_weapon = load("res://scene/entities/Pistol.tscn").instance()
+onready var current_weapon# = load("res://scene/entities/Pistol.tscn").instance()
+
 const MAX_HP = 3 # EDIT THIS HP VARIABLE INITIALLY
 var scaled_hp = 100 # handled internally
 
 
 func _ready():
-	pass
+	current_weapon = load("res://scene/entities/Pistol.tscn").instance()
+	current_weapon.picked_up = true
+	current_weapon.position = $GunPosition.position
+	call_deferred("add_child", current_weapon)
 	
 func _process(_delta):
 	$HPBarNode.global_rotation = 0
@@ -40,4 +44,3 @@ func shoot():
 
 func _on_Projectile_hit(projectile):
 	damage(projectile.damage)
-	projectile.queue_free()
