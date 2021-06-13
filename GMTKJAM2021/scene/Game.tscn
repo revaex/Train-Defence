@@ -21,14 +21,10 @@ z_index = -3
 position = Vector2( 1616.71, 225.735 )
 
 [node name="Character" parent="." instance=ExtResource( 1 )]
-position = Vector2( 176.678, 292.126 )
+position = Vector2( 175.343, 221.379 )
 
 [node name="Enemy" parent="." instance=ExtResource( 5 )]
 position = Vector2( 573.26, 134.27 )
-rotation = 1.5708
-
-[node name="Enemy2" parent="." instance=ExtResource( 5 )]
-position = Vector2( 458.057, 363.834 )
 rotation = 1.5708
 
 [node name="CarSpawn" type="Position2D" parent="."]
