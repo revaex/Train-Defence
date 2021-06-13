@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/track.png-9f86c613c1d2c68de40b33f08f6b44ac.stex"
+path="res://.import/dirt.png-70e6bd7768ac5f9213e425f54916c7b2.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprite/train/track.png"
-dest_files=[ "res://.import/track.png-9f86c613c1d2c68de40b33f08f6b44ac.stex" ]
+source_file="res://assets/sprite/environment/dirt.png"
+dest_files=[ "res://.import/dirt.png-70e6bd7768ac5f9213e425f54916c7b2.stex" ]
 
 [params]
 
@@ -19,7 +19,7 @@ compress/lossy_quality=0.7
 compress/hdr_mode=0
 compress/bptc_ldr=0
 compress/normal_map=0
-flags/repeat=0
+flags/repeat=1
 flags/filter=false
 flags/mipmaps=false
 flags/anisotropic=false
