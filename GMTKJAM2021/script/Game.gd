@@ -18,7 +18,6 @@ func _ready():
 		$CarSpawnTimer.one_shot = true
 
 
-
 func _on_CarSpawnTimer_timeout():
 	var car_instance = load(car).instance()
 	car_instance.position = $CarSpawn.position

@@ -12,6 +12,7 @@ export var hp : int
 var alive = true
 
 func _ready():
+	set_physics_process(false)
 # warning-ignore:return_value_discarded
 	connect("connector_has_broken", get_parent(), "lose_carriages")
 	return
@@ -21,6 +22,7 @@ func _physics_process(_delta):
 		var direction = Vector2(-1,0)
 		velocity = lerp(velocity, direction.normalized() * speed, acceleration)
 		velocity = move_and_slide(velocity)
+		set_physics_process(false)
 	return
 
 
@@ -42,7 +44,10 @@ func break_connector():
 
 func die():
 	alive = false
+	set_physics_process(true)
 	return
 
 
-
+func _on_Projectile_hit(projectile):
+	damage(projectile.damage)
+	projectile.queue_free()

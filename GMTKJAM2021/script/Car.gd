@@ -8,7 +8,7 @@ var acceleration = 0.05
 
 var drift_speed = 10
 var drift_acceleration = 0.04
-var drift_bound = Vector2(30, 30)
+var drift_bound = Vector2(20, 30)
 
 enum CarStates {
 	MOVING,
@@ -30,7 +30,7 @@ func get_movement():
 	var movement = Vector2()
 	target = Global.train.carriages[0]
 	if target.alive:
-		var padding = -10 # So the trailer lines up with the connector (changes depending on speed)
+		var padding = -20 # So the trailer lines up with the connector (changes depending on speed)
 		if position.x < target.get_global_transform().origin.x + \
 				target.get_node("Sprite").texture.get_size().x / 2 + padding:
 			movement.x += 1

@@ -34,7 +34,7 @@ func break_carriage_left(carriage : Node):
 func lose_carriage(carriage : Node):
 	carriage.die()
 	carriages.erase(carriage)
-	print("Total carriages " + str(carriages.size()))
+	print("Total carriages left: " + str(carriages.size()))
 	return
 	
 func lose_connector(connector : Node):

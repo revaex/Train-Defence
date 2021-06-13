@@ -1,11 +1,10 @@
 extends Item
 
 
-
 func _init():
 	self.display_name = "Health Potion"
 	self.type = ItemType.HEALTH
-	self.value = 10
+	self.value = 3
 	
 
 func _ready():

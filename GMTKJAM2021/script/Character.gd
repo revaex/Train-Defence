@@ -7,14 +7,20 @@ var speed = 180
 var friction = 0.2
 var acceleration = 0.1
 
-var hp = 10
+var MAX_HP = 5
+var scaled_hp = 100
 var item_damage_increase = 0
 
+var stunned = false
 var velocity = Vector2.ZERO
 
 
 func _ready():
 	pass
+
+
+func _process(delta):
+	$HPBarNode.global_rotation = 0
 
 
 func get_movement_input():
@@ -36,7 +42,7 @@ func _input(event):
 		if OS.is_debug_build() and Input.is_action_pressed("Shift"):
 			shoot(true)
 			
-		elif $ReloadTimer.is_stopped():
+		elif $ReloadTimer.is_stopped() and not stunned:
 			shoot()
 
 func shoot(debug_friendly_fire=false):
@@ -66,7 +72,41 @@ func _on_Item_picked_up(item):
 		item.ItemType.POWER_UP:
 			pass
 		item.ItemType.HEALTH:
-			self.hp += item.value
+			if scaled_hp < 100:
+				var scaled_health_increase = (float(item.value) / float(MAX_HP) * 100.0)
+				scaled_hp += scaled_health_increase
+				$HPBarNode/HPBar.value = scaled_hp
+			else:
+				scaled_hp = 100
+				$HPBarTimer.stop()
+				$HPBarTimer.start()
 		item.ItemType.GUN:
 			pass
 
+func damage(dmg : int):
+	var scaled_damage = (float(dmg) / float(MAX_HP) * 100.0)
+	scaled_hp -= scaled_damage
+	$HPBarNode.visible = true
+	$HPBarNode/HPBar.value = scaled_hp
+	if scaled_hp <= 0:
+		stun()
+
+func stun():
+	stunned = true
+	modulate = Color(1.0, 1.0, 1.0, 0.6)
+	$StunTimer.start()
+	
+func _on_Projectile_hit(projectile):
+	damage(projectile.damage)
+	projectile.queue_free()
+
+
+func _on_StunTimer_timeout():
+	stunned = false
+	modulate = Color(1.0, 1.0, 1.0, 1.0)
+	scaled_hp = 100
+	$HPBarNode/HPBar.value = scaled_hp
+
+
+func _on_HPBarTimer_timeout():
+	$HPBarNode.visible = false
