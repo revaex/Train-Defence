@@ -6,7 +6,7 @@ var car_spawn_time = 10 # can be randomized
 
 func _ready():
 	Global.train = $Train # train reference so we know what carriages are alive
-	
+	Global.audio.playTrainMovement()
 	# Spawning in test item
 	var item = load("res://scene/entities/ItemHP.tscn").instance()
 	add_child(item)
@@ -27,7 +27,8 @@ func _on_CarSpawnTimer_timeout():
 
 func tele_to_carriage(carriage_num):
 	var train = get_node("Train")
-	for i in train.carriages:
-		if i.alive and carriage_num == i.name.rsplit("Carriage", false)[0] as int:
-			$Character.successful_blink(i.global_position, carriage_num)
+	for i in train.get_children():
+		if i.is_in_group("carriages"):
+			if carriage_num == i.name.rsplit("Carriage", false)[0] as int:
+				$Character.successful_blink(i.global_position, carriage_num)
 	return
