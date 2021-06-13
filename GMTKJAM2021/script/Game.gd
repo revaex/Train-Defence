@@ -5,7 +5,6 @@ var car = "res://scene/entities/Car.tscn"
 var car_spawn_time = 10 # can be randomized
 
 func _ready():
-	randomize()
 	Global.train = $Train # train reference so we know what carriages are alive
 	
 	# Spawning in test item
