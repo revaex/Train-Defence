@@ -24,3 +24,10 @@ func _on_CarSpawnTimer_timeout():
 	
 	# CarSpawnTimer set to 1sec so car spawns instantly
 	$CarSpawnTimer.wait_time = car_spawn_time
+
+func tele_to_carriage(carriage_num):
+	var train = get_node("Train")
+	for i in train.carriages:
+		if i.alive and carriage_num == i.name.rsplit("Carriage", false)[0] as int:
+			$Character.successful_blink(i.global_position, carriage_num)
+	return
