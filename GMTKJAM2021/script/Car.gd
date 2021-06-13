@@ -22,10 +22,6 @@ var velocity = Vector2.ZERO
 onready var car_spawn = get_tree().current_scene.get_node("CarSpawn")
 
 
-func _ready():
-	randomize()
-
-
 func get_movement():
 	var movement = Vector2()
 	target = Global.train.carriages[0]
@@ -57,7 +53,6 @@ func _physics_process(_delta):
 
 
 func _on_DriftTimer_timeout():
-	randomize()
 	var rand = randi() % 4
 	match rand:
 		0:

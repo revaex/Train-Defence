@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/dirt.png-70e6bd7768ac5f9213e425f54916c7b2.stex"
+path="res://.import/rocket.png-cc9d3de3aeaf565b7fa61399eeb434aa.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprite/environment/dirt.png"
-dest_files=[ "res://.import/dirt.png-70e6bd7768ac5f9213e425f54916c7b2.stex" ]
+source_file="res://assets/sprite/weapons/rocket.png"
+dest_files=[ "res://.import/rocket.png-cc9d3de3aeaf565b7fa61399eeb434aa.stex" ]
 
 [params]
 
@@ -19,9 +19,9 @@ compress/lossy_quality=0.7
 compress/hdr_mode=0
 compress/bptc_ldr=0
 compress/normal_map=0
-flags/repeat=1
-flags/filter=true
-flags/mipmaps=true
+flags/repeat=0
+flags/filter=false
+flags/mipmaps=false
 flags/anisotropic=false
 flags/srgb=2
 process/fix_alpha_border=true
