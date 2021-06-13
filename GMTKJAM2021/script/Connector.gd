@@ -21,7 +21,6 @@ func _physics_process(_delta):
 		var direction = Vector2(-1,0)
 		velocity = lerp(velocity, direction.normalized() * speed, acceleration)
 		velocity = move_and_slide(velocity)
-		set_physics_process(false)
 	return
 
 
