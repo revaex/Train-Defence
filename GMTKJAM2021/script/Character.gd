@@ -16,7 +16,8 @@ var item_damage_increase = 0
 var stunned = false
 var velocity = Vector2.ZERO
 
-var current_carriage = 1
+var current_carriage = 1 setget set_current_carriage_ref
+onready var current_carriage_ref = get_tree().current_scene.get_node("Train").carriages[1]
 
 func _ready():
 # warning-ignore:return_value_discarded
@@ -25,34 +26,6 @@ func _ready():
 
 func _process(_delta):
 	$HPBarNode.global_rotation = 0
-
-
-func get_movement_input():
-	var input = Vector2()
-	if Input.is_action_pressed('Up'):
-		input.y -= 1
-	if Input.is_action_pressed('Down'):
-		input.y += 1
-	if Input.is_action_pressed("Left"):
-		input.x -= 1
-	if Input.is_action_pressed('Right'):
-		input.x += 1
-	return input
-
-func _input(_event):
-	if Input.is_action_just_pressed("Left_Click"):
-		
-		# So we can hold shift and shoot 'enemy' bullets for debug
-		if OS.is_debug_build():
-			if Input.is_action_pressed("Shift"):
-				shoot(true)
-			elif $ReloadTimer.is_stopped() and not stunned:
-				shoot()
-		elif $ReloadTimer.is_stopped() and not stunned:
-			shoot()
-	
-	if Input.is_action_just_pressed("Right_Click"):
-		blink()
 
 func shoot(debug_shoot_as_enemy=false):
 	var projectile_instance = load(current_weapon.projectile).instance()
@@ -67,15 +40,46 @@ func shoot(debug_shoot_as_enemy=false):
 	$ReloadTimer.start()
 	Global.audio.playGunshot(current_weapon.name)
 
+func get_movement_input():
+	var input = Vector2.ZERO
+	if Input.is_action_pressed('Up'):
+		input.y -= 1
+	if Input.is_action_pressed('Down'):
+		input.y += 1
+	if Input.is_action_pressed("Left"):
+		input.x -= 1
+	if Input.is_action_pressed('Right'):
+		input.x += 1
+	return input
+
+func _input(_event):
+	if Input.is_action_just_pressed("ui_accept"):
+		print(str(velocity))
+	if Input.is_action_just_pressed("Left_Click"):
+		
+		# So we can hold shift and shoot 'enemy' bullets for debug
+		if OS.is_debug_build():
+			if Input.is_action_pressed("Shift"):
+				shoot(true)
+			elif $ReloadTimer.is_stopped() and not stunned:
+				shoot()
+		elif $ReloadTimer.is_stopped() and not stunned:
+			shoot()
+	
+	if Input.is_action_just_pressed("Right_Click"):
+		blink()
+
 func _physics_process(_delta):
 	look_at(get_global_mouse_position())
 	var direction = get_movement_input()
+
 	if direction.length() > 0:
 		$AnimatedSprite.play("walking")
-		velocity = lerp(velocity, direction.normalized() * speed, acceleration)
+		velocity = lerp(velocity, direction.normalized() * speed + current_carriage_ref.velocity, acceleration)
 	else:
-		velocity = lerp(velocity, Vector2.ZERO, friction)
+		velocity = lerp(velocity, Vector2.ZERO + current_carriage_ref.velocity, friction)
 		$AnimatedSprite.stop()
+	
 	velocity = move_and_slide(velocity)
 
 func blink():
@@ -88,9 +92,10 @@ func blink():
 	
 func successful_blink(new_pos, new_carriage):
 	position = new_pos
-	current_carriage = new_carriage
+	self.current_carriage = new_carriage
 
 func _on_Item_picked_up(item):
+	get_tree().current_scene.spawned_items.erase(item) # Erase item from global item list
 	print('picked up: ' + str(item.display_name))
 	match item.type:
 		item.ItemType.POWER_UP:
@@ -107,18 +112,20 @@ func _on_Item_picked_up(item):
 				$HPBarTimer.start()
 		item.ItemType.GUN:
 			call_deferred("remove_child",get_node(current_weapon.name))
-			current_weapon = load("res://scene/entities/" + item.name + ".tscn").instance()
+			current_weapon = load(item.filename).instance()
 			current_weapon.picked_up = true
 			current_weapon.position = $GunPosition.position
 			call_deferred("add_child", current_weapon)
-
+			$ReloadTimer.stop()
+			
 func damage(dmg : int):
-	var scaled_damage = (float(dmg) / float(MAX_HP) * 100.0)
-	scaled_hp -= scaled_damage
-	$HPBarNode.visible = true
-	$HPBarNode/HPBar.value = scaled_hp
-	if scaled_hp <= 0:
-		stun()
+	if not stunned:
+		var scaled_damage = (float(dmg) / float(MAX_HP) * 100.0)
+		scaled_hp -= scaled_damage
+		$HPBarNode.visible = true
+		$HPBarNode/HPBar.value = scaled_hp
+		if scaled_hp <= 0:
+			stun()
 
 func stun():
 	stunned = true
@@ -138,3 +145,8 @@ func _on_StunTimer_timeout():
 
 func _on_HPBarTimer_timeout():
 	$HPBarNode.visible = false
+
+func set_current_carriage_ref(value):
+	current_carriage = value
+	var train = get_tree().current_scene.get_node("Train")
+	current_carriage_ref = train.carriages[1+train.carriage_buffer]

@@ -16,7 +16,7 @@ extents = Vector2( 9.87137, 66.817 )
 "carriages",
 ]]
 collision_layer = 2
-collision_mask = 2
+collision_mask = 34
 script = ExtResource( 3 )
 
 [node name="Sprite" type="Sprite" parent="."]

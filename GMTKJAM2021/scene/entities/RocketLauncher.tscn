@@ -7,7 +7,7 @@
 extents = Vector2( 9.43906, 4.9903 )
 
 [node name="RocketLauncher" type="Area2D" groups=[
-"gun",
+"items",
 ]]
 collision_layer = 32
 collision_mask = 0

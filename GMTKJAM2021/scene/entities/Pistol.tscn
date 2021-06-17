@@ -7,7 +7,7 @@
 extents = Vector2( 4.78256, 1.91899 )
 
 [node name="Pistol" type="Area2D" groups=[
-"gun",
+"items",
 ]]
 collision_layer = 32
 collision_mask = 0

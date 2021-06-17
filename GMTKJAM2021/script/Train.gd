@@ -7,14 +7,13 @@ func _ready():
 	pass
 
 func lose_carriages(connector):
-	print("index: " + str(connector))
 	if connector > 0 and connector < 12:
 		var tmp_index = -1
 		for i in carriages:
 			tmp_index += 1
-			if tmp_index == 0:
+			if tmp_index == 0: # Skip padding so indicies start from 1
 				continue
-			if not i is String:
+			if not i is String: # Carriage is replaced with a string when it dies
 				if tmp_index <= connector:
 					if tmp_index == connector: 
 						i.break_right()
