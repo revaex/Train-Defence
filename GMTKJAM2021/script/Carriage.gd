@@ -17,17 +17,13 @@ func _physics_process(_delta):
 		var padding = 100
 		if get_global_transform().origin.x < 0 - $Sprite.texture.get_size().x / 2 - padding:
 			owner.remove_child(self)
-	return
 	
 func break_right():
 	$Broken_Connector_R.visible = true
-	return
 	
 func break_left():
 	$Broken_Connector_L.visible = true
-	return
 	
 func die():
 	alive = false
-	return
 

@@ -128,6 +128,17 @@ Shift={
  ]
 }
 
+[layer_names]
+
+2d_physics/layer_2="carriages"
+2d_physics/layer_3="connectors"
+2d_physics/layer_4="character"
+2d_physics/layer_5="enemy"
+2d_physics/layer_6="item"
+2d_physics/layer_7="friendly_projectile"
+2d_physics/layer_8="car"
+2d_physics/layer_9="enemy_projectile"
+
 [rendering]
 
 quality/driver/driver_name="GLES2"

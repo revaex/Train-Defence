@@ -10,36 +10,48 @@ script = ExtResource( 3 )
 
 [node name="Carriage1" parent="." instance=ExtResource( 1 )]
 position = Vector2( -1430.32, -0.000923157 )
+collision_mask = 2
 
 [node name="Carriage2" parent="." instance=ExtResource( 1 )]
 position = Vector2( -1170.32, -0.000923157 )
+collision_mask = 2
 
 [node name="Carriage3" parent="." instance=ExtResource( 1 )]
 position = Vector2( -910.315, -0.000923157 )
+collision_mask = 2
 
 [node name="Carriage4" parent="." instance=ExtResource( 1 )]
 position = Vector2( -650.315, -0.000923157 )
+collision_mask = 2
 
 [node name="Carriage5" parent="." instance=ExtResource( 1 )]
 position = Vector2( -390.315, -0.000923157 )
+collision_mask = 2
 
 [node name="Carriage6" parent="." instance=ExtResource( 1 )]
 position = Vector2( -130.315, -0.000923157 )
+collision_mask = 2
 
 [node name="Carriage7" parent="." instance=ExtResource( 1 )]
 position = Vector2( 129.685, -0.000923157 )
+collision_mask = 2
 
 [node name="Carriage8" parent="." instance=ExtResource( 1 )]
 position = Vector2( 389.685, -0.000923157 )
+collision_mask = 2
 
 [node name="Carriage9" parent="." instance=ExtResource( 1 )]
 position = Vector2( 649.685, -0.000923157 )
+collision_mask = 2
 
 [node name="Carriage10" parent="." instance=ExtResource( 1 )]
 position = Vector2( 909.685, -0.000923157 )
+collision_mask = 2
 
 [node name="Carriage11" parent="." instance=ExtResource( 1 )]
 position = Vector2( 1169.68, -0.000923157 )
+collision_mask = 2
 
 [node name="Carriage12" parent="." instance=ExtResource( 1 )]
 position = Vector2( 1429.68, -0.000923157 )
+collision_mask = 2

@@ -15,14 +15,12 @@ func _ready():
 	scale = randomize_scale()
 	texture = load(randomize_texture())
 	rotation_degrees = randomize_rotation()
-	return
 
 func _physics_process(delta):
 	position.x -= speed * delta
 	
 	if position.x <= -5000:
 		queue_free()
-	return
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):

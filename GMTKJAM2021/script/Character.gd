@@ -21,7 +21,6 @@ var current_carriage = 1
 func _ready():
 # warning-ignore:return_value_discarded
 	connect("blink",get_tree().current_scene, "tele_to_carriage")
-	return
 
 
 func _process(_delta):
@@ -44,22 +43,26 @@ func _input(_event):
 	if Input.is_action_just_pressed("Left_Click"):
 		
 		# So we can hold shift and shoot 'enemy' bullets for debug
-		if OS.is_debug_build() and Input.is_action_pressed("Shift"):
-			shoot(true)
-			
+		if OS.is_debug_build():
+			if Input.is_action_pressed("Shift"):
+				shoot(true)
+			elif $ReloadTimer.is_stopped() and not stunned:
+				shoot()
 		elif $ReloadTimer.is_stopped() and not stunned:
 			shoot()
 	
 	if Input.is_action_just_pressed("Right_Click"):
 		blink()
 
-func shoot(debug_friendly_fire=false):
+func shoot(debug_shoot_as_enemy=false):
 	var projectile_instance = load(current_weapon.projectile).instance()
-	get_tree().current_scene.add_child(projectile_instance)
 	projectile_instance.damage = current_weapon.damage + item_damage_increase
 	projectile_instance.transform = get_node(current_weapon.name + "/Position2D").global_transform
-	if not debug_friendly_fire:
+	if not debug_shoot_as_enemy:
 		projectile_instance.friendly = true
+	else:
+		projectile_instance.friendly = false
+	get_tree().current_scene.add_child(projectile_instance)
 	$ReloadTimer.set_wait_time(current_weapon.reload_time)
 	$ReloadTimer.start()
 	Global.audio.playGunshot(current_weapon.name)
@@ -82,12 +85,10 @@ func blink():
 	else:
 		#Facing right
 		emit_signal("blink", current_carriage+1)
-	return
 	
 func successful_blink(new_pos, new_carriage):
 	position = new_pos
 	current_carriage = new_carriage
-	return
 
 func _on_Item_picked_up(item):
 	print('picked up: ' + str(item.display_name))
@@ -110,6 +111,7 @@ func _on_Item_picked_up(item):
 			current_weapon.picked_up = true
 			current_weapon.position = $GunPosition.position
 			call_deferred("add_child", current_weapon)
+
 func damage(dmg : int):
 	var scaled_damage = (float(dmg) / float(MAX_HP) * 100.0)
 	scaled_hp -= scaled_damage

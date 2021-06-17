@@ -16,14 +16,13 @@ var alive = true
 func _ready():
 # warning-ignore:return_value_discarded
 	connect("connector_has_broken", get_parent().get_parent(), "lose_carriages")
-	return
 	
 func _physics_process(_delta):
+	pass
 #	if !alive:
 #		var direction = Vector2(-1,0)
 #		velocity = lerp(velocity, direction.normalized() * speed, acceleration)
 #		velocity = move_and_slide(velocity)
-	return
 
 
 func damage(dmg : int):
@@ -33,18 +32,15 @@ func damage(dmg : int):
 	$HPBar.value = scaled_hp
 	if scaled_hp <= 0:
 		break_connector()
-	return
 	
 func break_connector():
 	print("Connector Broke!")
 	#var order = name.rsplit("Connector", false)[0] as int
 	emit_signal("connector_has_broken", index )
 	queue_free()
-	return
 
 func die():
 	alive = false
-	return
 
 
 func _on_Projectile_hit(projectile):

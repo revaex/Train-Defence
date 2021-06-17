@@ -35,16 +35,16 @@ class ItemSpawner:
 			base_item.ItemType.POWER_UP:
 				rand = randi() % items[type].size()
 				print("rand: " + str(rand))
-	func spawn():
+	func spawn(x, y):
 		var item_instance = load(items[type][rand]).instance()
-		item_instance.position = Vector2(100,100)
+		item_instance.position = Vector2(x,y)
 		return item_instance
 
 func _ready():
 	Global.audio.playTrainMovement()
 	# Spawning in test item
 	var Spawner = ItemSpawner.new(base_item.ItemType.GUN)
-	var test_item = Spawner.spawn()
+	var test_item = Spawner.spawn(100,200)
 	add_child(test_item)
 	
 	# So cars dont stack up
@@ -66,4 +66,3 @@ func tele_to_carriage(carriage_num):
 		if i.is_in_group("carriages"):
 			if carriage_num == i.name.rsplit("Carriage", false)[0] as int:
 				$Character.successful_blink(i.global_position, carriage_num)
-	return

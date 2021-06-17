@@ -18,7 +18,7 @@ position = Vector2( 1616.71, 225.735 )
 z_index = -2
 
 [node name="Character" parent="." instance=ExtResource( 1 )]
-position = Vector2( 175.343, 221.379 )
+position = Vector2( 242.615, 219.697 )
 
 [node name="Enemy" parent="." instance=ExtResource( 5 )]
 position = Vector2( 573.26, 407.561 )

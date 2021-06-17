@@ -6,7 +6,6 @@ func _init():
 	self.projectile = "res://scene/entities/Projectile.tscn"
 	self.display_name = "Machine Gun"
 	self.type = ItemType.GUN
-	return
 
 
 func _on_MachineGun_body_entered(body):
