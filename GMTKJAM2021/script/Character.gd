@@ -83,7 +83,14 @@ func _physics_process(_delta):
 	else:
 		velocity = lerp(velocity, Vector2.ZERO + current_carriage_ref.velocity, friction)
 		$AnimatedSprite.stop()
-	
+		
+	var margin = Vector2(30,30)
+	var sprite_size = current_carriage_ref.get_node("Sprite").texture.get_size()
+	position.x = clamp(position.x, current_carriage_ref.global_position.x - sprite_size.x / 2 + margin.x, \
+			current_carriage_ref.global_position.x + sprite_size.x / 2 - margin.x)
+	position.y = clamp(position.y, current_carriage_ref.global_position.y - sprite_size.y / 2 + margin.y, \
+			current_carriage_ref.global_position.y + sprite_size.y / 2 - margin.y)
+			
 	velocity = move_and_slide(velocity)
 
 func blink():
