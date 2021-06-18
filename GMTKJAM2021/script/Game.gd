@@ -1,7 +1,7 @@
 extends Node2D
 
 
-var car = "res://scene/entities/Car.tscn"
+var car = "res://scene/vehicles/Car.tscn"
 var car_spawn_time = 15 # can be randomized
 
 var base_item = Item.new()
@@ -46,12 +46,12 @@ class ItemSpawner:
 	var train
 	var items = {
 		base_item.ItemType.HEALTH: [
-			"res://scene/entities/ItemHP.tscn"
+			"res://scene/items/HealthPotion.tscn"
 		],
 		base_item.ItemType.GUN: [
-			"res://scene/entities/Pistol.tscn",
-			"res://scene/entities/MachineGun.tscn",
-			"res://scene/entities/RocketLauncher.tscn"
+			"res://scene/items/Pistol.tscn",
+			"res://scene/items/MachineGun.tscn",
+			"res://scene/items/RocketLauncher.tscn"
 		],
 		base_item.ItemType.POWER_UP: 0,
 	}

@@ -3,7 +3,7 @@ extends Gun
 func _init():
 	self.damage = 1
 	self.reload_time = 0.5
-	self.projectile = "res://scene/entities/Projectile.tscn"
+	self.projectile = "res://scene/projectiles/Projectile.tscn"
 	self.display_name = "Pistol"
 	self.type = ItemType.GUN
 

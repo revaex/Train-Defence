@@ -8,7 +8,7 @@ var scaled_hp = 100 # handled internally
 
 
 func _ready():
-	current_weapon = load("res://scene/entities/Pistol.tscn").instance()
+	current_weapon = load("res://scene/items/Pistol.tscn").instance()
 	current_weapon.picked_up = true
 	current_weapon.position = $GunPosition.position
 	call_deferred("add_child", current_weapon)

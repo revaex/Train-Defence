@@ -1,6 +1,6 @@
 extends Node2D
 
-var carriages = ["PADDING"]
+var carriages = ["PADDING"] # So index starts at 1.
 var carriage_buffer = 0
 
 func _ready():

@@ -1,6 +1,6 @@
 extends KinematicBody2D
 
-# NOTE: Car technically targets carriages + an offset, not connectors
+# NOTE: Car technically targets carriages + an offset, not the connectors
 
 var speed = 180
 var friction = 0.05

@@ -1,7 +1,7 @@
 extends KinematicBody2D
 
 
-onready var current_weapon = load("res://scene/entities/Pistol.tscn").instance()
+onready var current_weapon = load("res://scene/items/Pistol.tscn").instance()
 
 signal blink(carriage_num)
 

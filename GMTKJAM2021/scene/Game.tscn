@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://scene/entities/Character.tscn" type="PackedScene" id=1]
-[ext_resource path="res://scene/entities/Train.tscn" type="PackedScene" id=2]
+[ext_resource path="res://scene/vehicles/Train.tscn" type="PackedScene" id=2]
 [ext_resource path="res://script/Game.gd" type="Script" id=3]
 [ext_resource path="res://scene/entities/Enemy.tscn" type="PackedScene" id=5]
 [ext_resource path="res://scene/environment/Environment.tscn" type="PackedScene" id=6]
