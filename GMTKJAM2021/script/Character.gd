@@ -28,6 +28,15 @@ func _ready():
 
 func _process(_delta):
 	$HPBarNode.global_rotation = 0
+	if Input.is_action_pressed("Left_Click"): # in process so one can hold down button to fire
+		# So we can hold shift and shoot 'enemy' bullets for debug
+		if OS.is_debug_build():
+			if Input.is_action_pressed("Shift"):
+				shoot(true)
+			elif $ReloadTimer.is_stopped() and not stunned:
+				shoot()
+		elif $ReloadTimer.is_stopped() and not stunned:
+			shoot()
 
 func shoot(debug_shoot_as_enemy=false):
 	var projectile_instance = load(current_weapon.projectile).instance()
@@ -59,17 +68,6 @@ func _input(_event):
 		print(str(current_carriage) + ": " + str(current_carriage_ref))
 		#print(str(train.carriages))
 		
-	if Input.is_action_just_pressed("Left_Click"):
-		
-		# So we can hold shift and shoot 'enemy' bullets for debug
-		if OS.is_debug_build():
-			if Input.is_action_pressed("Shift"):
-				shoot(true)
-			elif $ReloadTimer.is_stopped() and not stunned:
-				shoot()
-		elif $ReloadTimer.is_stopped() and not stunned:
-			shoot()
-	
 	if Input.is_action_just_pressed("Right_Click"):
 		blink()
 
@@ -83,7 +81,10 @@ func _physics_process(_delta):
 	else:
 		velocity = lerp(velocity, Vector2.ZERO + current_carriage_ref.velocity, friction)
 		$AnimatedSprite.stop()
-		
+	
+	if position.x < 0:
+		die()
+	
 	var margin = Vector2(30,30)
 	var sprite_size = current_carriage_ref.get_node("Sprite").texture.get_size()
 	position.x = clamp(position.x, current_carriage_ref.global_position.x - sprite_size.x / 2 + margin.x, \
@@ -92,6 +93,9 @@ func _physics_process(_delta):
 			current_carriage_ref.global_position.y + sprite_size.y / 2 - margin.y)
 			
 	velocity = move_and_slide(velocity)
+
+func die():
+	GlobalSceneChange.goto_scene("res://scene/MainMenu.tscn")
 
 func blink():
 	if rotation_degrees < -90 or rotation_degrees > 90:

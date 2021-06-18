@@ -1,5 +1,7 @@
 extends Area2D
 
+class_name Projectile
+
 
 signal hit(projectile)
 
@@ -8,20 +10,17 @@ var damage
 var friendly =  false
 
 
-func _ready():
-	if not friendly:
-		set_collision_layer_bit(6, false)
-		set_collision_layer_bit(8, true)
-		set_collision_mask_bit(4, false)
-		set_collision_mask_bit(2, true)
-		set_collision_mask_bit(3, true)
+onready var camera = get_tree().current_scene.get_node("Character/Camera2D")
 
 
 func _physics_process(delta):
 	position += transform.x * speed * delta
+	if position.x < camera.limit_left or position.x > camera.limit_right or \
+			position.y < camera.limit_top or position.y > camera.limit_bottom:
+		queue_free()
 
 
-func _on_Projectile_body_entered(body):
+func hit_something(body):
 	
 	if body.is_in_group("enemies") and friendly == true:
 		print("Dealing " + str(damage) + " damage to enemy.")

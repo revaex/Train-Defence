@@ -23,11 +23,17 @@ _global_script_classes=[ {
 "class": "ItemSpawner",
 "language": "GDScript",
 "path": "res://script/ItemSpawner.gd"
+}, {
+"base": "Area2D",
+"class": "Projectile",
+"language": "GDScript",
+"path": "res://script/Projectile.gd"
 } ]
 _global_script_class_icons={
 "Gun": "",
 "Item": "",
-"ItemSpawner": ""
+"ItemSpawner": "",
+"Projectile": ""
 }
 
 [application]

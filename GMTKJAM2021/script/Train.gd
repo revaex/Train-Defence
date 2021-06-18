@@ -27,7 +27,7 @@ func lose_carriage(carriage : Node):
 	carriage.die()
 	#carriages[carriages.find(carriage)] = "DEAD_CARRIAGE"
 	carriage_buffer += 1
-	print("Total carriages left: " + str(carriages.size()))
+	print("Total carriages left: " + str(owner.get_child_count()))
 	
 func lose_connector(connector : Node):
 	connector.die()
