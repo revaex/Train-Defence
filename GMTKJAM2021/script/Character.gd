@@ -1,7 +1,7 @@
 extends KinematicBody2D
 
 
-onready var current_weapon = load("res://scene/items/guns/Pistol.tscn").instance()
+onready var current_weapon = $Pistol
 
 signal blink(carriage_num)
 
@@ -16,10 +16,12 @@ var item_damage_increase = 0
 var stunned = false
 var velocity = Vector2.ZERO
 
+onready var train = get_tree().current_scene.get_node("Train")
 var current_carriage = 1 setget set_current_carriage_ref
-onready var current_carriage_ref = get_tree().current_scene.get_node("Train").carriages[1]
+onready var current_carriage_ref = train.carriages[1]
 
 func _ready():
+	current_weapon.picked_up = true
 # warning-ignore:return_value_discarded
 	connect("blink",get_tree().current_scene, "tele_to_carriage")
 
@@ -54,7 +56,9 @@ func get_movement_input():
 
 func _input(_event):
 	if Input.is_action_just_pressed("ui_accept"):
-		print(str(velocity))
+		print(str(current_carriage) + ": " + str(current_carriage_ref))
+		#print(str(train.carriages))
+		
 	if Input.is_action_just_pressed("Left_Click"):
 		
 		# So we can hold shift and shoot 'enemy' bullets for debug
@@ -148,5 +152,4 @@ func _on_HPBarTimer_timeout():
 
 func set_current_carriage_ref(value):
 	current_carriage = value
-	var train = get_tree().current_scene.get_node("Train")
-	current_carriage_ref = train.carriages[1+train.carriage_buffer]
+	current_carriage_ref = train.carriages[value]

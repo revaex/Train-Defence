@@ -6,7 +6,6 @@
 [ext_resource path="res://assets/ui/hp_bar_over.png" type="Texture" id=4]
 [ext_resource path="res://assets/ui/hp_bar_progress.png" type="Texture" id=5]
 
-
 [sub_resource type="CircleShape2D" id=1]
 radius = 8.11679
 

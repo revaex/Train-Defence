@@ -6,7 +6,6 @@
 [ext_resource path="res://scene/vehicles/Connector.tscn" type="PackedScene" id=4]
 [ext_resource path="res://assets/sprite/train/connector.png" type="Texture" id=5]
 
-
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 118.499, 40.2221 )
 

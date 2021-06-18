@@ -11,7 +11,7 @@ var spawned_items = []
 func _ready():
 	Global.audio.playTrainMovement()
 	
-	$ItemSpawner.spawn(4, base_item.ItemType.HEALTH, 5)
+	$ItemSpawner.spawn(4, base_item.ItemType.GUN)
 	
 	# So cars dont stack up
 	if OS.is_debug_build():
