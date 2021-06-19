@@ -7,24 +7,19 @@ var texture_dict = {
 	4:"res://assets/sprite/environment/cactus.png"
 }
 
-export var speed : float
+onready var speed = get_parent().scroll_speed
 
-# Called when the node enters the scene tree for the first time.
 func _ready():
 	position.y = randomize_y_position()
 	scale = randomize_scale()
 	texture = load(randomize_texture())
 	rotation_degrees = randomize_rotation()
 
-func _physics_process(delta):
+func _process(delta):
 	position.x -= speed * delta
 	
-	if position.x <= -5000:
+	if position.x <= -100:
 		queue_free()
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
 
 func randomize_y_position():
 	var y_pos : float

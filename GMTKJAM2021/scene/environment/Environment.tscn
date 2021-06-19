@@ -1,62 +1,35 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://assets/sprite/environment/dirt.png" type="Texture" id=1]
+[ext_resource path="res://assets/sprite/environment/dirt2.png" type="Texture" id=1]
 [ext_resource path="res://script/Environment.gd" type="Script" id=2]
 [ext_resource path="res://assets/sprite/environment/track.png" type="Texture" id=3]
 [ext_resource path="res://scene/environment/Embellishment.tscn" type="PackedScene" id=4]
 
-[sub_resource type="Shader" id=1]
-code = "shader_type canvas_item;
-
-uniform vec2 direction = vec2(1.0,0.0);
-uniform float speed_scale = 0;
-
-void fragment(){
-
-     vec2 move = direction * TIME * speed_scale;
-
-     COLOR = texture(TEXTURE, UV + move);   
-}"
-
-[sub_resource type="ShaderMaterial" id=2]
-shader = SubResource( 1 )
-shader_param/direction = Vector2( 1, 0 )
-shader_param/speed_scale = 0.0
-
-[sub_resource type="Shader" id=3]
-code = "shader_type canvas_item;
-
-uniform vec2 direction = vec2(1.0,0.0);
-uniform float speed_scale = 0;
-
-void fragment(){
-
-     vec2 move = direction * TIME * speed_scale;
-
-     COLOR = texture(TEXTURE, UV + move);   
-}"
-
-[sub_resource type="ShaderMaterial" id=4]
-shader = SubResource( 3 )
-shader_param/direction = Vector2( 1, 0 )
-shader_param/speed_scale = 0.0
-
 [node name="Environment" type="CanvasLayer"]
 script = ExtResource( 2 )
-scroll_speed = 0.6
 
-[node name="Dirt" type="Sprite" parent="."]
-material = SubResource( 2 )
-position = Vector2( 1600, 0 )
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+scroll_ignore_camera_zoom = true
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_mirroring = Vector2( 800, 0 )
+
+[node name="Sprite" type="Sprite" parent="ParallaxBackground/ParallaxLayer"]
 texture = ExtResource( 1 )
-region_enabled = true
-region_rect = Rect2( 0, 0, 16000, 450 )
+centered = false
+region_rect = Rect2( 0, 0, 8000, 4000 )
 
-[node name="Track" type="Sprite" parent="."]
-material = SubResource( 4 )
+[node name="ParallaxBackground2" type="ParallaxBackground" parent="."]
+scroll_ignore_camera_zoom = true
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground2"]
+motion_mirroring = Vector2( 780, 0 )
+
+[node name="Sprite" type="Sprite" parent="ParallaxBackground2/ParallaxLayer"]
+position = Vector2( 400, 225 )
 texture = ExtResource( 3 )
 region_enabled = true
-region_rect = Rect2( 0, 0, 15600, 150 )
+region_rect = Rect2( 0, 0, 800, 150 )
 
 [node name="SpawnEmbellishment" type="Timer" parent="."]
 wait_time = 2.0
