@@ -4,22 +4,22 @@
 [ext_resource path="res://assets/sprite/weapons/machinegun.png" type="Texture" id=2]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 8.40811, 5.03183 )
+extents = Vector2( 9.30998, 4.6308 )
 
 [node name="MachineGun" type="Area2D" groups=[
 "items",
 ]]
-scale = Vector2( 1.3, 1.3 )
 collision_layer = 32
 collision_mask = 0
 script = ExtResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="."]
 rotation = 1.5708
+scale = Vector2( 1.3, 1.3 )
 texture = ExtResource( 2 )
 
 [node name="Position2D" type="Position2D" parent="."]
-position = Vector2( 12.7423, 0 )
+position = Vector2( 16.5221, 0.787451 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 3, 0 )

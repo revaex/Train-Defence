@@ -11,15 +11,16 @@
 script = ExtResource( 3 )
 
 [node name="Environment" parent="." instance=ExtResource( 6 )]
-position = Vector2( 400, 225 )
-z_index = -3
+layer = -1
+offset = Vector2( 0, 225 )
+transform = Transform2D( 1, 0, 0, 1, 0, 225 )
 
 [node name="Train" parent="." instance=ExtResource( 2 )]
 position = Vector2( 1616.71, 225.735 )
-z_index = -2
 
 [node name="Character" parent="." instance=ExtResource( 1 )]
 position = Vector2( 242.615, 219.697 )
+z_index = 1
 
 [node name="Enemy" parent="." instance=ExtResource( 5 )]
 position = Vector2( 573.26, 407.561 )

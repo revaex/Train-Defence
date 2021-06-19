@@ -31,7 +31,7 @@ func _process(_delta):
 	if Input.is_action_pressed("Left_Click"): # in process so one can hold down button to fire
 		# So we can hold shift and shoot 'enemy' bullets for debug
 		if OS.is_debug_build():
-			if Input.is_action_pressed("Shift"):
+			if Input.is_action_pressed("Shift") and $ReloadTimer.is_stopped() and not stunned:
 				shoot(true)
 			elif $ReloadTimer.is_stopped() and not stunned:
 				shoot()

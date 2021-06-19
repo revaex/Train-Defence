@@ -1,5 +1,6 @@
 extends Gun
 
+
 func _init():
 	self.damage = 1
 	self.reload_time = 0.5

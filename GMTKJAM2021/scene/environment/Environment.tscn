@@ -41,7 +41,7 @@ shader = SubResource( 3 )
 shader_param/direction = Vector2( 1, 0 )
 shader_param/speed_scale = 0.0
 
-[node name="Environment" type="Node2D"]
+[node name="Environment" type="CanvasLayer"]
 script = ExtResource( 2 )
 scroll_speed = 0.6
 

@@ -22,7 +22,7 @@ animations = [ {
 "frames": [ SubResource( 2 ), SubResource( 3 ) ],
 "loop": true,
 "name": "walking",
-"speed": 2.0
+"speed": 4.0
 } ]
 
 [node name="Character" type="KinematicBody2D" groups=[

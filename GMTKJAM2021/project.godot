@@ -19,7 +19,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://script/Item.gd"
 }, {
-"base": "Node2D",
+"base": "Node",
 "class": "ItemSpawner",
 "language": "GDScript",
 "path": "res://script/ItemSpawner.gd"
@@ -47,6 +47,7 @@ config/icon="res://assets/sprite/icon.png"
 Global="*res://script/Global.gd"
 Master="*res://scene/Master.tscn"
 GlobalSceneChange="*res://script/GlobalSceneChange.gd"
+GlobalEvents="*res://script/GlobalEvents.gd"
 
 [display]
 
