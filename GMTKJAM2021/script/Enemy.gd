@@ -28,6 +28,7 @@ func damage(dmg : int):
 
 
 func die():
+	GlobalEvents.emit_signal("enemy_dead", self)
 	queue_free()
 
 

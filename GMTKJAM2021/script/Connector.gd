@@ -26,22 +26,20 @@ func _physics_process(_delta):
 
 
 func damage(dmg : int):
-	var scaled_damage = (float(dmg) / float(hp) * 100.0)
-	scaled_hp -= scaled_damage
-	$HPBar.visible = true
-	$HPBar.value = scaled_hp
-	if scaled_hp <= 0:
-		break_connector()
-	
+	if alive:
+		var scaled_damage = (float(dmg) / float(hp) * 100.0)
+		scaled_hp -= scaled_damage
+		$HPBar.visible = true
+		$HPBar.value = scaled_hp
+		if scaled_hp <= 0:
+			alive = false
+			break_connector()
+
 func break_connector():
-	print("Connector Broke!")
-	#var order = name.rsplit("Connector", false)[0] as int
-	emit_signal("connector_has_broken", index )
-	queue_free()
-
-func die():
-	alive = false
-
+		print("Connector Broke!")
+		#var order = name.rsplit("Connector", false)[0] as int
+		emit_signal("connector_has_broken", index )
+		queue_free()
 
 func _on_Projectile_hit(projectile):
 	damage(projectile.damage)

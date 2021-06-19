@@ -4,6 +4,7 @@ extends KinematicBody2D
 onready var current_weapon = $Pistol
 
 signal blink(carriage_num)
+signal game_over
 
 var speed = 180
 var friction = 0.2
@@ -22,9 +23,6 @@ onready var current_carriage_ref = train.carriages[1]
 
 func _ready():
 	current_weapon.picked_up = true
-# warning-ignore:return_value_discarded
-	connect("blink",get_tree().current_scene, "tele_to_carriage")
-
 
 func _process(_delta):
 	$HPBarNode.global_rotation = 0
@@ -81,9 +79,7 @@ func _physics_process(_delta):
 	else:
 		velocity = lerp(velocity, Vector2.ZERO + current_carriage_ref.velocity, friction)
 		$AnimatedSprite.stop()
-	
-	if position.x < 0:
-		die()
+
 	
 	var margin = Vector2(30,30)
 	var sprite_size = current_carriage_ref.get_node("Sprite").texture.get_size()
@@ -93,9 +89,10 @@ func _physics_process(_delta):
 			current_carriage_ref.global_position.y + sprite_size.y / 2 - margin.y)
 			
 	velocity = move_and_slide(velocity)
+	
+	if position.x < -10:
+		emit_signal("game_over")
 
-func die():
-	GlobalSceneChange.goto_scene("res://scene/MainMenu.tscn")
 
 func blink():
 	if rotation_degrees < -90 or rotation_degrees > 90:

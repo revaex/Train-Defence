@@ -1,6 +1,7 @@
 extends Node
 
-
+# warning-ignore:unused_signal
+signal enemy_dead(enemy)
 #signal signal_name(param1, param2)
 
 #From other scripts: 

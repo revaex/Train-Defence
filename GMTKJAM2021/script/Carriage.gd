@@ -8,11 +8,11 @@ var alive = true
 func _ready():
 	get_parent().carriages.append(self)
 
-func _physics_process(_delta):
+func _physics_process(delta):
 	if !alive:
 		var direction = Vector2(-1,0)
 		velocity = lerp(velocity, direction.normalized() * speed, acceleration)
-		velocity = move_and_slide(velocity)
+		translate(velocity * delta)
 		
 		var padding = 100
 		if get_global_transform().origin.x < 0 - $Sprite.texture.get_size().x / 2 - padding:
