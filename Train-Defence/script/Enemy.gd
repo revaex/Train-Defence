@@ -16,7 +16,7 @@ func _ready():
 	current_weapon.position = $GunPosition.position
 	call_deferred("add_child", current_weapon)
 	
-	$FiringTimer.set_wait_time(current_weapon.firing_time + randf())
+	$FiringTimer.set_wait_time(current_weapon.firing_rate + randf())
 	
 func _process(_delta):
 	$HPBarNode.global_rotation = 0

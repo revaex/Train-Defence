@@ -1,9 +1,7 @@
 extends Node2D
 
 
-var car = "res://scene/vehicles/Car.tscn"
-
-var base_item = Item.new()
+onready var base_item = Item.new()
 onready var train = get_tree().current_scene.get_node("Train")
 var spawned_items = []
 
@@ -16,16 +14,10 @@ func _ready():
 	$Character.connect("blink", self, "tele_to_carriage")
 # warning-ignore:return_value_discarded
 	GlobalEvents.connect("game_over", self, "_on_game_over")
-# warning-ignore:return_value_discarded
-	GlobalEvents.connect("car_despawned", self, "_on_car_despawned")
 	
 	Global.audio.playTrainMovement()
 	
 	$ItemSpawner.spawn(4, base_item.ItemType.GUN)
-
-
-func _on_CarSpawnTimer_timeout():
-	$CarSpawner.spawn(1) # can be increased for extra difficulty
 
 
 func tele_to_carriage(carriage_num):
@@ -40,6 +32,3 @@ func _on_game_over():
 		game_over = true
 		GlobalSceneChange.goto_scene("res://scene/MainMenu.tscn")
 
-
-func _on_car_despawned():
-	$CarSpawnTimer.start()

@@ -19,6 +19,14 @@ collision_layer = 2
 collision_mask = 34
 script = ExtResource( 3 )
 
+[node name="Connector" parent="." instance=ExtResource( 4 )]
+position = Vector2( 128.693, 0 )
+
+[node name="LeftConnector" type="Sprite" parent="."]
+visible = false
+position = Vector2( -130.229, 0.707108 )
+texture = ExtResource( 5 )
+
 [node name="Sprite" type="Sprite" parent="."]
 texture = ExtResource( 1 )
 
@@ -48,11 +56,3 @@ shape = SubResource( 2 )
 [node name="CollisionShape2D3" type="CollisionShape2D" parent="."]
 position = Vector2( 125.483, 0.749161 )
 shape = SubResource( 2 )
-
-[node name="Connector" parent="." instance=ExtResource( 4 )]
-position = Vector2( 128.693, 0 )
-
-[node name="LeftConnector" type="Sprite" parent="."]
-visible = false
-position = Vector2( -130.229, 0.707108 )
-texture = ExtResource( 5 )

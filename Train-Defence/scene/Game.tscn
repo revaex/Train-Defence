@@ -22,16 +22,6 @@ position = Vector2( 1616.71, 225.735 )
 position = Vector2( 242.615, 219.697 )
 z_index = 1
 
-[node name="CarSpawn" type="Position2D" parent="."]
-position = Vector2( -125.017, 89.341 )
-
-[node name="CarSpawnTimer" type="Timer" parent="."]
-wait_time = 5.0
-one_shot = true
-autostart = true
-
 [node name="ItemSpawner" parent="." instance=ExtResource( 4 )]
 
 [node name="CarSpawner" parent="." instance=ExtResource( 5 )]
-
-[connection signal="timeout" from="CarSpawnTimer" to="." method="_on_CarSpawnTimer_timeout"]

@@ -5,9 +5,6 @@ var acceleration = 0.1
 var velocity = Vector2.ZERO
 var alive = true
 
-func _ready():
-	get_parent().carriages.append(self)
-
 func _physics_process(delta):
 	if !alive:
 		var direction = Vector2(-1,0)

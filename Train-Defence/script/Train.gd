@@ -1,32 +1,35 @@
 extends Node2D
 
-var total_carriages = 12
-var carriages = ["PADDING"] # So index starts at 1.
+var total_carriages = 12 # DON'T CHANGE UNTIL CarriageSpawner IS CREATED!!
+var carriages = ["PADDING"] # So index starts at 1. (DISGUSTING, <PUKE>)
+
 var carriage_buffer = 0
 
 func _ready():
-	pass
+# warning-ignore:return_value_discarded
+	GlobalEvents.connect("train_connector_broken", self, "_on_train_connector_broken")
+	
+	for i in get_tree().get_nodes_in_group("carriages"):
+		carriages.append(i)
 
-func lose_carriages(connector):
-	var tmp_index = -1
+func _on_train_connector_broken(index):
+	var i_index = -1
 	for i in carriages:
-		tmp_index += 1
-		if tmp_index == 0: # Skip padding so indicies start from 1
+		i_index += 1
+		if i_index == 0: # Skip padding so indicies start from 1
 			continue
 		if not i is String: # Carriage is replaced with a string when it dies
 			if i.alive:
-				if tmp_index <= connector:
-					if tmp_index == connector: 
+				if i_index <= index:
+					if i_index == index: 
 						i.break_right()
 					lose_carriage(i)
-				elif tmp_index == connector + 1:
+				elif i_index == index + 1:
 					i.break_left()
 					break
 
-
 func lose_carriage(carriage : Node):
 	carriage.die()
-	#carriages[carriages.find(carriage)] = "DEAD_CARRIAGE"
 	carriage_buffer += 1
 	print("Total carriages left: " + str(owner.get_child_count()))
 	

@@ -11,5 +11,7 @@ signal game_over
 signal enemy_dead(enemy)
 
 # warning-ignore:unused_signal
-signal car_despawned
+signal car_despawned(car)
 
+# warning-ignore:unused_signal
+signal train_connector_broken(index)

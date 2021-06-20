@@ -25,7 +25,10 @@ var bail_angle_acceleration = 0.04
 var drift_direction = Vector2.ZERO
 var velocity = Vector2.ZERO
 
-onready var car_spawn = get_tree().current_scene.get_node("CarSpawn")
+var spawned_at_top = true
+
+onready var car_spawn_top = get_tree().current_scene.get_node("CarSpawner/CarSpawnTop")
+onready var car_spawn_bottom = get_tree().current_scene.get_node("CarSpawner/CarSpawnBottom")
 onready var train = get_tree().current_scene.get_node("Train")
 
 
@@ -55,8 +58,7 @@ func get_movement():
 		movement = drift_direction
 	return movement
 	
-
-func _physics_process(_delta):
+func _process(_delta):
 	if target != null:
 		if (1 + train.carriage_buffer) <= train.total_carriages:
 			for i in enemies:
@@ -64,7 +66,8 @@ func _physics_process(_delta):
 					i.look_at(get_tree().current_scene.get_node("Character").position)
 				else:
 					i.look_at(target.get_node("Connector").global_position)
-			
+
+func _physics_process(_delta):
 	var direction = get_movement()
 	if direction.length() > 0:
 		if not all_enemies_dead:
@@ -77,8 +80,7 @@ func _physics_process(_delta):
 			velocity = lerp(velocity, Vector2(bail_angle.x, bail_angle.y) * speed*1.5, acceleration)
 			if position.x > get_tree().current_scene.get_node("Character/Camera2D").limit_right + \
 					$Sprite.texture.get_size().x/2 or position.y < 0 - $Sprite.texture.get_size().y/2 - 30:
-				GlobalEvents.emit_signal("car_despawned")
-				queue_free()
+				GlobalEvents.emit_signal("car_despawned", self)
 	else:
 		velocity = lerp(velocity, Vector2.ZERO, friction)
 	velocity = move_and_slide(velocity)
@@ -86,6 +88,11 @@ func _physics_process(_delta):
 
 func _on_DriftTimer_timeout():
 	var rand = randi() % 4
+	var car_spawn
+	if spawned_at_top:
+		car_spawn = car_spawn_top
+	else:
+		car_spawn = car_spawn_bottom
 	match rand:
 		0:
 			if position.y < car_spawn.position.y + drift_bound.y:

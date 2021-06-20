@@ -5,7 +5,7 @@
 [ext_resource path="res://script/EnemySpawner.gd" type="Script" id=3]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 87, 43 )
+extents = Vector2( 117, 51 )
 
 [node name="Car" type="KinematicBody2D" groups=[
 "cars",
@@ -13,6 +13,9 @@ extents = Vector2( 87, 43 )
 collision_layer = 128
 collision_mask = 128
 script = ExtResource( 2 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="."]
 scale = Vector2( 1.5, 1.5 )
@@ -34,9 +37,6 @@ position = Vector2( -37.033, 18.435 )
 
 [node name="EnemySpawn3" type="Position2D" parent="EnemySpawner"]
 position = Vector2( -4.38657, 18.7279 )
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource( 1 )
 
 [connection signal="timeout" from="DriftTimer" to="." method="_on_DriftTimer_timeout"]
 [connection signal="timeout" from="BailTimer" to="." method="_on_BailTimer_timeout"]

@@ -61,7 +61,7 @@ func shoot(debug_shoot_as_enemy=false):
 			else:
 				projectile_instance.friendly = false
 			get_tree().current_scene.add_child(projectile_instance)
-			$FiringTimer.set_wait_time(current_weapon.firing_time)
+			$FiringTimer.set_wait_time(current_weapon.firing_rate)
 			$FiringTimer.start()
 			Global.audio.playGunshot(current_weapon.name)
 

@@ -6,7 +6,7 @@
 [ext_resource path="res://script/Connector.gd" type="Script" id=4]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 16, 11 )
+extents = Vector2( 16, 10.1369 )
 
 [node name="Connector" type="KinematicBody2D" groups=[
 "connectors",
@@ -30,6 +30,7 @@ __meta__ = {
 }
 
 [node name="Sprite" type="Sprite" parent="."]
+scale = Vector2( 1.05, 1 )
 texture = ExtResource( 1 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

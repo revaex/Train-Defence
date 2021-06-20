@@ -9,15 +9,11 @@ var enemy_spawn_chance = [45, 35, 20]
 
 var spawn_variation = 30 # variation in y axis
 
-# Chance that an enemy will target character instead of connector (<= 100)
-var enemy_target_character_chance = 40
-
 var enemy_spawn_in_use = [false, false, false]
 
 
 func _ready():
 	assert(enemy_spawn_chance[0] + enemy_spawn_chance[1] + enemy_spawn_chance[2] == 100)
-	assert(enemy_target_character_chance <= 100)
 
 func seed_spawner():
 	randomize()
@@ -47,6 +43,4 @@ func spawn_enemy(rand_spawn):
 	enemy_instance.position.y -= rand_spawn_variation
 	if rand_spawn == 0:
 		enemy_instance.target_character = true
-	#if rand_enemy_target_character <= enemy_target_character_chance:
-	#	enemy_instance.target_character = true
 	emit_signal("add_enemy", enemy_instance)

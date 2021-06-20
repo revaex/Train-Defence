@@ -8,15 +8,11 @@ var scaled_hp = 100.0
 
 onready var index = get_parent().name.rsplit("Carriage", false)[0] as int
 
-signal connector_has_broken(connector_num)
-
 var hp = 10
 var alive = true
 
 func _ready():
-# warning-ignore:return_value_discarded
-	connect("connector_has_broken", get_parent().get_parent(), "lose_carriages")
-
+	pass
 
 
 func damage(dmg):
@@ -31,7 +27,7 @@ func damage(dmg):
 
 func break_connector():
 		print("Connector Broke!")
-		emit_signal("connector_has_broken", index )
+		GlobalEvents.emit_signal("train_connector_broken", index)
 		queue_free()
 
 func _on_Projectile_hit(projectile):
