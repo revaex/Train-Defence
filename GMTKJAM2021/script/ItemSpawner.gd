@@ -37,7 +37,7 @@ func spawn(total_spawns, type=base_item.ItemType.GUN, carriage=null):
 	for i in total_spawns:
 		var rand = _seed_type(type)
 		if carriage == null:
-			_carriage = randi() % train.get_child_count() + 1
+			_carriage = randi() % train.total_carriages + 1
 		var item_instance = load(items[type][rand]).instance()
 		item_instance.on_carriage = _carriage
 		var target = train.carriages[_carriage]

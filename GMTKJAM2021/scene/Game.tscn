@@ -4,7 +4,7 @@
 [ext_resource path="res://scene/vehicles/Train.tscn" type="PackedScene" id=2]
 [ext_resource path="res://script/Game.gd" type="Script" id=3]
 [ext_resource path="res://scene/items/ItemSpawner.tscn" type="PackedScene" id=4]
-[ext_resource path="res://scene/entities/Enemy.tscn" type="PackedScene" id=5]
+[ext_resource path="res://scene/vehicles/CarSpawner.tscn" type="PackedScene" id=5]
 [ext_resource path="res://scene/environment/Environment.tscn" type="PackedScene" id=6]
 
 [node name="Game" type="Node2D"]
@@ -22,16 +22,16 @@ position = Vector2( 1616.71, 225.735 )
 position = Vector2( 242.615, 219.697 )
 z_index = 1
 
-[node name="Enemy" parent="." instance=ExtResource( 5 )]
-position = Vector2( 573.26, 407.561 )
-rotation = 4.1085
-
 [node name="CarSpawn" type="Position2D" parent="."]
 position = Vector2( -125.017, 89.341 )
 
 [node name="CarSpawnTimer" type="Timer" parent="."]
+wait_time = 5.0
+one_shot = true
 autostart = true
 
 [node name="ItemSpawner" parent="." instance=ExtResource( 4 )]
+
+[node name="CarSpawner" parent="." instance=ExtResource( 5 )]
 
 [connection signal="timeout" from="CarSpawnTimer" to="." method="_on_CarSpawnTimer_timeout"]

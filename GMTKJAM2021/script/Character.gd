@@ -4,7 +4,6 @@ extends KinematicBody2D
 onready var current_weapon = $Pistol
 
 signal blink(carriage_num)
-signal game_over
 
 var speed = 180
 var friction = 0.2
@@ -91,7 +90,7 @@ func _physics_process(_delta):
 	velocity = move_and_slide(velocity)
 	
 	if position.x < -10:
-		emit_signal("game_over")
+		GlobalEvents.emit_signal("game_over")
 
 
 func blink():

@@ -1,8 +1,8 @@
 extends Gun
 
 func _init():
-	self.damage = 10
-	self.reload_time = 4
+	self.damage = 4
+	self.reload_time = 2
 	self.projectile = "res://scene/projectiles/Rocket.tscn"
 	self.display_name = "Rocket Launcher"
 	self.type = ItemType.GUN

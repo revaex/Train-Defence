@@ -2,7 +2,7 @@ extends Gun
 
 func _init():
 	self.damage = 2
-	self.reload_time = 0.1
+	self.reload_time = 0.15
 	self.projectile = "res://scene/projectiles/Bullet.tscn"
 	self.display_name = "Machine Gun"
 	self.type = ItemType.GUN

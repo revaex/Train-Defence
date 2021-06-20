@@ -1,6 +1,5 @@
 extends KinematicBody2D
 
-# NOTE: Car technically targets carriages + an offset, not the connectors
 
 var speed = 180
 var friction = 0.05
@@ -39,7 +38,10 @@ func _ready():
 
 func get_movement():
 	var movement = Vector2()
-	target = train.carriages[1 + train.carriage_buffer]
+	if (1 + train.carriage_buffer) >= train.carriages.size():
+		GlobalEvents.emit_signal("game_over")
+	else:
+		target = train.carriages[1 + train.carriage_buffer]
 	if target.alive:
 		var padding = -25 # So the trailer lines up with the connector (changes depending on speed)
 #		if position.x < target.get_global_transform().origin.x + \
@@ -58,8 +60,9 @@ func get_movement():
 
 func _physics_process(_delta):
 	if target != null:
-		for i in enemies:
-			i.look_at(target.get_node("Connector").global_position)
+		if (1 + train.carriage_buffer) <= train.total_carriages:
+			for i in enemies:
+				i.look_at(target.get_node("Connector").global_position)
 			
 	var direction = get_movement()
 	if direction.length() > 0:
@@ -73,6 +76,7 @@ func _physics_process(_delta):
 			velocity = lerp(velocity, Vector2(0.3,-bail_angle) * speed*1.5, acceleration)
 			if position.x > get_tree().current_scene.get_node("Character/Camera2D").limit_right + \
 					$Sprite.texture.get_size().x/2 or position.y < 0 - $Sprite.texture.get_size().y/2 - 30:
+				GlobalEvents.emit_signal("car_despawned")
 				queue_free()
 	else:
 		velocity = lerp(velocity, Vector2.ZERO, friction)
@@ -104,6 +108,7 @@ func _on_DriftTimer_timeout():
 				drift_direction = Vector2(-1,0)
 			else:
 				drift_direction = Vector2(1,0)
+
 
 func _on_enemy_added(enemy):
 	add_child(enemy)

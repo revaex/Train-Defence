@@ -1,5 +1,6 @@
 extends Node2D
 
+var total_carriages = 12
 var carriages = ["PADDING"] # So index starts at 1.
 var carriage_buffer = 0
 
