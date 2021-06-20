@@ -19,8 +19,8 @@ var target = null # Target train connector
 var enemies = []
 var all_enemies_dead = false
 var bail = false
-var bail_angle = 0
-var bail_angle_acceleration = 0.05
+var bail_angle = Vector2(0.9, 0)
+var bail_angle_acceleration = 0.04
 
 var drift_direction = Vector2.ZERO
 var velocity = Vector2.ZERO
@@ -72,8 +72,8 @@ func _physics_process(_delta):
 			elif current_state == CarStates.MOVING:
 				velocity = lerp(velocity, direction.normalized() * speed, acceleration)
 		elif $BailTimer.is_stopped():
-			bail_angle = lerp(bail_angle, 1, bail_angle_acceleration)
-			velocity = lerp(velocity, Vector2(0.3,-bail_angle) * speed*1.5, acceleration)
+			bail_angle.y = lerp(bail_angle.y, -1, bail_angle_acceleration)
+			velocity = lerp(velocity, Vector2(bail_angle.x, bail_angle.y) * speed*1.5, acceleration)
 			if position.x > get_tree().current_scene.get_node("Character/Camera2D").limit_right + \
 					$Sprite.texture.get_size().x/2 or position.y < 0 - $Sprite.texture.get_size().y/2 - 30:
 				GlobalEvents.emit_signal("car_despawned")
