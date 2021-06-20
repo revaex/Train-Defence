@@ -44,8 +44,6 @@ func get_movement():
 		target = train.carriages[1 + train.carriage_buffer]
 	if target.alive:
 		var padding = -25 # So the trailer lines up with the connector (changes depending on speed)
-#		if position.x < target.get_global_transform().origin.x + \
-#				target.get_node("Sprite").texture.get_size().x / 2 + padding:
 		if position.x < target.get_node("Connector").global_position.x + padding:
 			movement.x += 1
 			current_state = CarStates.MOVING
@@ -62,7 +60,10 @@ func _physics_process(_delta):
 	if target != null:
 		if (1 + train.carriage_buffer) <= train.total_carriages:
 			for i in enemies:
-				i.look_at(target.get_node("Connector").global_position)
+				if i.target_character:
+					i.look_at(get_tree().current_scene.get_node("Character").position)
+				else:
+					i.look_at(target.get_node("Connector").global_position)
 			
 	var direction = get_movement()
 	if direction.length() > 0:

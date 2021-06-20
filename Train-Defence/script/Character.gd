@@ -9,7 +9,7 @@ var speed = 180
 var friction = 0.2
 var acceleration = 0.1
 
-var MAX_HP = 5
+var MAX_HP = 10
 var scaled_hp = 100
 var item_damage_increase = 0
 
@@ -129,7 +129,7 @@ func _on_Item_picked_up(item):
 			call_deferred("add_child", current_weapon)
 			$ReloadTimer.stop()
 			
-func damage(dmg : int):
+func damage(dmg):
 	if not stunned:
 		var scaled_damage = (float(dmg) / float(MAX_HP) * 100.0)
 		scaled_hp -= scaled_damage

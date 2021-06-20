@@ -10,22 +10,16 @@ onready var index = get_parent().name.rsplit("Carriage", false)[0] as int
 
 signal connector_has_broken(connector_num)
 
-export var hp : int
+var hp = 10
 var alive = true
 
 func _ready():
 # warning-ignore:return_value_discarded
 	connect("connector_has_broken", get_parent().get_parent(), "lose_carriages")
-	
-func _physics_process(_delta):
-	pass
-#	if !alive:
-#		var direction = Vector2(-1,0)
-#		velocity = lerp(velocity, direction.normalized() * speed, acceleration)
-#		velocity = move_and_slide(velocity)
 
 
-func damage(dmg : int):
+
+func damage(dmg):
 	if alive:
 		var scaled_damage = (float(dmg) / float(hp) * 100.0)
 		scaled_hp -= scaled_damage
@@ -37,7 +31,6 @@ func damage(dmg : int):
 
 func break_connector():
 		print("Connector Broke!")
-		#var order = name.rsplit("Connector", false)[0] as int
 		emit_signal("connector_has_broken", index )
 		queue_free()
 

@@ -6,18 +6,22 @@ var enemy = preload("res://scene/entities/Enemy.tscn")
 
 # The following vector values should add up to 100
 var enemy_spawn_chance = [45, 35, 20]
-var spawn_variation = 30 # variation in y axlis
+
+var spawn_variation = 30 # variation in y axis
+
+# Chance that an enemy will target character instead of connector (<= 100)
+var enemy_target_character_chance = 40
 
 var enemy_spawn_in_use = [false, false, false]
-var rand
 
 
 func _ready():
 	assert(enemy_spawn_chance[0] + enemy_spawn_chance[1] + enemy_spawn_chance[2] == 100)
+	assert(enemy_target_character_chance <= 100)
 
 func seed_spawner():
 	randomize()
-	rand = randi() % 100 + 1
+	var rand = randi() % 100 + 1
 	if rand <= enemy_spawn_chance[0]:
 		init_spawner(1)
 	elif rand <= enemy_spawn_chance[0] + enemy_spawn_chance[1]:
@@ -37,7 +41,12 @@ func init_spawner(number):
 func spawn_enemy(rand_spawn):
 	enemy_spawn_in_use[rand_spawn] = true
 	var rand_spawn_variation = randi() % spawn_variation
+	#var rand_enemy_target_character = randi() % 100
 	var enemy_instance = enemy.instance()
 	enemy_instance.position = get_child(rand_spawn).position
 	enemy_instance.position.y -= rand_spawn_variation
+	if rand_spawn == 0:
+		enemy_instance.target_character = true
+	#if rand_enemy_target_character <= enemy_target_character_chance:
+	#	enemy_instance.target_character = true
 	emit_signal("add_enemy", enemy_instance)

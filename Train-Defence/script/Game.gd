@@ -26,7 +26,7 @@ func _ready():
 
 
 func _on_CarSpawnTimer_timeout():
-	$CarSpawner.spawn(1)
+	$CarSpawner.spawn(1) # can be increased for extra difficulty
 
 
 func tele_to_carriage(carriage_num):

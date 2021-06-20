@@ -12,12 +12,15 @@ func _ready():
 	assert(rand_spawn_chance <= 100)
 
 func spawn(number):
-	for _i in range(0,number):
+	var spawn_gap = 0
+	for i in range(0,number):
 		var car_instance = load(car).instance()
+		if i >= 1:
+			spawn_gap += car_instance.get_node("Sprite").texture.get_size().x
 		car_instance.position = get_tree().current_scene.get_node("CarSpawn").position
+		car_instance.position.x -= spawn_gap
 		get_tree().current_scene.add_child(car_instance)
 		var rand = randi() % 100
-		print("spawn rand: " + str(rand))
 		if rand <= rand_spawn_chance:
 			get_tree().current_scene.get_node("CarSpawnTimer").start()
 
