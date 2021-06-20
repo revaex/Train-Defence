@@ -16,7 +16,7 @@ func _ready():
 	current_weapon.position = $GunPosition.position
 	call_deferred("add_child", current_weapon)
 	
-	$ReloadTimer.set_wait_time(current_weapon.reload_time + randf())
+	$FiringTimer.set_wait_time(current_weapon.firing_time + randf())
 	
 func _process(_delta):
 	$HPBarNode.global_rotation = 0
@@ -38,15 +38,16 @@ func die():
 
 
 func shoot():
-	if $ReloadTimer.is_stopped():
-		$ReloadTimer.set_wait_time(current_weapon.reload_time) # reset reloadtimer
-		$ReloadTimer.set_wait_time(current_weapon.reload_time + randf())
-		$ReloadTimer.start()
+	if $FiringTimer.is_stopped():
+		$FiringTimer.set_wait_time(current_weapon.reload_time) # reset FiringTimer
+		$FiringTimer.set_wait_time(current_weapon.reload_time + randf())
+		$FiringTimer.start()
 		var projectile_instance = load(current_weapon.projectile).instance()
-		get_tree().current_scene.add_child(projectile_instance)
 		projectile_instance.damage = current_weapon.damage
+		projectile_instance.speed = current_weapon.projectile_speed
 		projectile_instance.transform = get_node(current_weapon.name + "/Position2D").global_transform
 		projectile_instance.friendly = false
+		get_tree().current_scene.add_child(projectile_instance)
 
 
 func _on_Projectile_hit(projectile):

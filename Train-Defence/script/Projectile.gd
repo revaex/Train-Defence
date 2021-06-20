@@ -5,8 +5,8 @@ class_name Projectile
 
 signal hit(projectile)
 
-var speed = 800
-var damage
+var speed = 800 # overwritten by weapons
+var damage  # overwritten by weapons
 var friendly =  false
 
 

@@ -24,7 +24,6 @@ func _ready():
 	$ItemSpawner.spawn(4, base_item.ItemType.GUN)
 
 
-
 func _on_CarSpawnTimer_timeout():
 	$CarSpawner.spawn(1) # can be increased for extra difficulty
 

@@ -13,6 +13,8 @@ var MAX_HP = 10
 var scaled_hp = 100
 var item_damage_increase = 0
 
+var clip_size
+
 var stunned = false
 var velocity = Vector2.ZERO
 
@@ -22,31 +24,47 @@ onready var current_carriage_ref = train.carriages[1]
 
 func _ready():
 	current_weapon.picked_up = true
+	$ReloadTimer.wait_time = current_weapon.reload_time
+	clip_size = current_weapon.clip_size
 
 func _process(_delta):
 	$HPBarNode.global_rotation = 0
+	$ReloadBarNode.global_rotation = 0
 	if Input.is_action_pressed("Left_Click"): # in process so one can hold down button to fire
 		# So we can hold shift and shoot 'enemy' bullets for debug
 		if OS.is_debug_build():
-			if Input.is_action_pressed("Shift") and $ReloadTimer.is_stopped() and not stunned:
+			if Input.is_action_pressed("Shift") and $FiringTimer.is_stopped() and not stunned:
 				shoot(true)
-			elif $ReloadTimer.is_stopped() and not stunned:
+			elif $FiringTimer.is_stopped() and not stunned:
 				shoot()
-		elif $ReloadTimer.is_stopped() and not stunned:
+		elif $FiringTimer.is_stopped() and not stunned:
 			shoot()
+	
+	if not $ReloadTimer.is_stopped():
+		# Reloading
+		var scaled_reload = (float($ReloadTimer.time_left) / float(current_weapon.reload_time) * 100.0)
+		$ReloadBarNode.visible = true
+		$ReloadBarNode/ReloadBar.value = scaled_reload
 
 func shoot(debug_shoot_as_enemy=false):
-	var projectile_instance = load(current_weapon.projectile).instance()
-	projectile_instance.damage = current_weapon.damage + item_damage_increase
-	projectile_instance.transform = get_node(current_weapon.name + "/Position2D").global_transform
-	if not debug_shoot_as_enemy:
-		projectile_instance.friendly = true
-	else:
-		projectile_instance.friendly = false
-	get_tree().current_scene.add_child(projectile_instance)
-	$ReloadTimer.set_wait_time(current_weapon.reload_time)
-	$ReloadTimer.start()
-	Global.audio.playGunshot(current_weapon.name)
+	if $ReloadTimer.is_stopped():
+		if clip_size >= 1:
+			clip_size -= 1
+			if clip_size <= 0:
+				$ReloadTimer.start()
+			var projectile_instance = load(current_weapon.projectile).instance()
+			projectile_instance.damage = current_weapon.damage + item_damage_increase
+			projectile_instance.transform = get_node(current_weapon.name + "/Position2D").global_transform
+			projectile_instance.speed = current_weapon.projectile_speed
+			if not debug_shoot_as_enemy:
+				projectile_instance.friendly = true
+			else:
+				projectile_instance.friendly = false
+			get_tree().current_scene.add_child(projectile_instance)
+			$FiringTimer.set_wait_time(current_weapon.firing_time)
+			$FiringTimer.start()
+			Global.audio.playGunshot(current_weapon.name)
+
 
 func get_movement_input():
 	var input = Vector2.ZERO
@@ -126,8 +144,10 @@ func _on_Item_picked_up(item):
 			current_weapon = load(item.filename).instance()
 			current_weapon.picked_up = true
 			current_weapon.position = $GunPosition.position
+			clip_size = current_weapon.clip_size
+			$ReloadTimer.wait_time = current_weapon.reload_time
 			call_deferred("add_child", current_weapon)
-			$ReloadTimer.stop()
+			$FiringTimer.stop()
 			
 func damage(dmg):
 	if not stunned:
@@ -160,3 +180,8 @@ func _on_HPBarTimer_timeout():
 func set_current_carriage_ref(value):
 	current_carriage = value
 	current_carriage_ref = train.carriages[value]
+
+
+func _on_ReloadTimer_timeout():
+	clip_size = current_weapon.clip_size
+	$ReloadBarNode.visible = false
