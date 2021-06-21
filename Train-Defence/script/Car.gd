@@ -14,7 +14,6 @@ enum CarStates {
 	STOPPING, # should really be 'drifting'...
 }
 var current_state = CarStates.MOVING
-var target = null # Target train connector
 
 var enemies = []
 var all_enemies_dead = false
@@ -30,9 +29,11 @@ var spawned_at_top = true
 onready var car_spawn_top = get_tree().current_scene.get_node("CarSpawner/CarSpawnTop")
 onready var car_spawn_bottom = get_tree().current_scene.get_node("CarSpawner/CarSpawnBottom")
 onready var train = get_tree().current_scene.get_node("Train")
-
+onready var target = train.leftmost_carriage.connector
 
 func _ready():
+# warning-ignore:return_value_discarded
+	GlobalEvents.connect("train_connector_broken", self, "_on_train_connector_broken")
 # warning-ignore:return_value_discarded
 	GlobalEvents.connect("enemy_dead", self, "_on_enemy_dead")
 # warning-ignore:return_value_discarded
@@ -41,31 +42,20 @@ func _ready():
 
 func get_movement():
 	var movement = Vector2()
-	if (1 + train.carriage_buffer) >= train.carriages.size():
-		GlobalEvents.emit_signal("game_over")
-	else:
-		target = train.carriages[1 + train.carriage_buffer]
-	if target.alive:
-		var padding = -25 # So the trailer lines up with the connector (changes depending on speed)
-		if position.x < target.get_node("Connector").global_position.x + padding:
-			movement.x += 1
-			current_state = CarStates.MOVING
-		else:
-			current_state = CarStates.STOPPING
+	if target != null:
+		if target.alive:
+			var padding = -25 # So the trailer lines up with the connector (changes depending on speed)
+			if position.x < target.global_position.x + padding:
+				movement.x += 1
+				current_state = CarStates.MOVING
+			else:
+				current_state = CarStates.STOPPING
 	if current_state == CarStates.STOPPING:
 		if $DriftTimer.is_stopped():
 			$DriftTimer.start()
 		movement = drift_direction
 	return movement
-	
-#func _process(_delta):
-#	if target != null:
-#		if (1 + train.carriage_buffer) <= train.total_carriages:
-#			for i in enemies:
-#				if i.target_character:
-#					i.look_at(get_tree().current_scene.get_node("Character").global_position)
-#				else:
-#					i.look_at(target.get_node("Connector").global_position)
+
 
 func _physics_process(_delta):
 	var direction = get_movement()
@@ -83,6 +73,10 @@ func _physics_process(_delta):
 				GlobalEvents.emit_signal("car_despawned", self)
 	else:
 		velocity = lerp(velocity, Vector2.ZERO, friction)
+		
+	if (1 + train.carriage_buffer) >= train.carriages.size():
+		GlobalEvents.emit_signal("game_over")
+		
 	velocity = move_and_slide(velocity)
 
 
@@ -106,13 +100,13 @@ func _on_DriftTimer_timeout():
 				drift_direction = Vector2(0, 1)
 		2:
 			if position.x < target.get_global_transform().origin.x + \
-					target.get_node("Sprite").texture.get_size().x / 2 + drift_bound.x:
+					 + drift_bound.x:
 				drift_direction = Vector2(1,0)
 			else:
 				drift_direction = Vector2(-1,0)
 		3:
 			if position.x < target.get_global_transform().origin.x - \
-					target.get_node("Sprite").texture.get_size().x / 2 - drift_bound.x:
+					 - drift_bound.x:
 				drift_direction = Vector2(-1,0)
 			else:
 				drift_direction = Vector2(1,0)
@@ -133,3 +127,7 @@ func _on_enemy_dead(enemy):
 
 func _on_BailTimer_timeout():
 	bail = true
+
+
+func _on_train_connector_broken(_index):
+	target = train.leftmost_carriage.connector

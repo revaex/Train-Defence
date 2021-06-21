@@ -21,3 +21,4 @@ func _deferred_goto_scene(path, speed=1.0, animation="fade_black"):
 	$SceneTransition/AnimationPlayer.play_backwards(animation)
 	yield($SceneTransition/AnimationPlayer, "animation_finished")
 	self.remove_child(scene_transition)
+	

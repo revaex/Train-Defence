@@ -7,7 +7,7 @@
 [ext_resource path="res://assets/sprite/train/connector.png" type="Texture" id=5]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 56.7688, 111.562 )
+extents = Vector2( 65.019, 115.307 )
 
 [node name="Carriage" type="KinematicBody2D" groups=[
 "carriages",

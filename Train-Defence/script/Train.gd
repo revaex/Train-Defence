@@ -4,6 +4,7 @@ var total_carriages = 12 # DON'T CHANGE UNTIL CarriageSpawner IS CREATED!!
 var carriages = ["PADDING"] # So index starts at 1. (DISGUSTING, <PUKE>)
 
 var carriage_buffer = 0
+onready var leftmost_carriage = $Carriage1
 
 func _ready():
 # warning-ignore:return_value_discarded
@@ -31,6 +32,7 @@ func _on_train_connector_broken(index):
 func lose_carriage(carriage : Node):
 	carriage.die()
 	carriage_buffer += 1
+	leftmost_carriage = carriages[1 + carriage_buffer]
 	print("Total carriages left: " + str(owner.get_child_count()))
 	
 func lose_connector(connector : Node):

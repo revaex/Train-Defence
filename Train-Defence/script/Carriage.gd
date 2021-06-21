@@ -5,6 +5,8 @@ var acceleration = 0.1
 var velocity = Vector2.ZERO
 var alive = true
 
+onready var connector = $Connector
+
 func _physics_process(delta):
 	if !alive:
 		var direction = Vector2(-1,0)

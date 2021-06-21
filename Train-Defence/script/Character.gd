@@ -80,13 +80,10 @@ func get_movement_input():
 		input.x += 1
 	return input
 
-func _input(_event):
-	if Input.is_action_just_pressed("ui_accept"):
-		print(str(current_carriage) + ": " + str(current_carriage_ref))
-		#print(str(train.carriages))
-		
-	if Input.is_action_just_pressed("Right_Click"):
-		blink()
+func _input(event):
+	if event is InputEventMouseButton:
+		if event.is_action_pressed("Right_Click"):
+			blink()
 
 func _physics_process(_delta):
 	look_at(get_global_mouse_position())
