@@ -21,7 +21,7 @@ func _ready():
 	
 	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 
-func _process(delta):
+func _process(_delta):
 	$Crosshair.position = get_global_mouse_position()
 	
 func tele_to_carriage(carriage_num):

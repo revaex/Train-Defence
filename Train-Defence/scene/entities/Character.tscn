@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://assets/sprite/mc_spritesheet.png" type="Texture" id=1]
 [ext_resource path="res://script/Character.gd" type="Script" id=2]
@@ -24,6 +24,8 @@ animations = [ {
 "name": "walking",
 "speed": 4.0
 } ]
+
+[sub_resource type="Theme" id=5]
 
 [node name="Character" type="KinematicBody2D" groups=[
 "character",
@@ -79,6 +81,15 @@ one_shot = true
 
 [node name="Ammo" type="Node2D" parent="."]
 
+[node name="Panel" type="Panel" parent="Ammo"]
+margin_left = 63.5195
+margin_top = 21.6811
+margin_right = 103.519
+margin_bottom = 61.6811
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="ReloadTimer" type="Timer" parent="Ammo"]
 one_shot = true
 
@@ -89,6 +100,7 @@ margin_top = 14.0
 margin_right = 50.995
 margin_bottom = 18.0
 rect_rotation = -90.0
+theme = SubResource( 5 )
 step = 10.0
 value = 100.0
 texture_over = ExtResource( 4 )
