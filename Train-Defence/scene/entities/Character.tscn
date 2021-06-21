@@ -57,10 +57,10 @@ limit_right = 3450
 limit_bottom = 450
 limit_smoothed = true
 
-[node name="HPBarNode" type="Node2D" parent="."]
+[node name="HP" type="Node2D" parent="."]
 visible = false
 
-[node name="HPBar" type="TextureProgress" parent="HPBarNode"]
+[node name="HPBar" type="TextureProgress" parent="HP"]
 margin_left = -14.0
 margin_top = -21.731
 margin_right = 14.0
@@ -73,15 +73,22 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ReloadBarNode" type="Node2D" parent="."]
-visible = false
+[node name="HPBarTimer" type="Timer" parent="HP"]
+wait_time = 2.0
+one_shot = true
 
-[node name="ReloadBar" type="TextureProgress" parent="ReloadBarNode"]
+[node name="Ammo" type="Node2D" parent="."]
+
+[node name="ReloadTimer" type="Timer" parent="Ammo"]
+one_shot = true
+
+[node name="AmmoBar" type="TextureProgress" parent="Ammo"]
 self_modulate = Color( 0, 0, 0, 1 )
-margin_left = -14.0
-margin_top = -27.731
-margin_right = 14.0
-margin_bottom = -23.731
+margin_left = 22.995
+margin_top = 14.0
+margin_right = 50.995
+margin_bottom = 18.0
+rect_rotation = -90.0
 step = 10.0
 value = 100.0
 texture_over = ExtResource( 4 )
@@ -94,16 +101,9 @@ __meta__ = {
 wait_time = 3.0
 one_shot = true
 
-[node name="HPBarTimer" type="Timer" parent="."]
-wait_time = 2.0
-one_shot = true
-
 [node name="GunPosition" type="Position2D" parent="."]
 position = Vector2( 13, 4 )
 
-[node name="ReloadTimer" type="Timer" parent="."]
-one_shot = true
-
+[connection signal="timeout" from="HP/HPBarTimer" to="." method="_on_HPBarTimer_timeout"]
+[connection signal="timeout" from="Ammo/ReloadTimer" to="." method="_on_ReloadTimer_timeout"]
 [connection signal="timeout" from="StunTimer" to="." method="_on_StunTimer_timeout"]
-[connection signal="timeout" from="HPBarTimer" to="." method="_on_HPBarTimer_timeout"]
-[connection signal="timeout" from="ReloadTimer" to="." method="_on_ReloadTimer_timeout"]

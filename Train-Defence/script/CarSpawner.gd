@@ -5,7 +5,7 @@ class_name CarSpawner
 # Each time a car is spawned, there is a random chance that CarSpawnTimer
 # will restart and spawn an extra car
 var rand_spawn_chance = 10
-var spawn_count = 2 # How many cars spawn at a time. Can be increased for extra difficulty
+var spawn_count = 1 # How many cars spawn at a time. Can be increased for extra difficulty
 
 onready var car_scene = preload("res://scene/vehicles/Car.tscn")
 var cars = []

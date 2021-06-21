@@ -6,7 +6,7 @@
 [ext_resource path="res://script/Connector.gd" type="Script" id=4]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 16, 10.1369 )
+extents = Vector2( 18.6509, 11.8225 )
 
 [node name="Connector" type="KinematicBody2D" groups=[
 "connectors",

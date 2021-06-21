@@ -58,14 +58,14 @@ func get_movement():
 		movement = drift_direction
 	return movement
 	
-func _process(_delta):
-	if target != null:
-		if (1 + train.carriage_buffer) <= train.total_carriages:
-			for i in enemies:
-				if i.target_character:
-					i.look_at(get_tree().current_scene.get_node("Character").position)
-				else:
-					i.look_at(target.get_node("Connector").global_position)
+#func _process(_delta):
+#	if target != null:
+#		if (1 + train.carriage_buffer) <= train.total_carriages:
+#			for i in enemies:
+#				if i.target_character:
+#					i.look_at(get_tree().current_scene.get_node("Character").global_position)
+#				else:
+#					i.look_at(target.get_node("Connector").global_position)
 
 func _physics_process(_delta):
 	var direction = get_movement()
@@ -121,6 +121,7 @@ func _on_DriftTimer_timeout():
 func _on_enemy_added(enemy):
 	add_child(enemy)
 	enemies.append(enemy)
+	enemy.car = self
 
 
 func _on_enemy_dead(enemy):

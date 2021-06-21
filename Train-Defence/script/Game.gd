@@ -18,8 +18,12 @@ func _ready():
 	Global.audio.playTrainMovement()
 	
 	$ItemSpawner.spawn(4, base_item.ItemType.GUN)
+	
+	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 
-
+func _process(delta):
+	$Crosshair.position = get_global_mouse_position()
+	
 func tele_to_carriage(carriage_num):
 	for i in train.get_children():
 		if i.is_in_group("carriages"):
