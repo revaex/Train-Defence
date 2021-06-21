@@ -42,7 +42,7 @@ func _ready():
 
 func get_movement():
 	var movement = Vector2()
-	if target != null:
+	if target != null and is_instance_valid(target):
 		if target.alive:
 			var padding = -25 # So the trailer lines up with the connector (changes depending on speed)
 			if position.x < target.global_position.x + padding:

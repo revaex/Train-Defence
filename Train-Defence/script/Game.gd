@@ -1,21 +1,19 @@
 extends Node2D
 
 
-onready var base_item = Item.new()
+onready var base_item = $ItemSpawner.base_item
 onready var train = get_tree().current_scene.get_node("Train")
 var spawned_items = []
 
 var game_over = false
 
 func _ready():
-	randomize()
-	
 # warning-ignore:return_value_discarded
 	$Character.connect("blink", self, "tele_to_carriage")
 # warning-ignore:return_value_discarded
 	GlobalEvents.connect("game_over", self, "_on_game_over")
 	
-	Global.audio.playTrainMovement()
+	Global.init_globals() # Setup global references
 	
 	$ItemSpawner.spawn(4, base_item.ItemType.GUN)
 	

@@ -1,10 +1,11 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://assets/sprite/mc_spritesheet.png" type="Texture" id=1]
 [ext_resource path="res://script/Character.gd" type="Script" id=2]
 [ext_resource path="res://scene/items/guns/Pistol.tscn" type="PackedScene" id=3]
 [ext_resource path="res://assets/ui/hp_bar_over.png" type="Texture" id=4]
 [ext_resource path="res://assets/ui/hp_bar_progress.png" type="Texture" id=5]
+[ext_resource path="res://scene/entities/HPBar.tscn" type="PackedScene" id=6]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 8.11679
@@ -59,25 +60,8 @@ limit_right = 3450
 limit_bottom = 450
 limit_smoothed = true
 
-[node name="HP" type="Node2D" parent="."]
-visible = false
-
-[node name="HPBar" type="TextureProgress" parent="HP"]
-margin_left = -14.0
-margin_top = -21.731
-margin_right = 14.0
-margin_bottom = -17.731
-step = 10.0
-value = 100.0
-texture_over = ExtResource( 4 )
-texture_progress = ExtResource( 5 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="HPBarTimer" type="Timer" parent="HP"]
-wait_time = 2.0
-one_shot = true
+[node name="HPBar" parent="." instance=ExtResource( 6 )]
+position = Vector2( 0, -22 )
 
 [node name="Ammo" type="Node2D" parent="."]
 
@@ -107,6 +91,5 @@ one_shot = true
 [node name="GunPosition" type="Position2D" parent="."]
 position = Vector2( 13, 4 )
 
-[connection signal="timeout" from="HP/HPBarTimer" to="." method="_on_HPBarTimer_timeout"]
 [connection signal="timeout" from="Ammo/ReloadTimer" to="." method="_on_ReloadTimer_timeout"]
 [connection signal="timeout" from="StunTimer" to="." method="_on_StunTimer_timeout"]

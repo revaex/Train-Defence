@@ -9,6 +9,7 @@ onready var leftmost_carriage = $Carriage1
 func _ready():
 # warning-ignore:return_value_discarded
 	GlobalEvents.connect("train_connector_broken", self, "_on_train_connector_broken")
+	Global.audio.playTrainMovement()
 	
 	for i in get_tree().get_nodes_in_group("carriages"):
 		carriages.append(i)
@@ -32,7 +33,8 @@ func _on_train_connector_broken(index):
 func lose_carriage(carriage : Node):
 	carriage.die()
 	carriage_buffer += 1
-	leftmost_carriage = carriages[1 + carriage_buffer]
+	if 1+carriage_buffer <= total_carriages:
+		leftmost_carriage = carriages[1 + carriage_buffer]
 	print("Total carriages left: " + str(owner.get_child_count()))
 	
 func lose_connector(connector : Node):

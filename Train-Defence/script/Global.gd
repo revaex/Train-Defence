@@ -1,8 +1,16 @@
 extends Node
 
-var audio : Node
-var train
+var audio
 
+var train # Global reference to train
+var character # Global reference to character
+var camera # Global reference to camera
+
+
+func init_globals():
+	train = get_tree().current_scene.get_node("Train")
+	character = get_tree().current_scene.get_node("Character")
+	camera = get_tree().current_scene.get_node("Character/Camera2D")
 
 func files_from_dir(path, filename_only=false):
 	var files = []

@@ -23,13 +23,14 @@ onready var train = get_tree().current_scene.get_node("Train")
 var current_carriage = 1 setget set_current_carriage_ref
 onready var current_carriage_ref = train.carriages[1]
 
+
 func _ready():
 	current_weapon.picked_up = true
 	$Ammo/ReloadTimer.wait_time = current_weapon.reload_time
 	clip_size = current_weapon.clip_size
 
 func _process(_delta):
-	$HP.global_rotation = 0
+	#$HPBar.global_rotation = 0
 	$Ammo.global_rotation = 0
 	if Input.is_action_pressed("Left_Click"): # in process so one can hold down button to fire
 		# So we can hold shift and shoot 'enemy' bullets for debug
@@ -58,10 +59,9 @@ func shoot(debug_shoot_as_enemy=false):
 			projectile_instance.damage = current_weapon.damage + item_damage_increase
 			projectile_instance.transform = get_node(current_weapon.name + "/Position2D").global_transform
 			projectile_instance.speed = current_weapon.projectile_speed
-			if not debug_shoot_as_enemy:
-				projectile_instance.friendly = true
-			else:
-				projectile_instance.friendly = false
+			projectile_instance.shooter = self
+			if debug_shoot_as_enemy and OS.is_debug_build():
+				projectile_instance.debug_shoot_as_enemy = true
 			get_tree().current_scene.add_child(projectile_instance)
 			$FiringTimer.set_wait_time(current_weapon.firing_rate)
 			$FiringTimer.start()
@@ -129,15 +129,15 @@ func _on_Item_picked_up(item):
 		item.ItemType.POWER_UP:
 			pass
 		item.ItemType.HEALTH:
-			$HP.visible = true
+			$HPBar.visible = true
 			if scaled_hp < 100:
 				var scaled_health_increase = (float(item.value) / float(MAX_HP) * 100.0)
 				scaled_hp += scaled_health_increase
-				$HP/HPBar.value = scaled_hp
+				$HPBar/Bar.value = scaled_hp
 			else:
 				scaled_hp = 100
-				$HP/HPBarTimer.stop()
-				$HP/HPBarTimer.start()
+				$HPBar/Timer.stop()
+				$HPBar/Timer.start()
 		item.ItemType.GUN:
 			call_deferred("remove_child",get_node(current_weapon.name))
 			current_weapon = load(item.filename).instance()
@@ -152,8 +152,8 @@ func damage(dmg):
 	if not stunned:
 		var scaled_damage = (float(dmg) / float(MAX_HP) * 100.0)
 		scaled_hp -= scaled_damage
-		$HP.visible = true
-		$HP/HPBar.value = scaled_hp
+		$HPBar.visible = true
+		$HPBar/Bar.value = scaled_hp
 		if scaled_hp <= 0:
 			stun()
 
@@ -161,20 +161,17 @@ func stun():
 	stunned = true
 	modulate = Color(1.0, 1.0, 1.0, 0.6)
 	$StunTimer.start()
-	
-func _on_Projectile_hit(projectile):
-	damage(projectile.damage)
 
 
 func _on_StunTimer_timeout():
 	stunned = false
 	modulate = Color(1.0, 1.0, 1.0, 1.0)
 	scaled_hp = 100
-	$HP/HPBar.value = scaled_hp
+	$HPBar/Bar.value = scaled_hp
 
 
 func _on_HPBarTimer_timeout():
-	$HP.visible = false
+	$HPBar.visible = false
 
 func set_current_carriage_ref(value):
 	current_carriage = value

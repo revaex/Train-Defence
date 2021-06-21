@@ -7,7 +7,7 @@ onready var current_weapon
 const MAX_HP = 3 # EDIT THIS HP VARIABLE INITIALLY
 var scaled_hp = 100 # handled internally
 
-var shoot_range = 1000
+var shoot_range = 380
 
 var target_character = false
 onready var character = get_tree().current_scene.get_node("Character")
@@ -17,7 +17,7 @@ var vec_to_character
 
 var rotation_speed = 0.15 # Lower value = slower
 
-onready var target = get_tree().current_scene.get_node("Character")
+var target = null #get_tree().current_scene.get_node("Character")
 
 var car = null # Reference to car enemy is riding
 
@@ -33,7 +33,6 @@ func _ready():
 
 func _process(_delta):
 	$HPBarNode.global_rotation = 0
-	shoot()
 	
 	if OS.is_debug_build():
 		if Input.is_action_pressed("ui_right"):
@@ -45,19 +44,25 @@ func _process(_delta):
 	
 	
 func _physics_process(_delta):
-	if car.target != null:
+	if car.target != null and is_instance_valid(car.target):
 		vec_to_connector = to_local(car.target.global_position) - to_local(global_position)
 		vec_to_character = to_local(character.global_position) - to_local(global_position)
 		
-		if vec_to_connector.length() < shoot_range:
-			$RayCast2D.cast_to = vec_to_connector
-			if $RayCast2D.is_colliding():
-				var collider = $RayCast2D.get_collider()
-				if collider.is_in_group("connectors"):
+		$RayCast2D.cast_to = vec_to_connector
+		if $RayCast2D.is_colliding():
+			var collider = $RayCast2D.get_collider()
+			if collider.is_in_group("connectors"):
+				if vec_to_connector.length() < shoot_range:
 					self.target = collider
-				elif vec_to_character.length() < shoot_range:
-					self.target = character
+			elif vec_to_character.length() < shoot_range:
+				self.target = character
+			else:
+				self.target = null
+				global_rotation = lerp_angle(global_rotation, 0.0, rotation_speed)
+				
+	if is_instance_valid(target):
 		smooth_look_at(self, target.global_position, rotation_speed)
+		shoot()
 
 
 func damage(dmg):
@@ -83,12 +88,8 @@ func shoot():
 		projectile_instance.damage = current_weapon.damage
 		projectile_instance.speed = current_weapon.projectile_speed
 		projectile_instance.transform = get_node(current_weapon.name + "/Position2D").global_transform
-		projectile_instance.friendly = false
+		projectile_instance.shooter = self
 		get_tree().current_scene.add_child(projectile_instance)
-
-
-func _on_Projectile_hit(projectile):
-	damage(projectile.damage)
 
 
 #-------------------------

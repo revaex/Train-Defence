@@ -8,7 +8,7 @@ var scaled_hp = 100.0
 
 onready var index = get_parent().name.rsplit("Carriage", false)[0] as int
 
-var hp = 10
+var hp = 1
 var alive = true
 
 func _ready():
