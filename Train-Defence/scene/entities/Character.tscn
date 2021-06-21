@@ -81,6 +81,15 @@ one_shot = true
 
 [node name="Ammo" type="Node2D" parent="."]
 
+[node name="Panel" type="Panel" parent="Ammo"]
+margin_left = 63.5195
+margin_top = 21.6811
+margin_right = 103.519
+margin_bottom = 61.6811
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="ReloadTimer" type="Timer" parent="Ammo"]
 one_shot = true
 
