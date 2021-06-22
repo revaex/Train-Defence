@@ -20,13 +20,12 @@ transform = Transform2D( 1, 0, 0, 1, 0, 225 )
 [node name="Train" parent="." instance=ExtResource( 2 )]
 position = Vector2( 1616.71, 225.735 )
 
-[node name="Character" parent="." instance=ExtResource( 1 )]
-position = Vector2( 242.615, 219.697 )
-z_index = 1
-
 [node name="ItemSpawner" parent="." instance=ExtResource( 4 )]
 
 [node name="CarSpawner" parent="." instance=ExtResource( 5 )]
+
+[node name="Character" parent="." instance=ExtResource( 1 )]
+position = Vector2( 171.556, 231.488 )
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 layer = 2

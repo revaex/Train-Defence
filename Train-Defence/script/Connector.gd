@@ -8,14 +8,14 @@ var scaled_hp = 100.0
 
 onready var index = get_parent().name.rsplit("Carriage", false)[0] as int
 
-var hp = 1
+var hp = 10
 var alive = true
 
 func _ready():
 	pass
 
 
-func damage(dmg):
+func take_damage(dmg):
 	if alive:
 		var scaled_damage = (float(dmg) / float(hp) * 100.0)
 		scaled_hp -= scaled_damage
@@ -30,5 +30,3 @@ func break_connector():
 		GlobalEvents.emit_signal("train_connector_broken", index)
 		queue_free()
 
-func _on_Projectile_hit(projectile):
-	damage(projectile.damage)

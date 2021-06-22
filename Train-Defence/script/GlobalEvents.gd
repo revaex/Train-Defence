@@ -16,3 +16,5 @@ signal car_despawned(car)
 # warning-ignore:unused_signal
 signal train_connector_broken(index)
 
+# warning-ignore:unused_signal
+signal item_picked_up(item)

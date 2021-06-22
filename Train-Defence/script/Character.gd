@@ -1,23 +1,12 @@
-extends KinematicBody2D
+extends Entity
 
 class_name Character
 
-onready var current_weapon = $Pistol
 
 signal blink(carriage_num)
 
-var speed = 180
-var friction = 0.2
-var acceleration = 0.1
-
-var MAX_HP = 10
-var scaled_hp = 100
-var item_damage_increase = 0
-
-var clip_size
-
-var stunned = false
-var velocity = Vector2.ZERO
+var stunned = false # Character becomes stunned when hp reaches 0
+var stun_time = 3.0 # Flat amount of stun time. Stun time resets if shot again while in stun
 
 onready var train = get_tree().current_scene.get_node("Train")
 var current_carriage = 1 setget set_current_carriage_ref
@@ -25,47 +14,24 @@ onready var current_carriage_ref = train.carriages[1]
 
 
 func _ready():
-	current_weapon.picked_up = true
-	$Ammo/ReloadTimer.wait_time = current_weapon.reload_time
-	clip_size = current_weapon.clip_size
+# warning-ignore:return_value_discarded
+	$HPBar.connect("timer_timeout", self, "_on_hp_timer_timeout")
+# warning-ignore:return_value_discarded
+	GlobalEvents.connect("item_picked_up", self, "_on_item_picked_up")
+	
+	$StunTimer.wait_time = stun_time
+
 
 func _process(_delta):
-	#$HPBar.global_rotation = 0
-	$Ammo.global_rotation = 0
 	if Input.is_action_pressed("Left_Click"): # in process so one can hold down button to fire
 		# So we can hold shift and shoot 'enemy' bullets for debug
 		if OS.is_debug_build():
-			if Input.is_action_pressed("Shift") and $FiringTimer.is_stopped() and not stunned:
+			if Input.is_action_pressed("Shift") and not stunned:
 				shoot(true)
-			elif $FiringTimer.is_stopped() and not stunned:
+			elif not stunned:
 				shoot()
 		elif $FiringTimer.is_stopped() and not stunned:
 			shoot()
-	
-	if not $Ammo/ReloadTimer.is_stopped():
-		# Reloading
-		var scaled_reload = (float($Ammo/ReloadTimer.time_left) / float(current_weapon.reload_time) * 100.0)
-		$Ammo/AmmoBar.value = 100-scaled_reload
-
-func shoot(debug_shoot_as_enemy=false):
-	if $Ammo/ReloadTimer.is_stopped():
-		if clip_size >= 1:
-			clip_size -= 1
-			var scaled_ammo = float(clip_size) / float(current_weapon.clip_size) * 100
-			$Ammo/AmmoBar.value = scaled_ammo
-			if clip_size <= 0:
-				$Ammo/ReloadTimer.start()
-			var projectile_instance = load(current_weapon.projectile).instance()
-			projectile_instance.damage = current_weapon.damage + item_damage_increase
-			projectile_instance.transform = get_node(current_weapon.name + "/Position2D").global_transform
-			projectile_instance.speed = current_weapon.projectile_speed
-			projectile_instance.shooter = self
-			if debug_shoot_as_enemy and OS.is_debug_build():
-				projectile_instance.debug_shoot_as_enemy = true
-			get_tree().current_scene.add_child(projectile_instance)
-			$FiringTimer.set_wait_time(current_weapon.firing_rate)
-			$FiringTimer.start()
-			Global.audio.playGunshot(current_weapon.name)
 
 
 func get_movement_input():
@@ -80,10 +46,25 @@ func get_movement_input():
 		input.x += 1
 	return input
 
+
 func _input(event):
 	if event is InputEventMouseButton:
 		if event.is_action_pressed("Right_Click"):
 			blink()
+	if event is InputEventKey:
+		if event.is_pressed() and $AmmoBar/Timer.is_stopped():
+			if event.scancode == KEY_1:
+				change_weapon(0)
+			elif event.scancode == KEY_2:
+				change_weapon(1)
+			elif event.scancode == KEY_3:
+				change_weapon(2)
+			elif event.scancode == KEY_4:
+				change_weapon(3)
+			elif event.scancode == KEY_5:
+				change_weapon(4)
+			elif event.scancode == KEY_0:
+				print(str(current_weapon.total_ammo))
 
 func _physics_process(_delta):
 	look_at(get_global_mouse_position())
@@ -117,18 +98,21 @@ func blink():
 	else:
 		#Facing right
 		emit_signal("blink", current_carriage+1)
-	
+
+
 func successful_blink(new_pos, new_carriage):
 	position = new_pos
 	self.current_carriage = new_carriage
 
-func _on_Item_picked_up(item):
+
+func _on_item_picked_up(item):
 	get_tree().current_scene.spawned_items.erase(item) # Erase item from global item list
-	print('picked up: ' + str(item.display_name))
 	match item.type:
 		item.ItemType.POWER_UP:
+			print('picked up: ' + str(item.display_name))
 			pass
 		item.ItemType.HEALTH:
+			print('picked up: ' + str(item.display_name))
 			$HPBar.visible = true
 			if scaled_hp < 100:
 				var scaled_health_increase = (float(item.value) / float(MAX_HP) * 100.0)
@@ -139,27 +123,42 @@ func _on_Item_picked_up(item):
 				$HPBar/Timer.stop()
 				$HPBar/Timer.start()
 		item.ItemType.GUN:
-			call_deferred("remove_child",get_node(current_weapon.name))
-			current_weapon = load(item.filename).instance()
-			current_weapon.picked_up = true
-			current_weapon.position = $GunPosition.position
-			clip_size = current_weapon.clip_size
-			$Ammo/ReloadTimer.wait_time = current_weapon.reload_time
-			call_deferred("add_child", current_weapon)
-			$FiringTimer.stop()
-			
-func damage(dmg):
-	if not stunned:
-		var scaled_damage = (float(dmg) / float(MAX_HP) * 100.0)
-		scaled_hp -= scaled_damage
-		$HPBar.visible = true
-		$HPBar/Bar.value = scaled_hp
-		if scaled_hp <= 0:
-			stun()
+			var gun_type_owned = null
+			for i in $WeaponHandler.get_children():
+				if i.filename == item.filename:
+					print("Picked up " + str(item.total_ammo) + " " + item.display_name + " ammo.")
+					gun_type_owned = i
+					break
+			if gun_type_owned == null:
+				print('picked up: ' + str(item.display_name))
+				var weapon_instance = load(item.filename).instance()
+				weapon_instance.picked_up = true
+				$WeaponHandler.call_deferred("add_child", weapon_instance)
+				call_deferred("change_weapon", $WeaponHandler.get_child_count())
+			else:
+				gun_type_owned.total_ammo += item.total_ammo
 
-func stun():
+
+func change_weapon(index):
+	if index <= $WeaponHandler.get_child_count() - 1:
+		for i in $WeaponHandler.get_children():
+			i.set_visible(false)
+		$WeaponHandler.get_child(index).set_visible(true)
+		current_weapon.saved_clip_size = clip_size # Save clip size of last weapon
+		current_weapon = $WeaponHandler.get_child(index)
+		if current_weapon.saved_clip_size != null:
+			clip_size = current_weapon.saved_clip_size
+			var scaled_ammo = float(clip_size) / float(current_weapon.clip_size) * 100
+			$AmmoBar/Bar.value = scaled_ammo
+		else:
+			clip_size = current_weapon.clip_size
+		$AmmoBar/Timer.wait_time = current_weapon.reload_time
+		#$FiringTimer.stop()
+
+func die():
 	stunned = true
 	modulate = Color(1.0, 1.0, 1.0, 0.6)
+	$StunTimer.wait_time = stun_time
 	$StunTimer.start()
 
 
@@ -170,15 +169,11 @@ func _on_StunTimer_timeout():
 	$HPBar/Bar.value = scaled_hp
 
 
-func _on_HPBarTimer_timeout():
+func _on_hp_timer_timeout():
 	$HPBar.visible = false
+
 
 func set_current_carriage_ref(value):
 	current_carriage = value
 	current_carriage_ref = train.carriages[value]
-
-
-func _on_ReloadTimer_timeout():
-	clip_size = current_weapon.clip_size
-	$Ammo/AmmoBar.value = 100
 

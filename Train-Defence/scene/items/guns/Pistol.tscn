@@ -17,7 +17,7 @@ script = ExtResource( 1 )
 rotation = 1.5708
 texture = ExtResource( 2 )
 
-[node name="Position2D" type="Position2D" parent="."]
+[node name="TipOfBarrel" type="Position2D" parent="."]
 position = Vector2( 4.83736, 0 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

@@ -13,8 +13,6 @@ func _ready():
 # warning-ignore:return_value_discarded
 	GlobalEvents.connect("game_over", self, "_on_game_over")
 	
-	Global.init_globals() # Setup global references
-	
 	$ItemSpawner.spawn(4, base_item.ItemType.GUN)
 	
 	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)

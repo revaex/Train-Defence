@@ -7,7 +7,7 @@ var speed # Set to shooters current weapon speed
 var damage  # Set to shooters current weapon damage
 var shooter # A reference to the shooter
 
-onready var camera = Global.camera
+onready var camera = get_tree().current_scene.get_node("Character/Camera2D")
 
 # Debug feature to enable character to shoot as if he was an enemy
 var debug_shoot_as_enemy = false 
@@ -33,6 +33,6 @@ func _physics_process(delta):
 
 
 func _on_Projectile_body_entered(body):
-	if not body.is_in_group("cars"): # Bullets should go 'over' the cars
-		body.damage(damage)
+	if not body is Car: # Bullets should go 'over' the cars
+		body.take_damage(damage)
 		queue_free()

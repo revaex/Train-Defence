@@ -2,8 +2,6 @@ extends Node2D
 
 class_name Item
 
-signal item_picked_up(item)
-
 enum ItemType {
 	POWER_UP,
 	HEALTH,
@@ -21,9 +19,6 @@ onready var train = get_tree().current_scene.get_node("Train")
 onready var saved_position = Vector2(position.x, position.y)
 var velocity = Vector2.ZERO
 
-func _ready():
-# warning-ignore:return_value_discarded
-	connect("item_picked_up", get_tree().current_scene.get_node("Character"), "_on_Item_picked_up")
 
 func _physics_process(delta):
 	if not picked_up:
@@ -33,7 +28,7 @@ func _physics_process(delta):
 				translate(velocity * delta)
 
 func picked_up_by(body):
-	if body.is_in_group("character"):
-		emit_signal("item_picked_up", self)
+	if body is Character:
+		GlobalEvents.emit_signal("item_picked_up", self)
 		queue_free()
 

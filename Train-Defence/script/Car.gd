@@ -1,5 +1,6 @@
 extends KinematicBody2D
 
+class_name Car
 
 var speed = 180
 var friction = 0.05
@@ -87,29 +88,30 @@ func _on_DriftTimer_timeout():
 		car_spawn = car_spawn_top
 	else:
 		car_spawn = car_spawn_bottom
-	match rand:
-		0:
-			if position.y < car_spawn.position.y + drift_bound.y:
-				drift_direction = Vector2(0,1)
-			else:
-				drift_direction = Vector2(0,-1)
-		1:
-			if position.y > car_spawn.position.y - drift_bound.y:
-				drift_direction = Vector2(0,-1)
-			else:
-				drift_direction = Vector2(0, 1)
-		2:
-			if position.x < target.get_global_transform().origin.x + \
-					 + drift_bound.x:
-				drift_direction = Vector2(1,0)
-			else:
-				drift_direction = Vector2(-1,0)
-		3:
-			if position.x < target.get_global_transform().origin.x - \
-					 - drift_bound.x:
-				drift_direction = Vector2(-1,0)
-			else:
-				drift_direction = Vector2(1,0)
+	if target != null and is_instance_valid(target):
+		match rand:
+			0:
+				if position.y < car_spawn.position.y + drift_bound.y:
+					drift_direction = Vector2(0,1)
+				else:
+					drift_direction = Vector2(0,-1)
+			1:
+				if position.y > car_spawn.position.y - drift_bound.y:
+					drift_direction = Vector2(0,-1)
+				else:
+					drift_direction = Vector2(0, 1)
+			2:
+				if position.x < target.get_global_transform().origin.x + \
+						 + drift_bound.x:
+					drift_direction = Vector2(1,0)
+				else:
+					drift_direction = Vector2(-1,0)
+			3:
+				if position.x < target.get_global_transform().origin.x - \
+						 - drift_bound.x:
+					drift_direction = Vector2(-1,0)
+				else:
+					drift_direction = Vector2(1,0)
 
 
 func _on_enemy_added(enemy):

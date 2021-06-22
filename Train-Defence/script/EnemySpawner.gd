@@ -5,7 +5,7 @@ signal add_enemy(enemy)
 var enemy = preload("res://scene/entities/Enemy.tscn")
 
 # The following vector values should add up to 100
-var enemy_spawn_chance = [45, 35, 20]
+var enemy_spawn_chance = [60, 35, 5]
 
 var spawn_variation = 30 # variation in y axis
 
