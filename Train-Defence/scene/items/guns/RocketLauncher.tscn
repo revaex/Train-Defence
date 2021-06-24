@@ -18,7 +18,7 @@ rotation = 1.5708
 texture = ExtResource( 2 )
 
 [node name="TipOfBarrel" type="Position2D" parent="."]
-position = Vector2( 14.0401, 0 )
+position = Vector2( 25.0401, 0 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 4.66325, 0.23597 )

@@ -8,7 +8,7 @@ collision_layer = 8
 collision_mask = 440
 script = ExtResource( 2 )
 
-[node name="Camera2D" type="Camera2D" parent="." index="7"]
+[node name="Camera2D" type="Camera2D" parent="." index="8"]
 current = true
 limit_left = 0
 limit_top = 0
@@ -16,7 +16,7 @@ limit_right = 3450
 limit_bottom = 450
 limit_smoothed = true
 
-[node name="StunTimer" type="Timer" parent="." index="8"]
+[node name="StunTimer" type="Timer" parent="." index="9"]
 wait_time = 3.0
 one_shot = true
 

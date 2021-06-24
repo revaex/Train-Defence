@@ -19,9 +19,6 @@ var car = null # Reference to car enemy is riding
 
 func _ready():
 	randomize()
-	current_weapon = load("res://scene/items/guns/Pistol.tscn").instance()
-	current_weapon.picked_up = true
-	call_deferred("add_child", current_weapon)
 	
 	$FiringTimer.set_wait_time(current_weapon.firing_rate + randf())
 

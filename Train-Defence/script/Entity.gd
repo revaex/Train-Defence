@@ -39,10 +39,11 @@ func shoot(debug_shoot_as_enemy=false):
 			var scaled_ammo = float(clip_size) / float(current_weapon.clip_size) * 100
 			$AmmoBar/Bar.value = scaled_ammo
 			if clip_size <= 0:
+				# Reload
 				$AmmoBar/Timer.start()
 			var projectile_instance = load(current_weapon.projectile).instance()
 			projectile_instance.damage = current_weapon.damage + item_damage_increase
-			projectile_instance.transform = $WeaponHandler.get_child(0).get_node("TipOfBarrel").global_transform
+			projectile_instance.transform = $WeaponHandler.get_child(current_weapon.get_index()).get_node("TipOfBarrel").global_transform
 			projectile_instance.speed = current_weapon.projectile_speed
 			projectile_instance.shooter = self
 			if debug_shoot_as_enemy and OS.is_debug_build():

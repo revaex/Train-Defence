@@ -65,19 +65,28 @@ func _input(event):
 				change_weapon(4)
 			elif event.scancode == KEY_0:
 				print(str(current_weapon.total_ammo))
+			elif event.scancode == KEY_R:
+				$AmmoBar/Timer.start()
 
 func _physics_process(_delta):
 	look_at(get_global_mouse_position())
 	var direction = get_movement_input()
 
 	if direction.length() > 0:
-		$AnimatedSprite.play("walking")
+		if not $AnimationPlayer.is_playing():
+			$AnimationPlayer.playback_speed = 1
+			$AnimationPlayer.play("walk")
+
 		velocity = lerp(velocity, direction.normalized() * speed + current_carriage_ref.velocity, acceleration)
 	else:
 		velocity = lerp(velocity, Vector2.ZERO + current_carriage_ref.velocity, friction)
-		$AnimatedSprite.stop()
+		if $AnimationPlayer.current_animation == "walk":
+			if $AnimationPlayer.current_animation_position >= 0.4:
+				$AnimationPlayer.advance(0)
+			else:
+				$AnimationPlayer.advance(0.4)
+			$AnimationPlayer.stop()
 
-	
 	var margin = Vector2(30,30)
 	var sprite_size = current_carriage_ref.get_node("Sprite").texture.get_size()
 	position.x = clamp(position.x, current_carriage_ref.global_position.x - sprite_size.x / 2 + margin.x, \
@@ -135,25 +144,30 @@ func _on_item_picked_up(item):
 				weapon_instance.picked_up = true
 				$WeaponHandler.call_deferred("add_child", weapon_instance)
 				call_deferred("change_weapon", $WeaponHandler.get_child_count())
+				$AmmoBar/Bar.value = 100
 			else:
 				gun_type_owned.total_ammo += item.total_ammo
 
 
 func change_weapon(index):
-	if index <= $WeaponHandler.get_child_count() - 1:
-		for i in $WeaponHandler.get_children():
-			i.set_visible(false)
-		$WeaponHandler.get_child(index).set_visible(true)
-		current_weapon.saved_clip_size = clip_size # Save clip size of last weapon
-		current_weapon = $WeaponHandler.get_child(index)
-		if current_weapon.saved_clip_size != null:
-			clip_size = current_weapon.saved_clip_size
-			var scaled_ammo = float(clip_size) / float(current_weapon.clip_size) * 100
-			$AmmoBar/Bar.value = scaled_ammo
-		else:
-			clip_size = current_weapon.clip_size
-		$AmmoBar/Timer.wait_time = current_weapon.reload_time
-		#$FiringTimer.stop()
+	if index <= $WeaponHandler.get_child_count() - 1 and $AmmoBar/Timer.is_stopped():
+		if current_weapon != $WeaponHandler.get_child(index):
+			for i in $WeaponHandler.get_children():
+				i.set_visible(false)
+			$AnimationPlayer.play("change_weapon")
+			$AnimationPlayer.playback_speed = 7
+			yield($AnimationPlayer, "animation_finished")
+			$WeaponHandler.get_child(index).set_visible(true)
+			current_weapon.saved_clip_size = clip_size # Save clip size of last weapon
+			var new_weapon = $WeaponHandler.get_child(index)
+			if new_weapon.saved_clip_size != null:
+				clip_size = new_weapon.saved_clip_size
+				var scaled_ammo = float(clip_size) / float(new_weapon.clip_size) * 100
+				$AmmoBar/Bar.value = scaled_ammo
+			else:
+				clip_size = new_weapon.clip_size
+			$AmmoBar/Timer.wait_time = new_weapon.reload_time
+			current_weapon = new_weapon
 
 func die():
 	stunned = true
