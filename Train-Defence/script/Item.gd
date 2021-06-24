@@ -1,4 +1,4 @@
-extends Node2D
+extends Area2D
 
 class_name Item
 
@@ -9,7 +9,7 @@ enum ItemType {
 }
 
 var type # = POWER_UP, HEALTH, GUN
-var value # = -0.3(sec), 10 (hp), 2 (base dmg)
+var value # = -0.3(sec), 10 (hp)
 var display_name # "Fast Reload", "Health Potion", "AK-47"
 
 var picked_up = false
@@ -27,8 +27,9 @@ func _physics_process(delta):
 				velocity = train.carriages[on_carriage].velocity
 				translate(velocity * delta)
 
-func picked_up_by(body):
-	if body is Character:
+
+func _on_Item_body_entered(body):
+	if body is Character and not picked_up:
 		GlobalEvents.emit_signal("item_picked_up", self)
 		queue_free()
 

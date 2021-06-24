@@ -13,6 +13,3 @@ func _init():
 	self.type = ItemType.GUN
 
 
-func _on_Pistol_body_entered(body):
-	if not picked_up:
-		picked_up_by(body)

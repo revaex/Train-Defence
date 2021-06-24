@@ -63,10 +63,11 @@ func _input(event):
 				change_weapon(3)
 			elif event.scancode == KEY_5:
 				change_weapon(4)
-			elif event.scancode == KEY_0:
-				print(str(current_weapon.total_ammo))
 			elif event.scancode == KEY_R:
 				$AmmoBar/Timer.start()
+			elif event.scancode == KEY_0 and OS.is_debug_build():
+				print("Total ammo: " + str(current_weapon.total_ammo))
+				print("HP: " + str(scaled_hp))
 
 func _physics_process(_delta):
 	look_at(get_global_mouse_position())
@@ -125,7 +126,10 @@ func _on_item_picked_up(item):
 			$HPBar.visible = true
 			if scaled_hp < 100:
 				var scaled_health_increase = (float(item.value) / float(MAX_HP) * 100.0)
-				scaled_hp += scaled_health_increase
+				if scaled_hp + scaled_health_increase > 100:
+					scaled_hp = 100
+				else:
+					scaled_hp += scaled_health_increase
 				$HPBar/Bar.value = scaled_hp
 			else:
 				scaled_hp = 100
@@ -143,6 +147,7 @@ func _on_item_picked_up(item):
 				var weapon_instance = load(item.filename).instance()
 				weapon_instance.picked_up = true
 				$WeaponHandler.call_deferred("add_child", weapon_instance)
+				
 				call_deferred("change_weapon", $WeaponHandler.get_child_count())
 				$AmmoBar/Bar.value = 100
 			else:
@@ -150,7 +155,7 @@ func _on_item_picked_up(item):
 
 
 func change_weapon(index):
-	if index <= $WeaponHandler.get_child_count() - 1 and $AmmoBar/Timer.is_stopped():
+	if index <= $WeaponHandler.get_child_count() - 1:
 		if current_weapon != $WeaponHandler.get_child(index):
 			for i in $WeaponHandler.get_children():
 				i.set_visible(false)

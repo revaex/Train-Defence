@@ -11,7 +11,3 @@ func _init():
 	self.display_name = "Rocket Launcher"
 	self.type = ItemType.GUN
 
-
-func _on_RocketLauncher_body_entered(body):
-	if not picked_up:
-		picked_up_by(body)

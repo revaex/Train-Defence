@@ -13,7 +13,7 @@ extents = Vector2( 65.019, 115.307 )
 "carriages",
 ]]
 collision_layer = 2
-collision_mask = 34
+collision_mask = 2
 script = ExtResource( 3 )
 
 [node name="Connector" parent="." instance=ExtResource( 4 )]

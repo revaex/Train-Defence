@@ -78,3 +78,4 @@ position = Vector2( 0, -28 )
 position = Vector2( 11, 4 )
 
 [node name="Pistol" parent="WeaponHandler" instance=ExtResource( 4 )]
+collision_mask = 8
