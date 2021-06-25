@@ -26,6 +26,7 @@ position = Vector2( 1616.71, 225.735 )
 
 [node name="Character" parent="." instance=ExtResource( 1 )]
 position = Vector2( 171.556, 231.488 )
+z_index = 1
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 layer = 2

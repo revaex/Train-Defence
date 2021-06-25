@@ -9,6 +9,11 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "CustomProgressBar",
+"class": "AmmoBar",
+"language": "GDScript",
+"path": "res://script/AmmoBar.gd"
+}, {
 "base": "KinematicBody2D",
 "class": "Car",
 "language": "GDScript",
@@ -24,6 +29,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://script/Character.gd"
 }, {
+"base": "Node2D",
+"class": "CustomProgressBar",
+"language": "GDScript",
+"path": "res://script/ProgressBar.gd"
+}, {
 "base": "Entity",
 "class": "Enemy",
 "language": "GDScript",
@@ -38,6 +48,11 @@ _global_script_classes=[ {
 "class": "Gun",
 "language": "GDScript",
 "path": "res://script/Gun.gd"
+}, {
+"base": "CustomProgressBar",
+"class": "HPBar",
+"language": "GDScript",
+"path": "res://script/HPBar.gd"
 }, {
 "base": "Area2D",
 "class": "Item",
@@ -55,12 +70,15 @@ _global_script_classes=[ {
 "path": "res://script/Projectile.gd"
 } ]
 _global_script_class_icons={
+"AmmoBar": "",
 "Car": "",
 "CarSpawner": "",
 "Character": "",
+"CustomProgressBar": "",
 "Enemy": "",
 "Entity": "",
 "Gun": "",
+"HPBar": "",
 "Item": "",
 "ItemSpawner": "",
 "Projectile": ""

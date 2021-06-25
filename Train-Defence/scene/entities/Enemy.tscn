@@ -19,6 +19,3 @@ autostart = true
 
 [node name="WeaponHandler" parent="." index="7"]
 position = Vector2( 11, -3 )
-
-[node name="Pistol" parent="WeaponHandler" index="0"]
-collision_mask = 8

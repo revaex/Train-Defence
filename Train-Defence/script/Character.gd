@@ -15,11 +15,10 @@ onready var current_carriage_ref = train.carriages[1]
 
 func _ready():
 # warning-ignore:return_value_discarded
-	$HPBar.connect("timer_timeout", self, "_on_hp_timer_timeout")
-# warning-ignore:return_value_discarded
 	GlobalEvents.connect("item_picked_up", self, "_on_item_picked_up")
 	
 	$StunTimer.wait_time = stun_time
+
 
 
 func _process(_delta):
@@ -52,7 +51,7 @@ func _input(event):
 		if event.is_action_pressed("Right_Click"):
 			blink()
 	if event is InputEventKey:
-		if event.is_pressed() and $AmmoBar/Timer.is_stopped():
+		if event.is_pressed() and reload_timer.is_stopped():
 			if event.scancode == KEY_1:
 				change_weapon(0)
 			elif event.scancode == KEY_2:
@@ -64,10 +63,12 @@ func _input(event):
 			elif event.scancode == KEY_5:
 				change_weapon(4)
 			elif event.scancode == KEY_R:
-				$AmmoBar/Timer.start()
+				reload()
 			elif event.scancode == KEY_0 and OS.is_debug_build():
+				#take_damage(2)
 				print("Total ammo: " + str(current_weapon.total_ammo))
-				print("HP: " + str(scaled_hp))
+				print("Current HP: " + str(current_hp))
+				print("Max HP: " + str(max_hp))
 
 func _physics_process(_delta):
 	look_at(get_global_mouse_position())
@@ -123,18 +124,16 @@ func _on_item_picked_up(item):
 			pass
 		item.ItemType.HEALTH:
 			print('picked up: ' + str(item.display_name))
-			$HPBar.visible = true
-			if scaled_hp < 100:
-				var scaled_health_increase = (float(item.value) / float(MAX_HP) * 100.0)
-				if scaled_hp + scaled_health_increase > 100:
-					scaled_hp = 100
-				else:
-					scaled_hp += scaled_health_increase
-				$HPBar/Bar.value = scaled_hp
-			else:
-				scaled_hp = 100
-				$HPBar/Timer.stop()
-				$HPBar/Timer.start()
+			match item.sub_type:
+				item.ItemSubType.FLAT:
+					if current_hp + item.value <= max_hp:
+						self.current_hp += item.value
+					else:
+						self.current_hp = max_hp
+				item.ItemSubType.MAX:
+					self.max_hp += item.value
+					self.current_hp += item.value
+						
 		item.ItemType.GUN:
 			var gun_type_owned = null
 			for i in $WeaponHandler.get_children():
@@ -149,9 +148,9 @@ func _on_item_picked_up(item):
 				$WeaponHandler.call_deferred("add_child", weapon_instance)
 				
 				call_deferred("change_weapon", $WeaponHandler.get_child_count())
-				$AmmoBar/Bar.value = 100
 			else:
 				gun_type_owned.total_ammo += item.total_ammo
+				GlobalEvents.emit_signal("update_ammo_label")
 
 
 func change_weapon(index):
@@ -164,15 +163,14 @@ func change_weapon(index):
 			yield($AnimationPlayer, "animation_finished")
 			$WeaponHandler.get_child(index).set_visible(true)
 			current_weapon.saved_clip_size = clip_size # Save clip size of last weapon
-			var new_weapon = $WeaponHandler.get_child(index)
-			if new_weapon.saved_clip_size != null:
-				clip_size = new_weapon.saved_clip_size
-				var scaled_ammo = float(clip_size) / float(new_weapon.clip_size) * 100
-				$AmmoBar/Bar.value = scaled_ammo
+			current_weapon = $WeaponHandler.get_child(index) # Update current_weapon
+			$AmmoBar.set_max_value(current_weapon.clip_size)
+			if current_weapon.saved_clip_size != null:
+				self.clip_size = current_weapon.saved_clip_size
 			else:
-				clip_size = new_weapon.clip_size
-			$AmmoBar/Timer.wait_time = new_weapon.reload_time
-			current_weapon = new_weapon
+				self.clip_size = current_weapon.clip_size
+			reload_timer.wait_time = current_weapon.reload_time
+
 
 func die():
 	stunned = true
@@ -184,12 +182,11 @@ func die():
 func _on_StunTimer_timeout():
 	stunned = false
 	modulate = Color(1.0, 1.0, 1.0, 1.0)
-	scaled_hp = 100
-	$HPBar/Bar.value = scaled_hp
+	self.current_hp = max_hp
 
 
 func _on_hp_timer_timeout():
-	$HPBar.visible = false
+	$HPBar.set_visible(false)
 
 
 func set_current_carriage_ref(value):
