@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://assets/sprite/warning_icon.png" type="Texture" id=1]
+[ext_resource path="res://script/OffScreenWarning.gd" type="Script" id=2]
+[ext_resource path="res://assets/sprite/off_screen_warning.png" type="Texture" id=3]
+
+[node name="OffScreenWarning" type="Node2D"]
+script = ExtResource( 2 )
+
+[node name="Sprite" type="Sprite" parent="."]
+modulate = Color( 1, 1, 1, 0.662745 )
+scale = Vector2( 0.683808, 0.683808 )
+texture = ExtResource( 3 )
+offset = Vector2( -55, 0.5 )
+
+[node name="Icon" type="Sprite" parent="Sprite"]
+position = Vector2( -81.152, 0 )
+scale = Vector2( 0.538155, 0.538155 )
+texture = ExtResource( 1 )

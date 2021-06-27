@@ -1,10 +1,11 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://script/UI.gd" type="Script" id=1]
 [ext_resource path="res://assets/ui/hp_bar_over.png" type="Texture" id=2]
 [ext_resource path="res://assets/ui/ammo_bar_progress.png" type="Texture" id=3]
 [ext_resource path="res://assets/ui/hp_bar_progress.png" type="Texture" id=4]
 [ext_resource path="res://assets/fonts/droid-sans/DroidSans.ttf" type="DynamicFontData" id=5]
+[ext_resource path="res://assets/ui/ui_panel.theme" type="Theme" id=6]
 
 [sub_resource type="DynamicFont" id=1]
 size = 14
@@ -17,21 +18,32 @@ font_data = ExtResource( 5 )
 [node name="UI" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+margin_top = 0.8909
+margin_bottom = 0.8909
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+hp_bar = NodePath("StatsPanel/StatsMargin/VB/HBHealth/HealthBar")
+hp_bar_tween = NodePath("StatsPanel/StatsMargin/VB/HBHealth/HealthBar/Tween")
+hp_label = NodePath("StatsPanel/StatsMargin/VB/HBHealth/HealthValue")
+ammo_bar = NodePath("StatsPanel/StatsMargin/VB/HBAmmo/AmmoBar")
+ammo_bar_tween = NodePath("StatsPanel/StatsMargin/VB/HBAmmo/AmmoBar/Tween")
+ammo_label = NodePath("StatsPanel/StatsMargin/VB/HBAmmo/AmmoValue")
 
-[node name="Panel" type="Panel" parent="."]
+[node name="StatsPanel" type="Panel" parent="."]
 anchor_top = 1.0
 anchor_bottom = 1.0
+margin_left = 10.0
 margin_top = -78.0
-margin_right = 297.0
+margin_right = 309.0
+margin_bottom = -10.0
+theme = ExtResource( 6 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="MarginContainer" type="MarginContainer" parent="Panel"]
+[node name="StatsMargin" type="MarginContainer" parent="StatsPanel"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 custom_constants/margin_right = 15
@@ -42,25 +54,25 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="VB" type="VBoxContainer" parent="Panel/MarginContainer"]
+[node name="VB" type="VBoxContainer" parent="StatsPanel/StatsMargin"]
 margin_left = 10.0
 margin_top = 10.0
-margin_right = 282.0
-margin_bottom = 68.0
+margin_right = 284.0
+margin_bottom = 58.0
 custom_constants/separation = 10
 
-[node name="HBHealth" type="HBoxContainer" parent="Panel/MarginContainer/VB"]
-margin_right = 272.0
+[node name="HBHealth" type="HBoxContainer" parent="StatsPanel/StatsMargin/VB"]
+margin_right = 274.0
 margin_bottom = 20.0
 
-[node name="Title" type="Label" parent="Panel/MarginContainer/VB/HBHealth"]
+[node name="Title" type="Label" parent="StatsPanel/StatsMargin/VB/HBHealth"]
 margin_top = 1.0
 margin_right = 22.0
 margin_bottom = 18.0
 custom_fonts/font = SubResource( 1 )
 text = "HP:"
 
-[node name="HealthBar" type="TextureProgress" parent="Panel/MarginContainer/VB/HBHealth"]
+[node name="HealthBar" type="TextureProgress" parent="StatsPanel/StatsMargin/VB/HBHealth"]
 margin_left = 26.0
 margin_right = 230.0
 margin_bottom = 20.0
@@ -75,9 +87,9 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Tween" type="Tween" parent="Panel/MarginContainer/VB/HBHealth/HealthBar"]
+[node name="Tween" type="Tween" parent="StatsPanel/StatsMargin/VB/HBHealth/HealthBar"]
 
-[node name="HealthValue" type="Label" parent="Panel/MarginContainer/VB/HBHealth"]
+[node name="HealthValue" type="Label" parent="StatsPanel/StatsMargin/VB/HBHealth"]
 margin_left = 234.0
 margin_top = 1.0
 margin_right = 260.0
@@ -85,18 +97,18 @@ margin_bottom = 18.0
 custom_fonts/font = SubResource( 2 )
 text = "5/10"
 
-[node name="HBAmmo" type="HBoxContainer" parent="Panel/MarginContainer/VB"]
+[node name="HBAmmo" type="HBoxContainer" parent="StatsPanel/StatsMargin/VB"]
 margin_top = 30.0
-margin_right = 272.0
+margin_right = 274.0
 margin_bottom = 47.0
 
-[node name="Title" type="Label" parent="Panel/MarginContainer/VB/HBAmmo"]
+[node name="Title" type="Label" parent="StatsPanel/StatsMargin/VB/HBAmmo"]
 margin_right = 47.0
 margin_bottom = 17.0
 custom_fonts/font = SubResource( 1 )
 text = "Ammo:"
 
-[node name="AmmoBar" type="TextureProgress" parent="Panel/MarginContainer/VB/HBAmmo"]
+[node name="AmmoBar" type="TextureProgress" parent="StatsPanel/StatsMargin/VB/HBAmmo"]
 margin_left = 51.0
 margin_right = 231.0
 margin_bottom = 15.0
@@ -112,11 +124,25 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Tween" type="Tween" parent="Panel/MarginContainer/VB/HBAmmo/AmmoBar"]
+[node name="Tween" type="Tween" parent="StatsPanel/StatsMargin/VB/HBAmmo/AmmoBar"]
 
-[node name="AmmoValue" type="Label" parent="Panel/MarginContainer/VB/HBAmmo"]
+[node name="AmmoValue" type="Label" parent="StatsPanel/StatsMargin/VB/HBAmmo"]
 margin_left = 235.0
 margin_right = 261.0
 margin_bottom = 17.0
 custom_fonts/font = SubResource( 2 )
 text = "8/12"
+
+[node name="MapPanel" type="Panel" parent="."]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -424.5
+margin_top = -77.0
+margin_right = -10.0
+margin_bottom = -10.0
+theme = ExtResource( 6 )
+__meta__ = {
+"_edit_use_anchors_": false
+}

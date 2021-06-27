@@ -18,7 +18,7 @@ onready var reload_timer = $AmmoBar/Timer
 
 func _ready():
 # warning-ignore:return_value_discarded
-	$AmmoBar.connect("timer_timeout", self, "_on_reload_timer_timeout")
+	#$AmmoBar.connect("timer_timeout", self, "_on_reload_timer_timeout")
 	reload_timer.wait_time = current_weapon.reload_time
 	
 	current_weapon.picked_up = true
@@ -27,12 +27,11 @@ func _ready():
 	$HPBar.initialize()
 	$AmmoBar.initialize()
 
-
-#func _process(_delta):
-#	if not reload_timer.is_stopped():
-#		# Reloading
-#		var scaled_reload = (float(reload_timer.time_left) / float(current_weapon.reload_time) * 100.0)
-#		$AmmoBar.set_value(100-scaled_reload)
+func increase_hp(value):
+	if current_hp + value <= max_hp:
+		self.current_hp += value
+	else:
+		self.current_hp = max_hp
 
 func die():
 	pass
@@ -40,7 +39,7 @@ func die():
 func shoot(debug_shoot_as_enemy=false):
 	if reload_timer.is_stopped() and $FiringTimer.is_stopped():
 		if clip_size >= 1:
-			current_weapon.total_ammo -= 1
+			#current_weapon.total_ammo -= 1
 			self.clip_size -= 1
 			if clip_size <= 0:
 				reload()
@@ -60,21 +59,20 @@ func reload():
 	reload_timer.start()
 	$AmmoBar.start_tween(current_weapon.reload_time)
 
+func _on_reload_timer_timeout():
+	var temp_total_ammo = current_weapon.total_ammo
+	current_weapon.total_ammo -= current_weapon.clip_size - clip_size
+	if current_weapon.total_ammo < 0:
+		current_weapon.total_ammo = 0
+	self.clip_size += temp_total_ammo
+	if clip_size > current_weapon.clip_size:
+		self.clip_size = current_weapon.clip_size
+
 func take_damage(dmg):
 	self.current_hp -= dmg
 	if current_hp <= 0:
 		self.current_hp = 0
 		die()
-
-func check_total_ammo():
-	if current_weapon.total_ammo > current_weapon.clip_size:
-		self.clip_size = current_weapon.clip_size
-	else:
-		self.clip_size = current_weapon.total_ammo
-
-func _on_reload_timer_timeout():
-	check_total_ammo()
-	
 
 func set_max_hp(value):
 	max_hp = value

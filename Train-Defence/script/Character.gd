@@ -12,13 +12,13 @@ onready var train = get_tree().current_scene.get_node("Train")
 var current_carriage = 1 setget set_current_carriage_ref
 onready var current_carriage_ref = train.carriages[1]
 
+var regen_ticks = null # set/managed when regen items are picked up
 
 func _ready():
 # warning-ignore:return_value_discarded
 	GlobalEvents.connect("item_picked_up", self, "_on_item_picked_up")
 	
 	$StunTimer.wait_time = stun_time
-
 
 
 func _process(_delta):
@@ -95,12 +95,17 @@ func _physics_process(_delta):
 			current_carriage_ref.global_position.x + sprite_size.x / 2 - margin.x)
 	position.y = clamp(position.y, current_carriage_ref.global_position.y - sprite_size.y / 2 + margin.y, \
 			current_carriage_ref.global_position.y + sprite_size.y / 2 - margin.y)
-			
+
 	velocity = move_and_slide(velocity)
 	
 	if position.x < -10:
 		GlobalEvents.emit_signal("game_over")
 
+func reload():
+	if current_weapon.total_ammo > 0 and clip_size < current_weapon.clip_size:
+		$AnimationPlayer.play("reload")
+		$AnimationPlayer.playback_speed = 2
+		.reload()
 
 func blink():
 	if rotation_degrees < -90 or rotation_degrees > 90:
@@ -126,14 +131,20 @@ func _on_item_picked_up(item):
 			print('picked up: ' + str(item.display_name))
 			match item.sub_type:
 				item.ItemSubType.FLAT:
-					if current_hp + item.value <= max_hp:
-						self.current_hp += item.value
-					else:
-						self.current_hp = max_hp
+					increase_hp(item.data.value)
 				item.ItemSubType.MAX:
-					self.max_hp += item.value
-					self.current_hp += item.value
-						
+					self.max_hp += item.data.value
+					increase_hp(item.data.value)
+				item.ItemSubType.REGEN:
+					if not $RegenTimer.is_stopped():
+						$RegenTimer.stop()
+						$RegenTimer.disconnect("timeout", self, "_on_RegenTimer_timeout")
+# warning-ignore:return_value_discarded
+					$RegenTimer.connect("timeout", self, "_on_RegenTimer_timeout", [item.data.value])
+					regen_ticks = item.data.ticks
+					$RegenTimer.wait_time = item.data.tick_time
+					$RegenTimer.start()
+					
 		item.ItemType.GUN:
 			var gun_type_owned = null
 			for i in $WeaponHandler.get_children():
@@ -192,4 +203,12 @@ func _on_hp_timer_timeout():
 func set_current_carriage_ref(value):
 	current_carriage = value
 	current_carriage_ref = train.carriages[value]
+
+func _on_RegenTimer_timeout(value):
+	if regen_ticks > 0:
+		regen_ticks -= 1
+		increase_hp(value)
+		$RegenTimer.start()
+	else:
+		$RegenTimer.disconnect("timeout", self, "_on_RegenTimer_timeout")
 

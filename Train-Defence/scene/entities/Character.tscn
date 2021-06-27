@@ -1,12 +1,38 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://scene/entities/Entity.tscn" type="PackedScene" id=1]
 [ext_resource path="res://script/Character.gd" type="Script" id=2]
+[ext_resource path="res://assets/sprite/mc_spritesheet_with_reload.png" type="Texture" id=3]
+
+[sub_resource type="Animation" id=1]
+resource_name = "reload"
+length = 3.2
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.4, 0.8, 1.2, 1.6, 2, 2.4, 2.8 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 7, 8, 9, 10, 11, 12, 13, 14 ]
+}
 
 [node name="Character" instance=ExtResource( 1 )]
 collision_layer = 8
 collision_mask = 440
 script = ExtResource( 2 )
+
+[node name="Sprite" parent="." index="1"]
+texture = ExtResource( 3 )
+hframes = 7
+vframes = 3
+frame = 14
+
+[node name="AnimationPlayer" parent="." index="2"]
+anims/reload = SubResource( 1 )
 
 [node name="Camera2D" type="Camera2D" parent="." index="8"]
 current = true
@@ -19,5 +45,7 @@ limit_smoothed = true
 [node name="StunTimer" type="Timer" parent="." index="9"]
 wait_time = 3.0
 one_shot = true
+
+[node name="RegenTimer" type="Timer" parent="." index="10"]
 
 [connection signal="timeout" from="StunTimer" to="." method="_on_StunTimer_timeout"]

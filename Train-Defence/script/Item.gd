@@ -15,8 +15,12 @@ enum ItemSubType {
 }
 
 var type # = POWER_UP, HEALTH, GUN
-var sub_type # Used mainly for "health" category (and maybe power-up?)
-var value # = -0.3(sec), 10 (hp)
+var sub_type # FLAT, MAX, REGEN, Used mainly for "health" category (and maybe power-up?)
+var data = {
+	"value" : null,
+	"ticks" : null,
+	"tick_time" : null,
+}
 var display_name # "Fast Reload", "Health Potion", "AK-47"
 
 var picked_up = false

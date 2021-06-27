@@ -3,7 +3,7 @@ extends Entity
 class_name Enemy
 
 
-var shoot_range = 380
+var shoot_range = 400
 
 var target_character = false
 onready var character = get_tree().current_scene.get_node("Character")
