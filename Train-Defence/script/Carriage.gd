@@ -4,6 +4,7 @@ var speed = 110
 var acceleration = 0.1
 var velocity = Vector2.ZERO
 var alive = true
+onready var index = name.rsplit("Carriage", false)[0] as int
 
 onready var connector = $Connector
 

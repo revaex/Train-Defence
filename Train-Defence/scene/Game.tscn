@@ -7,33 +7,34 @@
 [ext_resource path="res://scene/vehicles/CarSpawner.tscn" type="PackedScene" id=5]
 [ext_resource path="res://scene/environment/Environment.tscn" type="PackedScene" id=6]
 [ext_resource path="res://scene/UI/UI.tscn" type="PackedScene" id=7]
-[ext_resource path="res://assets/sprite/weapons/crosshair2.png" type="Texture" id=8]
+[ext_resource path="res://assets/sprite/weapons/crosshair3.png" type="Texture" id=8]
 
 [node name="Game" type="Node2D"]
 script = ExtResource( 3 )
 
-[node name="Environment" parent="." instance=ExtResource( 6 )]
+[node name="EnvironmentLayer" parent="." instance=ExtResource( 6 )]
 layer = -1
 offset = Vector2( 0, 225 )
 transform = Transform2D( 1, 0, 0, 1, 0, 225 )
 
 [node name="Train" parent="." instance=ExtResource( 2 )]
-position = Vector2( 1616.71, 225.735 )
+position = Vector2( 1752.71, 225.735 )
 
 [node name="ItemSpawner" parent="." instance=ExtResource( 4 )]
 
 [node name="CarSpawner" parent="." instance=ExtResource( 5 )]
 
 [node name="Character" parent="." instance=ExtResource( 1 )]
-position = Vector2( 171.556, 231.488 )
+position = Vector2( 322, 225 )
 z_index = 1
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="UILayer" type="CanvasLayer" parent="."]
 layer = 2
 
-[node name="UI" parent="CanvasLayer" instance=ExtResource( 7 )]
+[node name="UI" parent="UILayer" instance=ExtResource( 7 )]
 
 [node name="Crosshair" type="Sprite" parent="."]
-scale = Vector2( 0.0875781, 0.0875781 )
+scale = Vector2( 0.415021, 0.415021 )
 z_index = 3
+z_as_relative = false
 texture = ExtResource( 8 )

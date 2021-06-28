@@ -30,3 +30,6 @@ signal update_hp_label()
 
 # warning-ignore:unused_signal
 signal update_ammo_label()
+
+# warning-ignore:unused_signal
+signal character_moved_carriage(index)

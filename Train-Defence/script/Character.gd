@@ -3,9 +3,7 @@ extends Entity
 class_name Character
 
 
-signal blink(carriage_num)
-
-var stunned = false # Character becomes stunned when hp reaches 0
+var blink_leniency = 0.9 # range:(0,1] closer to 0 means you can blink facing directly up/down
 var stun_time = 3.0 # Flat amount of stun time. Stun time resets if shot again while in stun
 
 onready var train = get_tree().current_scene.get_node("Train")
@@ -13,6 +11,7 @@ var current_carriage = 1 setget set_current_carriage_ref
 onready var current_carriage_ref = train.carriages[1]
 
 var regen_ticks = null # set/managed when regen items are picked up
+var stunned = false # Character becomes stunned when hp reaches 0
 
 func _ready():
 # warning-ignore:return_value_discarded
@@ -108,21 +107,25 @@ func reload():
 		.reload()
 
 func blink():
-	if rotation_degrees < -90 or rotation_degrees > 90:
+	var pos_to_mouse = (get_global_mouse_position() - global_position).normalized()
+	
+	if pos_to_mouse.dot(Vector2.LEFT) > 0.9:
 		#Facing left
-		emit_signal("blink", current_carriage-1)
-	else:
+		if not train.carriages[current_carriage-1] is String:
+			successful_blink(train.carriages[current_carriage-1].global_position, current_carriage-1)
+	elif pos_to_mouse.dot(Vector2.RIGHT) > 0.9:
 		#Facing right
-		emit_signal("blink", current_carriage+1)
+		if current_carriage + 1 < train.carriages.size():
+			successful_blink(train.carriages[current_carriage+1].global_position, current_carriage+1)
 
 
 func successful_blink(new_pos, new_carriage):
 	position = new_pos
 	self.current_carriage = new_carriage
-
+	GlobalEvents.emit_signal("character_moved_carriage", new_carriage)
 
 func _on_item_picked_up(item):
-	get_tree().current_scene.spawned_items.erase(item) # Erase item from global item list
+	get_tree().current_scene.item_spawner.spawned_items.erase(item)
 	match item.type:
 		item.ItemType.POWER_UP:
 			print('picked up: ' + str(item.display_name))

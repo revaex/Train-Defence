@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://script/UI.gd" type="Script" id=1]
 [ext_resource path="res://assets/ui/hp_bar_over.png" type="Texture" id=2]
@@ -6,6 +6,8 @@
 [ext_resource path="res://assets/ui/hp_bar_progress.png" type="Texture" id=4]
 [ext_resource path="res://assets/fonts/droid-sans/DroidSans.ttf" type="DynamicFontData" id=5]
 [ext_resource path="res://assets/ui/ui_panel.theme" type="Theme" id=6]
+[ext_resource path="res://script/StatsPanel.gd" type="Script" id=7]
+[ext_resource path="res://script/MapPanel.gd" type="Script" id=8]
 
 [sub_resource type="DynamicFont" id=1]
 size = 14
@@ -15,21 +17,26 @@ font_data = ExtResource( 5 )
 size = 13
 font_data = ExtResource( 5 )
 
+[sub_resource type="StyleBoxFlat" id=3]
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color( 0.717647, 0.717647, 0.717647, 1 )
+corner_radius_top_left = 1
+corner_radius_top_right = 1
+corner_radius_bottom_right = 1
+corner_radius_bottom_left = 1
+
 [node name="UI" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_top = 0.8909
-margin_bottom = 0.8909
+margin_left = 0.210205
+margin_right = 0.210205
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-hp_bar = NodePath("StatsPanel/StatsMargin/VB/HBHealth/HealthBar")
-hp_bar_tween = NodePath("StatsPanel/StatsMargin/VB/HBHealth/HealthBar/Tween")
-hp_label = NodePath("StatsPanel/StatsMargin/VB/HBHealth/HealthValue")
-ammo_bar = NodePath("StatsPanel/StatsMargin/VB/HBAmmo/AmmoBar")
-ammo_bar_tween = NodePath("StatsPanel/StatsMargin/VB/HBAmmo/AmmoBar/Tween")
-ammo_label = NodePath("StatsPanel/StatsMargin/VB/HBAmmo/AmmoValue")
 
 [node name="StatsPanel" type="Panel" parent="."]
 anchor_top = 1.0
@@ -39,9 +46,16 @@ margin_top = -78.0
 margin_right = 309.0
 margin_bottom = -10.0
 theme = ExtResource( 6 )
+script = ExtResource( 7 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+hp_bar = NodePath("StatsMargin/VB/HBHealth/HealthBar")
+hp_bar_tween = NodePath("StatsMargin/VB/HBHealth/HealthBar/Tween")
+hp_label = NodePath("StatsMargin/VB/HBHealth/HealthValue")
+ammo_bar = NodePath("StatsMargin/VB/HBAmmo/AmmoBar")
+ammo_bar_tween = NodePath("StatsMargin/VB/HBAmmo/AmmoBar/Tween")
+ammo_label = NodePath("StatsMargin/VB/HBAmmo/AmmoValue")
 
 [node name="StatsMargin" type="MarginContainer" parent="StatsPanel"]
 anchor_right = 1.0
@@ -138,11 +152,138 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = -424.5
-margin_top = -77.0
-margin_right = -10.0
+margin_left = -413.0
+margin_top = -78.0
+margin_right = -9.0
 margin_bottom = -10.0
 theme = ExtResource( 6 )
+script = ExtResource( 8 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+character_marker = NodePath("HB/Carriage1/CharacterMarker")
+item_marker_placeholder = NodePath("HB/Carriage2/ItemMarkerPlaceholder")
+hb = NodePath("HB")
+
+[node name="HB" type="HBoxContainer" parent="MapPanel"]
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_top = -9.0
+margin_bottom = 9.0
+rect_clip_content = true
+custom_constants/separation = 2
+alignment = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Carriage1" type="Panel" parent="MapPanel/HB"]
+margin_left = 5.0
+margin_right = 36.0
+margin_bottom = 18.0
+rect_min_size = Vector2( 31, 18 )
+custom_styles/panel = SubResource( 3 )
+
+[node name="CharacterMarker" type="ColorRect" parent="MapPanel/HB/Carriage1"]
+margin_left = 13.0433
+margin_top = 6.82379
+margin_right = 18.0433
+margin_bottom = 11.8238
+size_flags_horizontal = 0
+size_flags_vertical = 0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Carriage2" type="Panel" parent="MapPanel/HB"]
+margin_left = 38.0
+margin_right = 69.0
+margin_bottom = 18.0
+rect_min_size = Vector2( 31, 18 )
+custom_styles/panel = SubResource( 3 )
+
+[node name="ItemMarkerPlaceholder" type="ColorRect" parent="MapPanel/HB/Carriage2"]
+visible = false
+margin_left = 20.9211
+margin_top = 8.39819
+margin_right = 26.9211
+margin_bottom = 14.3982
+size_flags_horizontal = 0
+size_flags_vertical = 0
+color = Color( 0.745098, 0.0941176, 0.0941176, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Carriage3" type="Panel" parent="MapPanel/HB"]
+margin_left = 71.0
+margin_right = 102.0
+margin_bottom = 18.0
+rect_min_size = Vector2( 31, 18 )
+custom_styles/panel = SubResource( 3 )
+
+[node name="Carriage4" type="Panel" parent="MapPanel/HB"]
+margin_left = 104.0
+margin_right = 135.0
+margin_bottom = 18.0
+rect_min_size = Vector2( 31, 18 )
+custom_styles/panel = SubResource( 3 )
+
+[node name="Carriage5" type="Panel" parent="MapPanel/HB"]
+margin_left = 137.0
+margin_right = 168.0
+margin_bottom = 18.0
+rect_min_size = Vector2( 31, 18 )
+custom_styles/panel = SubResource( 3 )
+
+[node name="Carriage6" type="Panel" parent="MapPanel/HB"]
+margin_left = 170.0
+margin_right = 201.0
+margin_bottom = 18.0
+rect_min_size = Vector2( 31, 18 )
+custom_styles/panel = SubResource( 3 )
+
+[node name="Carriage7" type="Panel" parent="MapPanel/HB"]
+margin_left = 203.0
+margin_right = 234.0
+margin_bottom = 18.0
+rect_min_size = Vector2( 31, 18 )
+custom_styles/panel = SubResource( 3 )
+
+[node name="Carriage8" type="Panel" parent="MapPanel/HB"]
+margin_left = 236.0
+margin_right = 267.0
+margin_bottom = 18.0
+rect_min_size = Vector2( 31, 18 )
+custom_styles/panel = SubResource( 3 )
+
+[node name="Carriage9" type="Panel" parent="MapPanel/HB"]
+margin_left = 269.0
+margin_right = 300.0
+margin_bottom = 18.0
+rect_min_size = Vector2( 31, 18 )
+custom_styles/panel = SubResource( 3 )
+
+[node name="Carriage10" type="Panel" parent="MapPanel/HB"]
+margin_left = 302.0
+margin_right = 333.0
+margin_bottom = 18.0
+rect_min_size = Vector2( 31, 18 )
+custom_styles/panel = SubResource( 3 )
+
+[node name="Carriage11" type="Panel" parent="MapPanel/HB"]
+margin_left = 335.0
+margin_right = 366.0
+margin_bottom = 18.0
+rect_min_size = Vector2( 31, 18 )
+custom_styles/panel = SubResource( 3 )
+
+[node name="Carriage12" type="Panel" parent="MapPanel/HB"]
+margin_left = 368.0
+margin_right = 399.0
+margin_bottom = 18.0
+rect_min_size = Vector2( 31, 18 )
+custom_styles/panel = SubResource( 3 )
+
+[node name="Tween" type="Tween" parent="MapPanel"]

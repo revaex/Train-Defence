@@ -31,14 +31,6 @@ onready var saved_position = Vector2(position.x, position.y)
 var velocity = Vector2.ZERO
 
 
-func _physics_process(delta):
-	if not picked_up:
-		if not train.carriages[on_carriage] is String:
-			if not train.carriages[on_carriage].alive:
-				velocity = train.carriages[on_carriage].velocity
-				translate(velocity * delta)
-
-
 func _on_Item_body_entered(body):
 	if body is Character and not picked_up:
 		GlobalEvents.emit_signal("item_picked_up", self)

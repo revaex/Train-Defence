@@ -7,6 +7,7 @@ onready var base_item = Item.new()
 onready var train = get_tree().current_scene.get_node("Train")
 
 var items = {}
+var spawned_items = []
 
 
 func _ready():
@@ -41,14 +42,11 @@ func spawn(total_spawns, type=base_item.ItemType.GUN, carriage=null):
 		var item_instance = load(items[type][rand]).instance()
 		item_instance.on_carriage = _carriage
 		var target = train.carriages[_carriage]
-		#var target_size = target.get_node("Sprite").texture.get_size()
 		var target_size = target.get_node("CollisionShape2D").shape.extents
-		var margin = Vector2(40,40) # So items don't spawn on the edge of a carriage
-		var rand_x = target.get_global_transform().origin.x - target_size.x/2 + \
-				randi() % int(target_size.x - margin.x) + margin.x/2
-		var rand_y = target.get_global_transform().origin.y - target_size.y/2  + \
-				randi() % int(target_size.y - margin.y) + margin.y/2
+		var margin = Vector2(50,55) # So items don't spawn on the edge of a carriage
+		var rand_x = randi() % int(target_size.y*2 - margin.x/2) - margin.x*2
+		var rand_y = randi() % int(target_size.x*2 - margin.y/2) - margin.y
 		item_instance.position = Vector2(rand_x, rand_y)
-		get_tree().current_scene.spawned_items.append(item_instance)
-		get_tree().current_scene.add_child(item_instance)
+		spawned_items.append(item_instance)
+		get_tree().current_scene.get_node("Train").carriages[item_instance.on_carriage].add_child(item_instance)
 
