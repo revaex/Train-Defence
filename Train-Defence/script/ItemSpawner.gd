@@ -49,4 +49,5 @@ func spawn(total_spawns, type=base_item.ItemType.GUN, carriage=null):
 		item_instance.position = Vector2(rand_x, rand_y)
 		spawned_items.append(item_instance)
 		get_tree().current_scene.get_node("Train").carriages[item_instance.on_carriage].add_child(item_instance)
+		GlobalEvents.emit_signal("item_spawned", item_instance)
 

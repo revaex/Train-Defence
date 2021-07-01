@@ -16,6 +16,7 @@ func _ready():
 # warning-ignore:return_value_discarded
 	GlobalEvents.connect("car_despawned", self, "_on_car_despawned")
 
+
 func spawn(number, top=true):
 	var spawn_gap = 0
 	for i in range(0,number):
@@ -30,6 +31,7 @@ func spawn(number, top=true):
 		car_instance.position.x -= spawn_gap
 		get_tree().current_scene.add_child(car_instance)
 		cars.append(car_instance)
+		GlobalEvents.emit_signal("car_spawned", car_instance)
 		var rand = randi() % 100
 		if rand <= rand_spawn_chance:
 			$CarSpawnTimer.start()
@@ -41,3 +43,4 @@ func _on_car_despawned(car):
 	cars.erase(car)
 	car.queue_free()
 	$CarSpawnTimer.start()
+

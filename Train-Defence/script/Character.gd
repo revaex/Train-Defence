@@ -122,7 +122,7 @@ func blink():
 func successful_blink(new_pos, new_carriage):
 	position = new_pos
 	self.current_carriage = new_carriage
-	GlobalEvents.emit_signal("character_moved_carriage", new_carriage)
+	GlobalEvents.emit_signal("character_changed_carriage", new_carriage)
 
 func _on_item_picked_up(item):
 	get_tree().current_scene.item_spawner.spawned_items.erase(item)

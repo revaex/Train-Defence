@@ -11,13 +11,22 @@ signal game_over()
 signal enemy_dead(enemy)
 
 # warning-ignore:unused_signal
+signal car_spawned(car)
+
+# warning-ignore:unused_signal
 signal car_despawned(car)
 
 # warning-ignore:unused_signal
 signal train_connector_broken(index)
 
 # warning-ignore:unused_signal
+signal carriage_died(carriage, index)
+
+# warning-ignore:unused_signal
 signal item_picked_up(item)
+
+# warning-ignore:unused_signal
+signal item_spawned(item)
 
 # warning-ignore:unused_signal
 signal bar_value_changed(value, bar)
@@ -32,4 +41,4 @@ signal update_hp_label()
 signal update_ammo_label()
 
 # warning-ignore:unused_signal
-signal character_moved_carriage(index)
+signal character_changed_carriage(index)

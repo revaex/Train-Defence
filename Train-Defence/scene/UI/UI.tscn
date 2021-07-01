@@ -43,7 +43,7 @@ anchor_top = 1.0
 anchor_bottom = 1.0
 margin_left = 10.0
 margin_top = -78.0
-margin_right = 309.0
+margin_right = 317.0
 margin_bottom = -10.0
 theme = ExtResource( 6 )
 script = ExtResource( 7 )
@@ -71,12 +71,12 @@ __meta__ = {
 [node name="VB" type="VBoxContainer" parent="StatsPanel/StatsMargin"]
 margin_left = 10.0
 margin_top = 10.0
-margin_right = 284.0
+margin_right = 292.0
 margin_bottom = 58.0
 custom_constants/separation = 10
 
 [node name="HBHealth" type="HBoxContainer" parent="StatsPanel/StatsMargin/VB"]
-margin_right = 274.0
+margin_right = 282.0
 margin_bottom = 20.0
 
 [node name="Title" type="Label" parent="StatsPanel/StatsMargin/VB/HBHealth"]
@@ -113,7 +113,7 @@ text = "5/10"
 
 [node name="HBAmmo" type="HBoxContainer" parent="StatsPanel/StatsMargin/VB"]
 margin_top = 30.0
-margin_right = 274.0
+margin_right = 282.0
 margin_bottom = 47.0
 
 [node name="Title" type="Label" parent="StatsPanel/StatsMargin/VB/HBAmmo"]
@@ -156,6 +156,7 @@ margin_left = -413.0
 margin_top = -78.0
 margin_right = -9.0
 margin_bottom = -10.0
+rect_clip_content = true
 theme = ExtResource( 6 )
 script = ExtResource( 8 )
 __meta__ = {
@@ -163,6 +164,7 @@ __meta__ = {
 }
 character_marker = NodePath("HB/Carriage1/CharacterMarker")
 item_marker_placeholder = NodePath("HB/Carriage2/ItemMarkerPlaceholder")
+car_marker_placeholder = NodePath("CarMarkerPlaceholder")
 hb = NodePath("HB")
 
 [node name="HB" type="HBoxContainer" parent="MapPanel"]
@@ -286,4 +288,15 @@ margin_bottom = 18.0
 rect_min_size = Vector2( 31, 18 )
 custom_styles/panel = SubResource( 3 )
 
-[node name="Tween" type="Tween" parent="MapPanel"]
+[node name="CarMarkerPlaceholder" type="ColorRect" parent="MapPanel"]
+visible = false
+margin_left = 14.0
+margin_top = 9.0
+margin_right = 23.0
+margin_bottom = 15.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+color = Color( 0.0941176, 0.576471, 0.745098, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}

@@ -16,7 +16,8 @@ func _physics_process(delta):
 		
 		var padding = 100
 		if get_global_transform().origin.x < 0 - $Sprite.texture.get_size().x / 2 - padding:
-			owner.carriages[owner.carriages.find(self)] = "DEAD_CARRIAGE" 
+			GlobalEvents.emit_signal("carriage_died", self, index)
+			owner.carriages[index] = "DEAD_CARRIAGE" 
 			owner.remove_child(self)
 	
 func break_right():
