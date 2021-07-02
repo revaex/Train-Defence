@@ -6,10 +6,10 @@
 script = ExtResource( 1 )
 
 [node name="CarSpawnTop" type="Position2D" parent="."]
-position = Vector2( -312, 80 )
+position = Vector2( -312, 120 )
 
 [node name="CarSpawnBottom" type="Position2D" parent="."]
-position = Vector2( -312, 370 )
+position = Vector2( -312, 470 )
 
 [node name="CarSpawnTimer" type="Timer" parent="."]
 wait_time = 5.0

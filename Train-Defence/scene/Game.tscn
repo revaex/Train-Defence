@@ -18,14 +18,14 @@ offset = Vector2( 0, 225 )
 transform = Transform2D( 1, 0, 0, 1, 0, 225 )
 
 [node name="Train" parent="." instance=ExtResource( 2 )]
-position = Vector2( 1589.71, 225.735 )
+position = Vector2( 1589.71, 290 )
 
 [node name="ItemSpawner" parent="." instance=ExtResource( 4 )]
 
 [node name="CarSpawner" parent="." instance=ExtResource( 5 )]
 
 [node name="Character" parent="." instance=ExtResource( 1 )]
-position = Vector2( 159, 225 )
+position = Vector2( 159, 290 )
 z_index = 1
 
 [node name="UILayer" type="CanvasLayer" parent="."]

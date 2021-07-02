@@ -31,8 +31,8 @@ corner_radius_bottom_left = 1
 [node name="UI" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 0.210205
-margin_right = 0.210205
+margin_left = 0.397522
+margin_right = 0.397461
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -156,7 +156,6 @@ margin_left = -413.0
 margin_top = -78.0
 margin_right = -9.0
 margin_bottom = -10.0
-rect_clip_content = true
 theme = ExtResource( 6 )
 script = ExtResource( 8 )
 __meta__ = {
@@ -164,8 +163,24 @@ __meta__ = {
 }
 character_marker = NodePath("HB/Carriage1/CharacterMarker")
 item_marker_placeholder = NodePath("HB/Carriage2/ItemMarkerPlaceholder")
-car_marker_placeholder = NodePath("CarMarkerPlaceholder")
+car_marker_placeholder = NodePath("CarControl/CarMarkerPlaceholder")
 hb = NodePath("HB")
+car_control = NodePath("CarControl")
+
+[node name="CarControl" type="Control" parent="MapPanel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+rect_clip_content = true
+
+[node name="CarMarkerPlaceholder" type="ColorRect" parent="MapPanel/CarControl"]
+visible = false
+rect_min_size = Vector2( 7, 7 )
+size_flags_horizontal = 0
+size_flags_vertical = 0
+color = Color( 0.0941176, 0.576471, 0.745098, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="HB" type="HBoxContainer" parent="MapPanel"]
 anchor_top = 0.5
@@ -288,15 +303,17 @@ margin_bottom = 18.0
 rect_min_size = Vector2( 31, 18 )
 custom_styles/panel = SubResource( 3 )
 
-[node name="CarMarkerPlaceholder" type="ColorRect" parent="MapPanel"]
-visible = false
-margin_left = 14.0
-margin_top = 9.0
-margin_right = 23.0
-margin_bottom = 15.0
-size_flags_horizontal = 0
-size_flags_vertical = 0
-color = Color( 0.0941176, 0.576471, 0.745098, 1 )
+[node name="AbilityPanel" type="Panel" parent="."]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -219.0
+margin_top = -78.0
+margin_right = 125.0
+margin_bottom = -10.0
+rect_min_size = Vector2( 0, 68 )
+theme = ExtResource( 6 )
 __meta__ = {
 "_edit_use_anchors_": false
 }

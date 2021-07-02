@@ -4,13 +4,13 @@ class_name Entity
 
 onready var current_weapon = $WeaponHandler.get_child(0)
 
-var speed = 180
-var friction = 0.2
-var acceleration = 0.1
+export var speed = 180
+export var friction = 0.2
+export var acceleration = 0.1
 var velocity = Vector2.ZERO
 
-var max_hp = 10 setget set_max_hp
-var current_hp = max_hp setget set_current_hp
+export var max_hp = 10 setget set_max_hp
+onready var current_hp = max_hp setget set_current_hp
 var item_damage_increase = 0
 
 var clip_size setget set_clip_size

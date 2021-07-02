@@ -34,9 +34,6 @@ frame = 14
 [node name="AnimationPlayer" parent="." index="2"]
 anims/reload = SubResource( 1 )
 
-[node name="Pistol" parent="WeaponHandler" index="0"]
-collision_layer = 32
-
 [node name="Camera2D" type="Camera2D" parent="." index="8"]
 current = true
 limit_left = 0

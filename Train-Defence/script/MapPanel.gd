@@ -5,6 +5,7 @@ export (NodePath) onready var character_marker = get_node(character_marker)
 export (NodePath) onready var item_marker_placeholder = get_node(item_marker_placeholder)
 export (NodePath) onready var car_marker_placeholder = get_node(car_marker_placeholder)
 export (NodePath) onready var hb = get_node(hb)
+export (NodePath) onready var car_control = get_node(car_control)
 
 # Carriage_N = carriage_markers[N-1]
 var carriage_markers = [] # An array of $HB/Carriage1, $HB/Carriage2, etc
@@ -28,7 +29,6 @@ onready var car_pos_old = []
 onready var scale = 3190 / hb.rect_size.x
 
 func _ready():
-	print(str(hb.rect_size.x))
 # warning-ignore:return_value_discarded
 	GlobalEvents.connect("item_spawned", self, "_on_item_spawned")
 # warning-ignore:return_value_discarded
@@ -112,9 +112,8 @@ func _on_car_spawned(car):
 	var new_rect = ColorRect.new()
 	new_rect.color = car_marker_placeholder.color
 	new_rect.rect_size = car_marker_placeholder.rect_size
-	add_child(new_rect)
-	new_rect.rect_position = car.global_position / scale
-	new_rect.rect_position.x -= new_rect.rect_size.x 
+	car_control.add_child(new_rect)
+	new_rect.rect_position = car.global_position / scale - new_rect.rect_size
 	car_markers.append(new_rect)
 	car_pos_old.append(car.global_position)
 
