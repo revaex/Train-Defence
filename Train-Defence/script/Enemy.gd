@@ -3,7 +3,7 @@ extends Entity
 class_name Enemy
 
 
-var shoot_range = 400
+export var shoot_range = 400
 
 var target_character = false
 onready var character = get_tree().current_scene.get_node("Character")
@@ -19,21 +19,9 @@ var car = null # Reference to car enemy is riding
 
 func _ready():
 	randomize()
-	
 	$FiringTimer.set_wait_time(current_weapon.firing_rate + randf())
 
 
-func _process(_delta):
-	
-	if OS.is_debug_build():
-		if Input.is_action_pressed("ui_right"):
-			car.position.x += 1
-		if Input.is_action_pressed("ui_left"):
-			car.position.x -= 1
-		if Input.is_action_pressed("ui_accept"):
-			print(self.name + ": " + str(rad2deg(get_angle_to(to_local(car.target.global_position)))))
-	
-	
 func _physics_process(_delta):
 	if car.target != null and is_instance_valid(car.target):
 		vec_to_connector = to_local(car.target.global_position) - to_local(global_position)

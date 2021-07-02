@@ -4,7 +4,7 @@ class_name Character
 
 
 var blink_leniency = 0.9 # range:(0,1] closer to 0 means you can blink facing directly up/down
-var stun_time = 3.0 # Flat amount of stun time. Stun time resets if shot again while in stun
+export (float) var stun_time = 3.0 # Flat amount of stun time. Stun time resets if shot again while in stun
 
 onready var train = get_tree().current_scene.get_node("Train")
 var current_carriage = 1 setget set_current_carriage_ref
@@ -13,11 +13,17 @@ onready var current_carriage_ref = train.carriages[1]
 var regen_ticks = null # set/managed when regen items are picked up
 var stunned = false # Character becomes stunned when hp reaches 0
 
+var dash_direction = Vector2.ZERO
+export var dash_speed = 380
+var dash_acceleration = 1.0
+export var dash_cooldown = 2.0
+
 func _ready():
 # warning-ignore:return_value_discarded
 	GlobalEvents.connect("item_picked_up", self, "_on_item_picked_up")
 	
 	$StunTimer.wait_time = stun_time
+	$DashCDTimer.wait_time = dash_cooldown
 
 func _process(_delta):
 	if Input.is_action_pressed("Left_Click"): # in process so one can hold down button to fire
@@ -43,11 +49,10 @@ func get_movement_input():
 		input.x += 1
 	return input
 
-
 func _input(event):
 	if event is InputEventMouseButton:
 		if event.is_action_pressed("Right_Click"):
-			blink()
+			dash()
 	if event is InputEventKey:
 		if event.is_pressed() and reload_timer.is_stopped():
 			if event.scancode == KEY_1:
@@ -62,11 +67,9 @@ func _input(event):
 				change_weapon(4)
 			elif event.scancode == KEY_R:
 				reload()
-			elif event.scancode == KEY_0 and OS.is_debug_build():
-				#take_damage(2)
-				print("Total ammo: " + str(current_weapon.total_ammo))
-				print("Current HP: " + str(current_hp))
-				print("Max HP: " + str(max_hp))
+			elif OS.is_debug_build():
+				if event.scancode == KEY_SPACE:
+					blink()
 
 func _physics_process(_delta):
 	look_at(get_global_mouse_position())
@@ -76,9 +79,11 @@ func _physics_process(_delta):
 		if not $AnimationPlayer.is_playing():
 			$AnimationPlayer.playback_speed = 1
 			$AnimationPlayer.play("walk")
+		
+		if $DashTimer.is_stopped():
+			velocity = lerp(velocity, direction.normalized() * speed + current_carriage_ref.velocity, acceleration)
 
-		velocity = lerp(velocity, direction.normalized() * speed + current_carriage_ref.velocity, acceleration)
-	else:
+	elif $DashTimer.is_stopped():
 		velocity = lerp(velocity, Vector2.ZERO + current_carriage_ref.velocity, friction)
 		if $AnimationPlayer.current_animation == "walk":
 			if $AnimationPlayer.current_animation_position >= 0.4:
@@ -86,7 +91,12 @@ func _physics_process(_delta):
 			else:
 				$AnimationPlayer.advance(0.4)
 			$AnimationPlayer.stop()
-
+	
+	if not $DashTimer.is_stopped():
+		# Dashing
+		velocity = lerp(velocity, dash_direction.normalized() * dash_speed + current_carriage_ref.velocity, dash_acceleration)
+	
+	
 	var margin = Vector2(30,30)
 	var sprite_size = current_carriage_ref.get_node("Sprite").texture.get_size()
 	position.x = clamp(position.x, current_carriage_ref.global_position.x - sprite_size.x / 2 + margin.x, \
@@ -104,6 +114,13 @@ func reload():
 		$AnimationPlayer.play("reload")
 		$AnimationPlayer.playback_speed = 2
 		.reload()
+
+func dash():
+	if $DashTimer.is_stopped() and $DashCDTimer.is_stopped():
+		$DashTimer.start()
+		dash_direction = get_movement_input()
+		if dash_direction == Vector2.ZERO:
+			dash_direction = (get_global_mouse_position() - global_position).normalized()
 
 func blink():
 	var pos_to_mouse = (get_global_mouse_position() - global_position).normalized()
@@ -214,3 +231,6 @@ func _on_RegenTimer_timeout(value):
 	else:
 		$RegenTimer.disconnect("timeout", self, "_on_RegenTimer_timeout")
 
+
+func _on_DashTimer_timeout():
+	$DashCDTimer.start()
