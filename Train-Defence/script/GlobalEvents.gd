@@ -41,4 +41,10 @@ signal update_hp_label()
 signal update_ammo_label()
 
 # warning-ignore:unused_signal
+signal update_exp_label()
+
+# warning-ignore:unused_signal
 signal character_changed_carriage(index)
+
+# warning-ignore:unused_signal
+signal gain_exp(entity, value)

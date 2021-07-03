@@ -44,6 +44,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://script/Entity.gd"
 }, {
+"base": "CustomProgressBar",
+"class": "ExpBar",
+"language": "GDScript",
+"path": "res://script/ExpBar.gd"
+}, {
 "base": "Item",
 "class": "Gun",
 "language": "GDScript",
@@ -82,6 +87,7 @@ _global_script_class_icons={
 "CustomProgressBar": "",
 "Enemy": "",
 "Entity": "",
+"ExpBar": "",
 "Gun": "",
 "HPBar": "",
 "Item": "",

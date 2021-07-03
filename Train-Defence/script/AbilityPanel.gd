@@ -1,4 +1,5 @@
-extends Control
+extends Panel
+
 
 
 func _ready():

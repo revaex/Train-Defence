@@ -16,6 +16,8 @@ var item_damage_increase = 0
 var clip_size setget set_clip_size
 onready var reload_timer = $AmmoBar/Timer
 
+onready var exp_handler = $ExpHandler
+
 func _ready():
 # warning-ignore:return_value_discarded
 	#$AmmoBar.connect("timer_timeout", self, "_on_reload_timer_timeout")
@@ -26,6 +28,7 @@ func _ready():
 	
 	$HPBar.initialize()
 	$AmmoBar.initialize()
+	$ExpBar.initialize()
 
 func increase_hp(value):
 	if current_hp + value <= max_hp:
@@ -68,10 +71,11 @@ func _on_reload_timer_timeout():
 	if clip_size > current_weapon.clip_size:
 		self.clip_size = current_weapon.clip_size
 
-func take_damage(dmg):
+func take_damage(dmg, shooter):
 	self.current_hp -= dmg
 	if current_hp <= 0:
 		self.current_hp = 0
+		shooter.exp_handler.gain_experience(exp_handler.get_required_exp(exp_handler.level) / exp_handler.level)
 		die()
 
 func set_max_hp(value):

@@ -34,5 +34,5 @@ func _physics_process(delta):
 
 func _on_Projectile_body_entered(body):
 	if not body is Car: # Bullets should go 'over' the cars
-		body.take_damage(damage)
+		body.take_damage(damage, shooter)
 		queue_free()

@@ -1,10 +1,12 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=11 format=2]
 
+[ext_resource path="res://script/ExpHandler.gd" type="Script" id=1]
 [ext_resource path="res://scene/entities/Extras/HPBar.tscn" type="PackedScene" id=2]
 [ext_resource path="res://scene/entities/Extras/AmmoBar.tscn" type="PackedScene" id=3]
 [ext_resource path="res://scene/items/guns/Pistol.tscn" type="PackedScene" id=4]
 [ext_resource path="res://script/Entity.gd" type="Script" id=5]
 [ext_resource path="res://assets/sprite/mc_spritesheet_combined.png" type="Texture" id=6]
+[ext_resource path="res://scene/entities/Extras/ExperienceBar.tscn" type="PackedScene" id=7]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 8.11679
@@ -74,10 +76,17 @@ position = Vector2( 0, -33 )
 [node name="AmmoBar" parent="." instance=ExtResource( 3 )]
 position = Vector2( 0, -28 )
 
+[node name="ExpBar" parent="." instance=ExtResource( 7 )]
+visible = false
+position = Vector2( 0, -23 )
+
 [node name="WeaponHandler" type="Node2D" parent="."]
 position = Vector2( 11, 4 )
 
 [node name="Pistol" parent="WeaponHandler" instance=ExtResource( 4 )]
 collision_mask = 8
+
+[node name="ExpHandler" type="Node" parent="."]
+script = ExtResource( 1 )
 
 [connection signal="timer_timeout" from="AmmoBar" to="." method="_on_reload_timer_timeout"]

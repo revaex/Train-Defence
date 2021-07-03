@@ -119,7 +119,7 @@ func _on_car_spawned(car):
 
 func _on_car_despawned(car):
 	var car_index = cars.find(car)
-	remove_child(car_markers[car_index])
+	car_control.remove_child(car_markers[car_index])
 	car_markers.remove(car_index)
 	car_pos_old.remove(car_index)
 	cars.erase(car)

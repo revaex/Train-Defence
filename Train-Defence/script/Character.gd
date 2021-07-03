@@ -6,6 +6,10 @@ class_name Character
 var blink_leniency = 0.9 # range:(0,1] closer to 0 means you can blink facing directly up/down
 export (float) var stun_time = 3.0 # Flat amount of stun time. Stun time resets if shot again while in stun
 
+export (int) var dash_speed = 380
+export (float) var dash_acceleration = 1.0
+export (float) var dash_cooldown = 2.0
+
 onready var train = get_tree().current_scene.get_node("Train")
 var current_carriage = 1 setget set_current_carriage_ref
 onready var current_carriage_ref = train.carriages[1]
@@ -14,9 +18,6 @@ var regen_ticks = null # set/managed when regen items are picked up
 var stunned = false # Character becomes stunned when hp reaches 0
 
 var dash_direction = Vector2.ZERO
-export var dash_speed = 380
-var dash_acceleration = 1.0
-export var dash_cooldown = 2.0
 
 func _ready():
 # warning-ignore:return_value_discarded
@@ -234,3 +235,5 @@ func _on_RegenTimer_timeout(value):
 
 func _on_DashTimer_timeout():
 	$DashCDTimer.start()
+	
+
