@@ -34,14 +34,14 @@ func _seed_type(type):
 	return rand
 
 func spawn(total_spawns, type=base_item.ItemType.GUN, carriage=null):
-	var _carriage = carriage
+	#var _carriage = carriage
 	for i in total_spawns:
 		var rand = _seed_type(type)
 		if carriage == null:
-			_carriage = randi() % train.total_carriages + 1
+			carriage = randi() % train.total_carriages + 1
 		var item_instance = load(items[type][rand]).instance()
-		item_instance.on_carriage = _carriage
-		var target = train.carriages[_carriage]
+		item_instance.on_carriage = carriage
+		var target = train.carriages[carriage]
 		var target_size = target.get_node("CollisionShape2D").shape.extents
 		var margin = Vector2(50,55) # So items don't spawn on the edge of a carriage
 		var rand_x = randi() % int(target_size.y*2 - margin.x/2) - margin.x*2

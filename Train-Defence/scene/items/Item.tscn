@@ -9,7 +9,7 @@ extents = Vector2( 18.0278, 18.7284 )
 
 [node name="Item" type="Area2D"]
 collision_layer = 32
-collision_mask = 0
+collision_mask = 2
 script = ExtResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="."]

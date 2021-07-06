@@ -90,15 +90,23 @@ func _on_item_spawned(item):
 	var new_rect = ColorRect.new()
 	new_rect.color = item_marker_placeholder.color
 	new_rect.rect_size = item_marker_placeholder.rect_size
-	var carriage = carriage_markers[item.on_carriage-1]
-	carriage.add_child(new_rect)
-	new_rect.rect_position = item.position / scale + carriage.rect_size / 2 - new_rect.rect_size / 2
+	if item.on_carriage != null:
+		var carriage = carriage_markers[item.on_carriage-1]
+		carriage.add_child(new_rect)
+		new_rect.rect_position = item.position / scale + carriage.rect_size / 2 - new_rect.rect_size / 2
+	else:
+		# Items directly dragged to the game scene don't have a carriage
+		car_control.add_child(new_rect)
+		new_rect.rect_position = item.position / scale - new_rect.rect_size / 2
 	item_markers.append(new_rect)
 
 func _on_item_picked_up(item):
 	var item_index = items.find(item)
-	var carriage = carriage_markers[item.on_carriage-1]
-	carriage.remove_child(item_markers[item_index])
+	if item.on_carriage != null:
+		var carriage = carriage_markers[item.on_carriage-1]
+		carriage.remove_child(item_markers[item_index])
+	else:
+		car_control.remove_child(item_markers[item_index])
 	item_markers.remove(item_index)
 	items.erase(item)
 

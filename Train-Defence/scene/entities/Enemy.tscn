@@ -14,6 +14,3 @@ max_hp = 6
 texture = ExtResource( 3 )
 hframes = 2
 vframes = 1
-
-[node name="FiringTimer" parent="." index="3"]
-autostart = true

@@ -31,6 +31,12 @@ onready var saved_position = Vector2(position.x, position.y)
 var velocity = Vector2.ZERO
 
 
+func _ready():
+	if on_carriage == null and not picked_up and not owner is Entity:
+		# So items that are dragged onto the game scene directly
+		# (not spawned via the ItemSpawner) can be detected by the UI MapPanel
+		GlobalEvents.emit_signal("item_spawned", self)
+
 func _on_Item_body_entered(body):
 	if body is Character and not picked_up:
 		GlobalEvents.emit_signal("item_picked_up", self)

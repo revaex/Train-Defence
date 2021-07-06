@@ -34,7 +34,7 @@ func _process(_delta):
 				shoot(true)
 			elif not stunned:
 				shoot()
-		elif $FiringTimer.is_stopped() and not stunned:
+		elif $WeaponHandler.firing_timer.is_stopped() and not stunned:
 			shoot()
 
 
@@ -57,15 +57,15 @@ func _input(event):
 	if event is InputEventKey:
 		if event.is_pressed() and reload_timer.is_stopped():
 			if event.scancode == KEY_1:
-				change_weapon(0)
-			elif event.scancode == KEY_2:
 				change_weapon(1)
-			elif event.scancode == KEY_3:
+			elif event.scancode == KEY_2:
 				change_weapon(2)
-			elif event.scancode == KEY_4:
+			elif event.scancode == KEY_3:
 				change_weapon(3)
-			elif event.scancode == KEY_5:
+			elif event.scancode == KEY_4:
 				change_weapon(4)
+			elif event.scancode == KEY_5:
+				change_weapon(5)
 			elif event.scancode == KEY_R:
 				reload()
 			elif OS.is_debug_build():
@@ -145,9 +145,11 @@ func _on_item_picked_up(item):
 	get_tree().current_scene.item_spawner.spawned_items.erase(item)
 	match item.type:
 		item.ItemType.POWER_UP:
+			GlobalEvents.emit_signal("item_picked_up_loot_panel", item, false)
 			print('picked up: ' + str(item.display_name))
 			pass
 		item.ItemType.HEALTH:
+			GlobalEvents.emit_signal("item_picked_up_loot_panel", item, false)
 			print('picked up: ' + str(item.display_name))
 			match item.sub_type:
 				item.ItemSubType.FLAT:
@@ -169,38 +171,21 @@ func _on_item_picked_up(item):
 			var gun_type_owned = null
 			for i in $WeaponHandler.get_children():
 				if i.filename == item.filename:
-					print("Picked up " + str(item.total_ammo) + " " + item.display_name + " ammo.")
 					gun_type_owned = i
 					break
 			if gun_type_owned == null:
+				GlobalEvents.emit_signal("item_picked_up_loot_panel", item, false)
 				print('picked up: ' + str(item.display_name))
 				var weapon_instance = load(item.filename).instance()
 				weapon_instance.picked_up = true
-				$WeaponHandler.call_deferred("add_child", weapon_instance)
-				
-				call_deferred("change_weapon", $WeaponHandler.get_child_count())
+				#$WeaponHandler.call_deferred("add_child", weapon_instance)
+				#call_deferred("change_weapon", $WeaponHandler.get_child_count())
+				$WeaponHandler.add_weapon(weapon_instance)
 			else:
+				print("Picked up " + str(item.total_ammo) + " " + item.display_name + " ammo.")
 				gun_type_owned.total_ammo += item.total_ammo
 				GlobalEvents.emit_signal("update_ammo_label")
-
-
-func change_weapon(index):
-	if index <= $WeaponHandler.get_child_count() - 1:
-		if current_weapon != $WeaponHandler.get_child(index):
-			for i in $WeaponHandler.get_children():
-				i.set_visible(false)
-			$AnimationPlayer.play("change_weapon")
-			$AnimationPlayer.playback_speed = 7
-			yield($AnimationPlayer, "animation_finished")
-			$WeaponHandler.get_child(index).set_visible(true)
-			current_weapon.saved_clip_size = clip_size # Save clip size of last weapon
-			current_weapon = $WeaponHandler.get_child(index) # Update current_weapon
-			$AmmoBar.set_max_value(current_weapon.clip_size)
-			if current_weapon.saved_clip_size != null:
-				self.clip_size = current_weapon.saved_clip_size
-			else:
-				self.clip_size = current_weapon.clip_size
-			reload_timer.wait_time = current_weapon.reload_time
+				GlobalEvents.emit_signal("item_picked_up_loot_panel", item, item.total_ammo)
 
 
 func die():
@@ -220,6 +205,7 @@ func set_current_carriage_ref(value):
 	current_carriage = value
 	current_carriage_ref = train.carriages[value]
 
+
 func _on_RegenTimer_timeout(value):
 	if regen_ticks > 0:
 		regen_ticks -= 1
@@ -233,3 +219,5 @@ func _on_DashTimer_timeout():
 	$DashCDTimer.start()
 	
 
+func change_weapon(index):
+	$WeaponHandler.change_weapon(index)

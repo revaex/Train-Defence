@@ -19,7 +19,7 @@ var car = null # Reference to car enemy is riding
 
 func _ready():
 	randomize()
-	$FiringTimer.set_wait_time(current_weapon.firing_rate + randf())
+	$WeaponHandler.firing_timer.set_wait_time(current_weapon.firing_rate + randf())
 
 
 func _physics_process(_delta):

@@ -2,18 +2,18 @@ extends KinematicBody2D
 
 class_name Entity
 
-onready var current_weapon = $WeaponHandler.get_child(0)
+onready var current_weapon = $WeaponHandler.get_child(1)
 
 export var speed = 180
 export var friction = 0.2
 export var acceleration = 0.1
 var velocity = Vector2.ZERO
 
-export var max_hp = 10 setget set_max_hp
-onready var current_hp = max_hp setget set_current_hp
+export var max_hp = 10 setget _set_max_hp
+onready var current_hp = max_hp setget _set_current_hp
 var item_damage_increase = 0
 
-var clip_size setget set_clip_size
+var clip_size setget _set_clip_size
 onready var reload_timer = $AmmoBar/Timer
 
 onready var exp_handler = $ExpHandler
@@ -21,6 +21,8 @@ export (bool) var can_gain_exp = false
 export (int) var level = 1
 
 func _ready():
+# warning-ignore:return_value_discarded
+	$AmmoBar.connect("timer_timeout", self, "_on_reload_timer_timeout")
 	reload_timer.wait_time = current_weapon.reload_time
 	
 	current_weapon.picked_up = true
@@ -39,28 +41,6 @@ func increase_hp(value):
 func die():
 	pass
 
-func shoot(debug_shoot_as_enemy=false):
-	if reload_timer.is_stopped() and $FiringTimer.is_stopped():
-		if clip_size >= 1:
-			self.clip_size -= 1
-			if clip_size <= 0:
-				reload()
-			var projectile_instance = load(current_weapon.projectile).instance()
-			projectile_instance.damage = current_weapon.damage + item_damage_increase
-			projectile_instance.transform = $WeaponHandler.get_child(current_weapon.get_index()).get_node("TipOfBarrel").global_transform
-			projectile_instance.speed = current_weapon.projectile_speed
-			projectile_instance.shooter = self
-			if debug_shoot_as_enemy and OS.is_debug_build():
-				projectile_instance.debug_shoot_as_enemy = true
-			get_tree().current_scene.add_child(projectile_instance)
-			$FiringTimer.set_wait_time(current_weapon.firing_rate)
-			$FiringTimer.start()
-			Global.audio.playGunshot(current_weapon.name)
-
-func reload():
-	reload_timer.start()
-	$AmmoBar.start_tween(current_weapon.reload_time)
-
 func _on_reload_timer_timeout():
 	var temp_total_ammo = current_weapon.total_ammo
 	current_weapon.total_ammo -= current_weapon.clip_size - clip_size
@@ -77,17 +57,23 @@ func take_damage(dmg, shooter):
 		shooter.gain_experience(level * 5)
 		die()
 
-func set_max_hp(value):
+func _set_max_hp(value):
 	max_hp = value
 	$HPBar.set_max_value(value)
 	
-func set_current_hp(value):
+func _set_current_hp(value):
 	current_hp = value
 	$HPBar.set_value(value)
 
-func set_clip_size(value):
+func _set_clip_size(value):
 	clip_size = value
 	$AmmoBar.set_value(value)
 
 func gain_experience(value):
 	exp_handler.gain_experience(value)
+	
+func shoot(debug_shoot_as_enemy = false):
+	$WeaponHandler.shoot(debug_shoot_as_enemy)
+
+func reload():
+	$WeaponHandler.reload()

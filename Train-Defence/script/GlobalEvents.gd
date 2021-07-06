@@ -26,6 +26,9 @@ signal carriage_died(carriage, index)
 signal item_picked_up(item)
 
 # warning-ignore:unused_signal
+signal item_picked_up_loot_panel(item, ammo)
+
+# warning-ignore:unused_signal
 signal item_spawned(item)
 
 # warning-ignore:unused_signal

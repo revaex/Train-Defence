@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://assets/ui/hp_bar_over.png" type="Texture" id=2]
 [ext_resource path="res://assets/ui/ammo_bar_progress.png" type="Texture" id=3]
@@ -9,6 +9,7 @@
 [ext_resource path="res://script/MapPanel.gd" type="Script" id=8]
 [ext_resource path="res://assets/ui/experience_bar_progress.png" type="Texture" id=9]
 [ext_resource path="res://script/AbilityPanel.gd" type="Script" id=10]
+[ext_resource path="res://script/LootPanel.gd" type="Script" id=11]
 
 [sub_resource type="DynamicFont" id=1]
 size = 14
@@ -208,6 +209,9 @@ car_control = NodePath("CarControl")
 anchor_right = 1.0
 anchor_bottom = 1.0
 rect_clip_content = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="CarMarkerPlaceholder" type="ColorRect" parent="MapPanel/CarControl"]
 visible = false
@@ -352,6 +356,22 @@ margin_bottom = -10.0
 rect_min_size = Vector2( 0, 68 )
 theme = ExtResource( 6 )
 script = ExtResource( 10 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LootPanel" type="Panel" parent="."]
+self_modulate = Color( 1, 1, 1, 0.184314 )
+anchor_left = 1.0
+anchor_top = 0.761
+anchor_right = 1.0
+anchor_bottom = 0.761
+margin_left = -319.0
+margin_top = -81.43
+margin_right = -9.99988
+margin_bottom = 55.57
+theme = ExtResource( 6 )
+script = ExtResource( 11 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
