@@ -53,7 +53,7 @@ func update_label(label):
 	elif label == ammo_label:
 		label.text = str(character.clip_size) + "/" + str(character.current_weapon.clip_size) + "/" + str(character.current_weapon.total_ammo)
 	elif label == exp_label:
-		label.text = str(character.exp_handler.experience) + "/" + str(character.exp_handler.experience_required) + "/" + str(character.exp_handler.level)
+		label.text = str(character.exp_handler.experience) + "/" + str(character.exp_handler.experience_required) + "/" + str(character.level)
 
 func _on_bar_value_changed(value, bar):
 	if bar is HPBar:

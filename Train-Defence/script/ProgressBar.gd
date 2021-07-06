@@ -5,8 +5,8 @@ class_name CustomProgressBar
 signal timer_timeout
 
 
-var bar_max_value = 100 setget _set_bar_max_value
-var bar_value = 100 setget _set_bar_value
+var bar_max_value = 100 setget set_max_value
+var bar_value = 100 setget set_value
 
 onready var local_position_in_parent = position
 
@@ -25,19 +25,14 @@ func start_tween(duration):
 	$Tween.start()
 
 func set_value(value):
-	self.bar_value = value
-
-func set_max_value(value):
-	self.bar_max_value = value
-
-func _set_bar_value(value):
 	bar_value = value
 	$Bar.value = value
 	if owner is Character:
 		GlobalEvents.emit_signal("bar_value_changed", value, self)
 
-func _set_bar_max_value(value):
+func set_max_value(value):
 	bar_max_value = value
 	$Bar.max_value = value
 	if owner is Character:
 		GlobalEvents.emit_signal("bar_max_value_changed", value, self)
+

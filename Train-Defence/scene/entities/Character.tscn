@@ -24,6 +24,7 @@ tracks/0/keys = {
 collision_layer = 8
 collision_mask = 440
 script = ExtResource( 2 )
+can_gain_exp = true
 
 [node name="Sprite" parent="." index="1"]
 texture = ExtResource( 3 )
@@ -55,9 +56,6 @@ one_shot = true
 [node name="DashCDTimer" type="Timer" parent="." index="12"]
 wait_time = 2.0
 one_shot = true
-
-[node name="ExpHandler" parent="." index="14"]
-can_gain_exp = true
 
 [connection signal="timeout" from="StunTimer" to="." method="_on_StunTimer_timeout"]
 [connection signal="timeout" from="DashTimer" to="." method="_on_DashTimer_timeout"]

@@ -216,10 +216,6 @@ func _on_StunTimer_timeout():
 	self.current_hp = max_hp
 
 
-func _on_hp_timer_timeout():
-	$HPBar.set_visible(false)
-
-
 func set_current_carriage_ref(value):
 	current_carriage = value
 	current_carriage_ref = train.carriages[value]
