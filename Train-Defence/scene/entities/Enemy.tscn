@@ -8,9 +8,8 @@
 collision_layer = 16
 collision_mask = 94
 script = ExtResource( 2 )
-max_hp = 6
 
-[node name="Sprite" parent="." index="1"]
+[node name="Sprite" parent="." index="3"]
 texture = ExtResource( 3 )
 hframes = 2
 vframes = 1

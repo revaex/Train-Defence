@@ -10,8 +10,8 @@ func _ready():
 # warning-ignore:return_value_discarded
 	GlobalEvents.connect("game_over", self, "_on_game_over")
 	
-	$ItemSpawner.spawn(3, base_item.ItemType.GUN, 2)
-	$ItemSpawner.spawn(2, base_item.ItemType.HEALTH, 3)
+	$ItemSpawner.spawn(5, base_item.ItemType.GUN, 2)
+	$ItemSpawner.spawn(3, base_item.ItemType.HEALTH, 3)
 	
 	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 

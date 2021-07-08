@@ -39,7 +39,8 @@ func increase_hp(value):
 		self.current_hp = max_hp
 
 func die():
-	pass
+	#$DeathParticles.global_position = global_position
+	$DeathParticles.activate()
 
 func _on_reload_timer_timeout():
 	var temp_total_ammo = current_weapon.total_ammo
@@ -50,7 +51,10 @@ func _on_reload_timer_timeout():
 	if clip_size > current_weapon.clip_size:
 		self.clip_size = current_weapon.clip_size
 
-func take_damage(dmg, shooter):
+func take_damage(dmg, shooter, incoming_direction):
+	$BloodParticles.activate()
+	$BloodParticles.direction = -incoming_direction
+	
 	self.current_hp -= dmg
 	if current_hp <= 0:
 		self.current_hp = 0
@@ -77,3 +81,5 @@ func shoot(debug_shoot_as_enemy = false):
 
 func reload():
 	$WeaponHandler.reload()
+	
+

@@ -3,7 +3,6 @@
 [ext_resource path="res://script/WeaponHandler.gd" type="Script" id=3]
 
 [node name="WeaponHandler" type="Node2D"]
-position = Vector2( 11, 4 )
 script = ExtResource( 3 )
 
 [node name="FiringTimer" type="Timer" parent="."]

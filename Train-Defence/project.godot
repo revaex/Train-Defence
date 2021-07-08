@@ -105,9 +105,9 @@ config/icon="res://assets/sprite/icon.png"
 [autoload]
 
 Global="*res://script/Global.gd"
-Master="*res://scene/Master.tscn"
 GlobalSceneChange="*res://script/GlobalSceneChange.gd"
 GlobalEvents="*res://script/GlobalEvents.gd"
+GlobalAudio="*res://scene/GlobalAudio.tscn"
 
 [display]
 

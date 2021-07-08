@@ -20,24 +20,27 @@ var car = null # Reference to car enemy is riding
 func _ready():
 	randomize()
 	$WeaponHandler.firing_timer.set_wait_time(current_weapon.firing_rate + randf())
+# warning-ignore:return_value_discarded
+	$DeathParticles.connect("finished_emitting", self, "_on_finished_emitting")
 
 
 func _physics_process(_delta):
-	if car.target != null and is_instance_valid(car.target):
-		vec_to_connector = to_local(car.target.global_position) - to_local(global_position)
-		vec_to_character = to_local(character.global_position) - to_local(global_position)
-		
-		$RayCast2D.cast_to = vec_to_connector
-		if $RayCast2D.is_colliding():
-			var collider = $RayCast2D.get_collider()
-			if collider.is_in_group("connectors"):
-				if vec_to_connector.length() < shoot_range:
-					self.target = collider
-			elif vec_to_character.length() < shoot_range:
-				self.target = character
-			else:
-				self.target = null
-				global_rotation = lerp_angle(global_rotation, 0.0, rotation_speed)
+	if is_instance_valid(car):
+		if is_instance_valid(car.target):
+			vec_to_connector = to_local(car.target.global_position) - to_local(global_position)
+			vec_to_character = to_local(character.global_position) - to_local(global_position)
+			
+			$RayCast2D.cast_to = vec_to_connector
+			if $RayCast2D.is_colliding():
+				var collider = $RayCast2D.get_collider()
+				if collider.is_in_group("connectors"):
+					if vec_to_connector.length() < shoot_range:
+						self.target = collider
+				elif vec_to_character.length() < shoot_range:
+					self.target = character
+				else:
+					self.target = null
+					global_rotation = lerp_angle(global_rotation, 0.0, rotation_speed)
 				
 	if is_instance_valid(target):
 		smooth_look_at(self, target.global_position, rotation_speed)
@@ -45,13 +48,24 @@ func _physics_process(_delta):
 
 
 func die():
+	.die()
 	GlobalEvents.emit_signal("enemy_dead", self)
-	queue_free()
+	
+	# Before enemy has been free'd, we want to hide the sprites and remove collision
+	# _on_finished_emitting() handles queue_free()
+	$Sprite.hide()
+	$WeaponHandler.hide()
+	remove_child($CollisionShape2D)
 
 
 func _on_reload_timer_timeout():
 	._on_reload_timer_timeout()
 	clip_size = current_weapon.clip_size # Give enemy unlimited ammo
+	
+
+func _on_finished_emitting(particle):
+	if particle == $DeathParticles:
+		queue_free()
 
 #-------------------------
 func smooth_look_at( node_to_turn, target_position, turn_speed ):

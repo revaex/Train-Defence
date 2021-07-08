@@ -12,7 +12,6 @@ position = Vector2( -312, 120 )
 position = Vector2( -312, 470 )
 
 [node name="CarSpawnTimer" type="Timer" parent="."]
-wait_time = 5.0
 one_shot = true
 autostart = true
 

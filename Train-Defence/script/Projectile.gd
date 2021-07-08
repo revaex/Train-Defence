@@ -7,6 +7,8 @@ var speed # Set to shooters current weapon speed
 var damage  # Set to shooters current weapon damage
 var shooter # A reference to the shooter
 
+var shooter_position
+
 onready var camera = get_tree().current_scene.get_node("Character/Camera2D")
 
 # Debug feature to enable character to shoot as if he was an enemy
@@ -24,6 +26,8 @@ func _init_enemy_collision():
 	set_collision_mask_bit(3, true) # Enable 'character' mask
 
 func _physics_process(delta):
+	if is_instance_valid(shooter):
+		shooter_position = shooter.position
 	position += transform.x * speed * delta
 	
 	# Free the bullet when it goes outside the camera limits
@@ -34,5 +38,8 @@ func _physics_process(delta):
 
 func _on_Projectile_body_entered(body):
 	if not body is Car: # Bullets should go 'over' the cars
-		body.take_damage(damage, shooter)
-		queue_free()
+		if shooter != null:
+			body.take_damage(damage, shooter, (shooter_position - body.position).normalized())
+			if shooter.current_weapon.name == "RocketLauncher":
+				GlobalAudio.play(GlobalAudio.Sounds.Explosion)
+			queue_free()

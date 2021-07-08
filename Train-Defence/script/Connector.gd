@@ -15,7 +15,7 @@ func _ready():
 	pass
 
 
-func take_damage(dmg, _shooter):
+func take_damage(dmg, _shooter, _incoming_direction):
 	if alive:
 		var scaled_damage = (float(dmg) / float(hp) * 100.0)
 		scaled_hp -= scaled_damage

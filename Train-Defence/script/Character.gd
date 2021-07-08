@@ -189,10 +189,12 @@ func _on_item_picked_up(item):
 
 
 func die():
-	stunned = true
-	modulate = Color(1.0, 1.0, 1.0, 0.6)
-	$StunTimer.wait_time = stun_time
-	$StunTimer.start()
+	.die()
+	if $StunTimer.is_stopped():
+		stunned = true
+		modulate = Color(1.0, 1.0, 1.0, 0.6)
+		$StunTimer.wait_time = stun_time
+		$StunTimer.start()
 
 
 func _on_StunTimer_timeout():

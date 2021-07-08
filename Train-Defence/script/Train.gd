@@ -9,7 +9,7 @@ onready var leftmost_carriage = $Carriage1
 func _ready():
 # warning-ignore:return_value_discarded
 	GlobalEvents.connect("train_connector_broken", self, "_on_train_connector_broken")
-	Global.audio.playTrainMovement()
+	GlobalAudio.play(GlobalAudio.Sounds.Train)
 	
 	for i in get_tree().get_nodes_in_group("carriages"):
 		carriages.append(i)

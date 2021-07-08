@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=2]
 
-[ext_resource path="res://script/AudioManager.gd" type="Script" id=1]
+[ext_resource path="res://script/GlobalAudio.gd" type="Script" id=1]
 [ext_resource path="res://assets/sfx/gunshot.wav" type="AudioStream" id=3]
 [ext_resource path="res://assets/sfx/rocket.wav" type="AudioStream" id=4]
 [ext_resource path="res://assets/sfx/explosion.wav" type="AudioStream" id=5]

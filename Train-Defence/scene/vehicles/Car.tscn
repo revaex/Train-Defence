@@ -6,7 +6,7 @@
 [ext_resource path="res://scene/Other/OffScreenWarning.tscn" type="PackedScene" id=4]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 117, 51 )
+extents = Vector2( 97, 43 )
 
 [node name="Car" type="KinematicBody2D" groups=[
 "cars",

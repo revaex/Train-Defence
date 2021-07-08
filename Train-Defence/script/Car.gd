@@ -39,8 +39,12 @@ func _ready():
 	GlobalEvents.connect("enemy_dead", self, "_on_enemy_dead")
 # warning-ignore:return_value_discarded
 	$EnemySpawner.connect("add_enemy", self, "_on_enemy_added")
-	$EnemySpawner.seed_spawner()
-
+	
+	if OS.is_debug_build():
+		$EnemySpawner.seed_spawner(1)
+	else:
+		$EnemySpawner.seed_spawner()
+	
 func get_movement():
 	var movement = Vector2()
 	if target != null and is_instance_valid(target):

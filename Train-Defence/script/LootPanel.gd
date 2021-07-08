@@ -16,7 +16,7 @@ func add_item(item, ammo):
 	var LPI_instance = LPI.instance()
 	LPI_instance.setup(item, ammo)
 	add_child(LPI_instance)
-	LPI_instance.rect_position = Vector2(-rect_size.x/5,0)
+	LPI_instance.rect_position = Vector2(rect_size.x/5,0)
 	LPI_instance.connect("loot_panel_item_expired", self, "_on_loot_panel_item_expired")
 	count += 1
 	

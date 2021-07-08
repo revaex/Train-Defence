@@ -20,7 +20,10 @@ func shoot(debug_shoot_as_enemy=false):
 			get_tree().current_scene.add_child(projectile_instance)
 			firing_timer.set_wait_time(owner.current_weapon.firing_rate)
 			firing_timer.start()
-			Global.audio.playGunshot(owner.current_weapon.name)
+			GlobalAudio.play(GlobalAudio.Sounds.Guns[owner.current_weapon.name])
+			var particles = owner.current_weapon.get_node("CPUParticles2D")
+			particles.emitting = true
+
 
 func reload():
 	owner.reload_timer.start()

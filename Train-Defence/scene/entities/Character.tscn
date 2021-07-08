@@ -26,13 +26,13 @@ collision_mask = 440
 script = ExtResource( 2 )
 can_gain_exp = true
 
-[node name="Sprite" parent="." index="1"]
+[node name="Sprite" parent="." index="3"]
 texture = ExtResource( 3 )
 hframes = 7
 vframes = 3
 frame = 14
 
-[node name="AnimationPlayer" parent="." index="2"]
+[node name="AnimationPlayer" parent="." index="4"]
 anims/reload = SubResource( 1 )
 
 [node name="Camera2D" type="Camera2D" parent="." index="8"]
