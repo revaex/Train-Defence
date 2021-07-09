@@ -9,7 +9,7 @@ var ammo
 func setup(_item : Item, _ammo):
 	item = _item
 	ammo = _ammo
-	
+
 func _ready():
 	$TextureRect.texture = item.get_node("Sprite").texture
 	$TextureRect.self_modulate = item.get_node("Sprite").self_modulate

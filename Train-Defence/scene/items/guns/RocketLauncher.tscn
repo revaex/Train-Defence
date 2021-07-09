@@ -12,6 +12,7 @@ extents = Vector2( 9.35065, 3.16173 )
 script = ExtResource( 1 )
 
 [node name="Sprite" parent="." index="0"]
+position = Vector2( 4, 0 )
 texture = ExtResource( 2 )
 
 [node name="CPUParticles2D" parent="." index="1"]

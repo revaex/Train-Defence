@@ -52,9 +52,11 @@ func die():
 	GlobalEvents.emit_signal("enemy_dead", self)
 	
 	# Before enemy has been free'd, we want to hide the sprites and remove collision
-	# _on_finished_emitting() handles queue_free()
+	# _on_finished_emitting() handles the queue_free()
 	$Sprite.hide()
 	$WeaponHandler.hide()
+	$AmmoBar.hide()
+	$HPBar.hide()
 	remove_child($CollisionShape2D)
 
 

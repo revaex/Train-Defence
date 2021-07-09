@@ -1,10 +1,10 @@
-extends Node2D
+extends Node
 
 class_name CarSpawner
 
 # Each time a car is spawned, there is a random chance that CarSpawnTimer
 # will restart and spawn an extra car
-var rand_spawn_chance = 100
+var rand_spawn_chance = 10
 var spawn_count = 1 # How many cars spawn at a time. Can be increased for extra difficulty
 
 export (float) var car_spawn_timer = 5

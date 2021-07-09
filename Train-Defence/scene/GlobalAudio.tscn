@@ -32,7 +32,6 @@ stream = ExtResource( 5 )
 
 [node name="TrainMovement" type="AudioStreamPlayer" parent="Ambient"]
 stream = SubResource( 1 )
-volume_db = -10.0
 bus = "Ambience"
 
 [node name="Music" type="Node" parent="."]

@@ -42,6 +42,7 @@ limit_top = 0
 limit_right = 3450
 limit_bottom = 450
 limit_smoothed = true
+smoothing_enabled = true
 
 [node name="StunTimer" type="Timer" parent="." index="9"]
 wait_time = 3.0

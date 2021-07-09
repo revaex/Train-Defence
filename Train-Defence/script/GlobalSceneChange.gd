@@ -3,6 +3,12 @@ extends Node
 
 onready var scene_transition = load("res://scene/SceneTransition.tscn").instance()
 
+var scenes = {
+	"MainMenu": "res://scene/MainMenu.tscn",
+	"Game": "res://scene/Game.tscn",
+	"Options": "res://scene/OptionsMenu.tscn"
+}
+
 
 func _ready():
 	pass # Replace with function body.

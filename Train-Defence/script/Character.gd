@@ -27,7 +27,7 @@ func _ready():
 	$DashCDTimer.wait_time = dash_cooldown
 
 func _process(_delta):
-	if Input.is_action_pressed("Left_Click"): # in process so one can hold down button to fire
+	if Input.is_action_pressed("Shoot"): # in process so one can hold down button to fire
 		# So we can hold shift and shoot 'enemy' bullets for debug
 		if OS.is_debug_build():
 			if Input.is_action_pressed("Shift") and not stunned:
@@ -40,36 +40,36 @@ func _process(_delta):
 
 func get_movement_input():
 	var input = Vector2.ZERO
-	if Input.is_action_pressed('Up'):
+	if Input.is_action_pressed('Move_Up'):
 		input.y -= 1
-	if Input.is_action_pressed('Down'):
+	if Input.is_action_pressed('Move_Down'):
 		input.y += 1
-	if Input.is_action_pressed("Left"):
+	if Input.is_action_pressed("Move_Left"):
 		input.x -= 1
-	if Input.is_action_pressed('Right'):
+	if Input.is_action_pressed('Move_Right'):
 		input.x += 1
 	return input
 
 func _input(event):
 	if event is InputEventMouseButton:
-		if event.is_action_pressed("Right_Click"):
+		if event.is_action_pressed("Dash"):
 			dash()
 	if event is InputEventKey:
 		if event.is_pressed() and reload_timer.is_stopped():
-			if event.scancode == KEY_1:
+			if event.is_action_pressed("Weapon_Slot1"):
 				change_weapon(1)
-			elif event.scancode == KEY_2:
+			elif event.is_action_pressed("Weapon_Slot2"):
 				change_weapon(2)
-			elif event.scancode == KEY_3:
+			elif event.is_action_pressed("Weapon_Slot3"):
 				change_weapon(3)
-			elif event.scancode == KEY_4:
+			elif event.is_action_pressed("Weapon_Slot4"):
 				change_weapon(4)
-			elif event.scancode == KEY_5:
+			elif event.is_action_pressed("Weapon_Slot5"):
 				change_weapon(5)
-			elif event.scancode == KEY_R:
+			elif event.is_action_pressed("Reload"):
 				reload()
 			elif OS.is_debug_build():
-				if event.scancode == KEY_SPACE:
+				if event.is_action_pressed("Blink"):
 					blink()
 
 func _physics_process(_delta):

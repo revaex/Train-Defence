@@ -1,0 +1,84 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://assets/ui/ui_panel.theme" type="Theme" id=1]
+[ext_resource path="res://script/MenuPanel.gd" type="Script" id=2]
+[ext_resource path="res://assets/fonts/droid-sans/DroidSans.ttf" type="DynamicFontData" id=3]
+[ext_resource path="res://assets/fonts/droid-sans/DroidSans-Bold.ttf" type="DynamicFontData" id=4]
+
+[sub_resource type="DynamicFont" id=1]
+size = 28
+font_data = ExtResource( 4 )
+
+[sub_resource type="DynamicFont" id=2]
+size = 21
+font_data = ExtResource( 3 )
+
+[node name="MenuPanel" type="Panel"]
+anchor_right = 0.165
+anchor_bottom = 0.4
+margin_right = 0.199997
+theme = ExtResource( 1 )
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Margin" type="MarginContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 10.0
+margin_top = 15.0
+margin_right = -10.0
+margin_bottom = -10.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VB" type="VBoxContainer" parent="Margin"]
+margin_right = 165.0
+margin_bottom = 227.0
+custom_constants/separation = 12
+
+[node name="Menu" type="Label" parent="Margin/VB"]
+margin_right = 165.0
+margin_bottom = 33.0
+custom_fonts/font = SubResource( 1 )
+text = "Menu"
+align = 1
+
+[node name="HSeparator" type="HSeparator" parent="Margin/VB"]
+margin_top = 45.0
+margin_right = 165.0
+margin_bottom = 49.0
+
+[node name="Resume" type="Button" parent="Margin/VB"]
+margin_top = 61.0
+margin_right = 165.0
+margin_bottom = 92.0
+custom_fonts/font = SubResource( 2 )
+text = "Resume"
+
+[node name="Options" type="Button" parent="Margin/VB"]
+margin_top = 104.0
+margin_right = 165.0
+margin_bottom = 135.0
+custom_fonts/font = SubResource( 2 )
+text = "Options"
+
+[node name="MainMenu" type="Button" parent="Margin/VB"]
+margin_top = 147.0
+margin_right = 165.0
+margin_bottom = 178.0
+custom_fonts/font = SubResource( 2 )
+text = "Main Menu"
+
+[node name="ExitGame" type="Button" parent="Margin/VB"]
+margin_top = 190.0
+margin_right = 165.0
+margin_bottom = 221.0
+custom_fonts/font = SubResource( 2 )
+text = "Exit Game"
+
+[connection signal="pressed" from="Margin/VB/Resume" to="." method="_on_Resume_pressed"]
+[connection signal="pressed" from="Margin/VB/MainMenu" to="." method="_on_MainMenu_pressed"]
+[connection signal="pressed" from="Margin/VB/ExitGame" to="." method="_on_ExitGame_pressed"]

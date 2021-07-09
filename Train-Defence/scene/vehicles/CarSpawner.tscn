@@ -2,7 +2,7 @@
 
 [ext_resource path="res://script/CarSpawner.gd" type="Script" id=1]
 
-[node name="CarSpawner" type="Node2D"]
+[node name="CarSpawner" type="Node"]
 script = ExtResource( 1 )
 
 [node name="CarSpawnTop" type="Position2D" parent="."]
