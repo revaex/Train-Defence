@@ -38,6 +38,8 @@ music_checkbox = NodePath("Margin/HB/VB/AudioPanel/Margin/VB/Music/CheckBox")
 music_slider = NodePath("Margin/HB/VB/AudioPanel/Margin/VB/Music/HSlider")
 sfx_checkbox = NodePath("Margin/HB/VB/AudioPanel/Margin/VB/SFX/CheckBox")
 sfx_slider = NodePath("Margin/HB/VB/AudioPanel/Margin/VB/SFX/HSlider")
+ambience_checkbox = NodePath("Margin/HB/VB/AudioPanel/Margin/VB/Ambience/CheckBox")
+ambience_slider = NodePath("Margin/HB/VB/AudioPanel/Margin/VB/Ambience/HSlider")
 auto_switch_weapons_checkbox = NodePath("Margin/HB/MarginContainer/OtherPanel/Margin/VB/AutoSwitchWeapons/CheckBox")
 
 [node name="Margin" type="MarginContainer" parent="."]
@@ -160,6 +162,34 @@ margin_right = 158.0
 margin_bottom = 29.0
 
 [node name="HSlider" type="HSlider" parent="Margin/HB/VB/AudioPanel/Margin/VB/SFX"]
+margin_left = 170.0
+margin_right = 370.0
+margin_bottom = 29.0
+rect_min_size = Vector2( 200, 0 )
+size_flags_horizontal = 0
+size_flags_vertical = 1
+rounded = true
+
+[node name="Ambience" type="HBoxContainer" parent="Margin/HB/VB/AudioPanel/Margin/VB"]
+margin_top = 181.0
+margin_right = 370.0
+margin_bottom = 210.0
+custom_constants/separation = 12
+alignment = 2
+
+[node name="Label" type="Label" parent="Margin/HB/VB/AudioPanel/Margin/VB/Ambience"]
+margin_left = 8.0
+margin_right = 122.0
+margin_bottom = 29.0
+custom_fonts/font = SubResource( 4 )
+text = "Ambience:"
+
+[node name="CheckBox" type="CheckBox" parent="Margin/HB/VB/AudioPanel/Margin/VB/Ambience"]
+margin_left = 134.0
+margin_right = 158.0
+margin_bottom = 29.0
+
+[node name="HSlider" type="HSlider" parent="Margin/HB/VB/AudioPanel/Margin/VB/Ambience"]
 margin_left = 170.0
 margin_right = 370.0
 margin_bottom = 29.0

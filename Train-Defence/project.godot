@@ -108,6 +108,7 @@ Global="*res://script/Global.gd"
 GlobalSceneChange="*res://script/GlobalSceneChange.gd"
 GlobalEvents="*res://script/GlobalEvents.gd"
 GlobalAudio="*res://scene/GlobalAudio.tscn"
+GlobalOptions="*res://script/GlobalOptions.gd"
 
 [display]
 

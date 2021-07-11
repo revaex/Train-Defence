@@ -24,9 +24,11 @@ bus = "SFX"
 
 [node name="Rocket" type="AudioStreamPlayer" parent="SFX"]
 stream = ExtResource( 4 )
+bus = "SFX"
 
 [node name="Explosion" type="AudioStreamPlayer" parent="SFX"]
 stream = ExtResource( 5 )
+bus = "SFX"
 
 [node name="Ambient" type="Node" parent="."]
 
