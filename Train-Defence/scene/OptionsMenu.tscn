@@ -24,7 +24,7 @@ size = 24
 font_data = ExtResource( 2 )
 
 [sub_resource type="DynamicFont" id=5]
-size = 26
+size = 24
 font_data = ExtResource( 1 )
 
 [node name="OptionsMenu" type="Control"]
@@ -35,12 +35,12 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 music_checkbox = NodePath("Margin/HB/VB/AudioPanel/Margin/VB/Music/CheckBox")
-music_slider = NodePath("Margin/HB/VB/AudioPanel/Margin/VB/Music/HSlider")
 sfx_checkbox = NodePath("Margin/HB/VB/AudioPanel/Margin/VB/SFX/CheckBox")
-sfx_slider = NodePath("Margin/HB/VB/AudioPanel/Margin/VB/SFX/HSlider")
 ambience_checkbox = NodePath("Margin/HB/VB/AudioPanel/Margin/VB/Ambience/CheckBox")
-ambience_slider = NodePath("Margin/HB/VB/AudioPanel/Margin/VB/Ambience/HSlider")
 auto_switch_weapons_checkbox = NodePath("Margin/HB/MarginContainer/OtherPanel/Margin/VB/AutoSwitchWeapons/CheckBox")
+music_slider = NodePath("Margin/HB/VB/AudioPanel/Margin/VB/Music/HSlider")
+sfx_slider = NodePath("Margin/HB/VB/AudioPanel/Margin/VB/SFX/HSlider")
+ambience_slider = NodePath("Margin/HB/VB/AudioPanel/Margin/VB/Ambience/HSlider")
 
 [node name="Margin" type="MarginContainer" parent="."]
 anchor_right = 1.0
@@ -58,10 +58,12 @@ margin_left = 80.0
 margin_top = 80.0
 margin_right = 1040.0
 margin_bottom = 506.0
-custom_constants/separation = 50
+custom_constants/separation = 20
+alignment = 1
 
 [node name="VB" type="VBoxContainer" parent="Margin/HB"]
-margin_right = 420.0
+margin_left = 50.0
+margin_right = 470.0
 margin_bottom = 426.0
 
 [node name="Title" type="Label" parent="Margin/HB/VB"]
@@ -140,7 +142,8 @@ margin_bottom = 29.0
 rect_min_size = Vector2( 200, 0 )
 size_flags_horizontal = 0
 size_flags_vertical = 1
-rounded = true
+max_value = 1.0
+step = 0.01
 
 [node name="SFX" type="HBoxContainer" parent="Margin/HB/VB/AudioPanel/Margin/VB"]
 margin_top = 122.0
@@ -168,7 +171,8 @@ margin_bottom = 29.0
 rect_min_size = Vector2( 200, 0 )
 size_flags_horizontal = 0
 size_flags_vertical = 1
-rounded = true
+max_value = 1.0
+step = 0.01
 
 [node name="Ambience" type="HBoxContainer" parent="Margin/HB/VB/AudioPanel/Margin/VB"]
 margin_top = 181.0
@@ -196,11 +200,12 @@ margin_bottom = 29.0
 rect_min_size = Vector2( 200, 0 )
 size_flags_horizontal = 0
 size_flags_vertical = 1
-rounded = true
+max_value = 1.0
+step = 0.01
 
 [node name="MarginContainer" type="MarginContainer" parent="Margin/HB"]
-margin_left = 470.0
-margin_right = 890.0
+margin_left = 490.0
+margin_right = 910.0
 margin_bottom = 426.0
 custom_constants/margin_top = 76
 
@@ -261,23 +266,38 @@ margin_bottom = 29.0
 [node name="MarginContainer" type="MarginContainer" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_top = 1.25992
-margin_bottom = 1.25989
 mouse_filter = 2
-custom_constants/margin_right = 900
-custom_constants/margin_top = 530
-custom_constants/margin_left = 100
-custom_constants/margin_bottom = 60
+custom_constants/margin_right = 590
+custom_constants/margin_top = 525
+custom_constants/margin_left = 150
+custom_constants/margin_bottom = 70
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Save" type="Button" parent="MarginContainer"]
-margin_left = 100.0
-margin_top = 530.0
-margin_right = 220.0
-margin_bottom = 570.0
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
+margin_left = 150.0
+margin_top = 525.0
+margin_right = 530.0
+margin_bottom = 560.0
+custom_constants/separation = 60
+alignment = 1
+
+[node name="Save" type="Button" parent="MarginContainer/HBoxContainer"]
+margin_left = 60.0
+margin_right = 160.0
+margin_bottom = 35.0
+rect_min_size = Vector2( 100, 0 )
 custom_fonts/font = SubResource( 5 )
 text = "Save"
 
-[connection signal="pressed" from="MarginContainer/Save" to="." method="_on_Save_pressed"]
+[node name="Cancel" type="Button" parent="MarginContainer/HBoxContainer"]
+margin_left = 220.0
+margin_right = 320.0
+margin_bottom = 35.0
+rect_min_size = Vector2( 100, 0 )
+custom_fonts/font = SubResource( 5 )
+text = "Cancel"
+
+[connection signal="pressed" from="MarginContainer/HBoxContainer/Save" to="." method="_on_Save_pressed"]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/Cancel" to="." method="_on_Cancel_pressed"]

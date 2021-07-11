@@ -20,7 +20,7 @@ func shoot(debug_shoot_as_enemy=false):
 			get_tree().current_scene.add_child(projectile_instance)
 			firing_timer.set_wait_time(owner.current_weapon.firing_rate)
 			firing_timer.start()
-			GlobalAudio.play(GlobalAudio.Sounds.Guns[owner.current_weapon.name])
+			GlobalAudio.play(GlobalAudio.sounds[owner.current_weapon.name])
 			var particles = owner.current_weapon.get_node("CPUParticles2D")
 			particles.emitting = true
 
@@ -50,4 +50,10 @@ func change_weapon(index):
 
 func add_weapon(weapon):
 	call_deferred("add_child", weapon)
-	call_deferred("change_weapon", get_child_count())
+	if GlobalOptions.current_options["checkbox"]["auto_switch_weapons_checkbox"]:
+		call_deferred("change_weapon", get_child_count())
+
+# Overriding add_child to deal with call_deferred on weapon pick-up
+func add_child(node, legible_unique_name=false):
+	.add_child(node, legible_unique_name)
+	node.hide()

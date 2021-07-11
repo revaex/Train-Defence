@@ -15,6 +15,7 @@ stereo = true
 
 [node name="AudioManager" type="Node"]
 script = ExtResource( 1 )
+play_audio = true
 
 [node name="SFX" type="Node" parent="."]
 

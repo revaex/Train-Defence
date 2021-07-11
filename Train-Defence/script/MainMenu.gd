@@ -1,7 +1,8 @@
 extends Control
 
 
-#func _ready():
+func _ready():
+	GlobalAudio.stop_all()
 #	if OS.is_debug_build():
 #		GlobalSceneChange.goto_scene(GlobalSceneChange.scenes.Game, 1.0, "")
 

@@ -14,9 +14,14 @@ size = 21
 font_data = ExtResource( 3 )
 
 [node name="MenuPanel" type="Panel"]
-anchor_right = 0.165
-anchor_bottom = 0.4
-margin_right = 0.199997
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -92.5
+margin_top = -126.0
+margin_right = 92.5
+margin_bottom = 126.0
 theme = ExtResource( 1 )
 script = ExtResource( 2 )
 __meta__ = {
@@ -80,5 +85,6 @@ custom_fonts/font = SubResource( 2 )
 text = "Exit Game"
 
 [connection signal="pressed" from="Margin/VB/Resume" to="." method="_on_Resume_pressed"]
+[connection signal="pressed" from="Margin/VB/Options" to="." method="_on_Options_pressed"]
 [connection signal="pressed" from="Margin/VB/MainMenu" to="." method="_on_MainMenu_pressed"]
 [connection signal="pressed" from="Margin/VB/ExitGame" to="." method="_on_ExitGame_pressed"]

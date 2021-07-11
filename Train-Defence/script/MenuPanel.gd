@@ -1,12 +1,15 @@
 extends Panel
 
-var currently_open = false
+signal options_menu_opened()
 
+var currently_open = false
+var options_menu_open = false
 
 func _input(event):
-	if event is InputEventKey:
-		if Input.is_action_pressed("Menu"):
-			handle_pause()
+	if not options_menu_open:
+		if event is InputEventKey:
+			if Input.is_action_pressed("Menu"):
+				handle_pause()
 
 
 func handle_pause():
@@ -30,3 +33,8 @@ func _on_MainMenu_pressed():
 func _on_ExitGame_pressed():
 	handle_pause()
 	get_tree().quit()
+
+
+func _on_Options_pressed():
+	emit_signal("options_menu_opened")
+	options_menu_open = true

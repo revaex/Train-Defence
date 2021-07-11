@@ -46,5 +46,5 @@ func _on_Projectile_body_entered(body):
 	if not body is Car: # Bullets should go 'over' the cars
 		body.take_damage(damage, shooter, (shooter_position - body.position).normalized())
 		if shooter_weapon_name == "RocketLauncher":
-			GlobalAudio.play(GlobalAudio.Sounds.Explosion)
+			GlobalAudio.play(GlobalAudio.sounds.Explosion)
 		queue_free()

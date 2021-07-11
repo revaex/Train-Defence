@@ -178,8 +178,6 @@ func _on_item_picked_up(item):
 				print('picked up: ' + str(item.display_name))
 				var weapon_instance = load(item.filename).instance()
 				weapon_instance.picked_up = true
-				#$WeaponHandler.call_deferred("add_child", weapon_instance)
-				#call_deferred("change_weapon", $WeaponHandler.get_child_count())
 				$WeaponHandler.add_weapon(weapon_instance)
 			else:
 				print("Picked up " + str(item.total_ammo) + " " + item.display_name + " ammo.")
