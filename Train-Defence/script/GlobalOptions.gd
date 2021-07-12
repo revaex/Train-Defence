@@ -9,10 +9,15 @@ const DEFAULT_SLIDER_VALUE = 0.5
 onready var options_menu = load("res://scene/OptionsMenu.tscn").instance()
 
 
-# current_options is populated via init_current_options() 
+# Contains the 'current options' that can be checked in real-time from the game if needed
+# Populated via init_current_options() 
 var current_options = {
-	"checkbox": {},
-	"slider": {},
+#	"checkbox": {
+#		"music_checkbox": <some_value>
+#	},
+#	"slider": {
+#		"music_slider": <some_value>
+#	},
 }
 
 
@@ -22,57 +27,49 @@ func _ready():
 	options_take_effect()
 
 
+func init_current_options():
+	if current_options.size() == 0:
+		options_menu.init_option_items()
+		for i in options_menu.option_items:
+			current_options[i] = {}
+			for j in options_menu.option_items[i]:
+				current_options[i][j] = options_menu.options[i]["default"]
+
+
 # Actually grant the desired effects (changing audio bus volume etc)
 # Some options (eg. auto_switch_weapons) are 'checked' in real-time when needed
 # and thus don't need to be added to this function
 func options_take_effect():
 	for i in current_options:
-		match i:
-			"checkbox":
-				for j in current_options[i]:
-					match j:
-						"music_checkbox":
-							var audio_bus = AudioServer.get_bus_index("Music")
-							AudioServer.set_bus_mute(audio_bus, not current_options[i][j])
-						"sfx_checkbox":
-							var audio_bus = AudioServer.get_bus_index("SFX")
-							AudioServer.set_bus_mute(audio_bus, not current_options[i][j])
-						"ambience_checkbox":
-							var audio_bus = AudioServer.get_bus_index("Ambience")
-							AudioServer.set_bus_mute(audio_bus, not current_options[i][j])
-			"slider":
-				for j in current_options[i]:
-					match j:
-						"music_slider":
-							var audio_bus = AudioServer.get_bus_index("Music")
-							AudioServer.set_bus_volume_db(audio_bus, linear2db(current_options[i][j]))
-						"sfx_slider":
-							var audio_bus = AudioServer.get_bus_index("SFX")
-							AudioServer.set_bus_volume_db(audio_bus, linear2db(current_options[i][j]))
-						"ambience_slider":
-							var audio_bus = AudioServer.get_bus_index("Ambience")
-							AudioServer.set_bus_volume_db(audio_bus, linear2db(current_options[i][j]))
+		for j in current_options[i]:
+			match j:
+				"music_checkbox":
+					var audio_bus = AudioServer.get_bus_index("Music")
+					AudioServer.set_bus_mute(audio_bus, not current_options[i][j])
+				"sfx_checkbox":
+					var audio_bus = AudioServer.get_bus_index("SFX")
+					AudioServer.set_bus_mute(audio_bus, not current_options[i][j])
+				"ambience_checkbox":
+					var audio_bus = AudioServer.get_bus_index("Ambience")
+					AudioServer.set_bus_mute(audio_bus, not current_options[i][j])
 
-func init_current_options():
-	if current_options["checkbox"].size() == 0 and current_options["slider"].size() == 0:
-		options_menu.init_option_items()
-		var options = options_menu.option_items
-		for i in options:
-			match i:
-				"checkbox":
-					for j in options[i]:
-						current_options[i][j] = DEFAULT_CHECKBOX_VALUE
-				"slider":
-					for j in options[i]:
-						current_options[i][j] = DEFAULT_SLIDER_VALUE
+				"music_slider":
+					var audio_bus = AudioServer.get_bus_index("Music")
+					AudioServer.set_bus_volume_db(audio_bus, linear2db(current_options[i][j]))
+				"sfx_slider":
+					var audio_bus = AudioServer.get_bus_index("SFX")
+					AudioServer.set_bus_volume_db(audio_bus, linear2db(current_options[i][j]))
+				"ambience_slider":
+					var audio_bus = AudioServer.get_bus_index("Ambience")
+					AudioServer.set_bus_volume_db(audio_bus, linear2db(current_options[i][j]))
 
 
 # Overwrite OPTIONS_FILE with the current_options dictionary
 func save_options():
-	var file = File.new()
-	file.open(OPTIONS_FILE, File.WRITE)
-	file.store_string(to_json(current_options))
-	file.close()
+	var _file = File.new()
+	_file.open(OPTIONS_FILE, File.WRITE)
+	_file.store_string(to_json(current_options))
+	_file.close()
 	options_take_effect()
 
 
@@ -83,22 +80,24 @@ func load_options():
 	if file.file_exists(OPTIONS_FILE):
 		print("Loading existing save file...")
 		file.open(OPTIONS_FILE, File.READ)
-		var loaded_options = parse_json(file.get_as_text())
-		
-		for i in loaded_options:
-			# Ensure loaded_options dictionary matches current_options dictionary
-			if loaded_options[i].size() != current_options[i].size():
-				print("Disrepency between loaded data and internal options.")
-				print("Re-creating save file with defaults...")
-				file.close()
-				save_options()
-				return
-			
-			# Overwrite current_options with loaded_options if there are changes
-			for j in loaded_options[i]:
-				if loaded_options[i][j] != current_options[i][j]:
-					current_options[i][j] = loaded_options[i][j]
+		_update_load_file(parse_json(file.get_as_text()))
 	else:
 		print("Creating new save file with default options...")
-		save_options()
 	file.close()
+	save_options()
+
+func _update_load_file(loaded_options):
+	for i in current_options:
+		# If loaded_options doesn't contain a key, add it and its contents
+		if not loaded_options.has(i):
+			loaded_options[i] = current_options[i]
+			print("Old load file detected! Missing key: '" + str(i) + "'. Updating it now with default value...")
+			for j in current_options[i]:
+				loaded_options[i][j] = current_options[i][j]
+		else:
+		# Overwrite current_options with loaded_options if there are changes
+			for j in current_options[i]:
+				if loaded_options[i][j] != current_options[i][j]:
+					current_options[i][j] = loaded_options[i][j]
+
+

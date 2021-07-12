@@ -11,9 +11,11 @@ func setup(_item : Item, _ammo):
 	ammo = _ammo
 
 func _ready():
-	$TextureRect.texture = item.get_node("Sprite").texture
-	$TextureRect.self_modulate = item.get_node("Sprite").self_modulate
+	$Control/TextureRect.texture = item.get_node("Sprite").texture
+	$Control/TextureRect.self_modulate = item.get_node("Sprite").self_modulate
 	$Label.text = item.display_name
+	if item is Gun:
+		$Control/TextureRect.rect_rotation = 90
 	if ammo:
 		$Label.text += " (" + str(ammo) + " ammo)"
 	$Timer.wait_time = expiry_time

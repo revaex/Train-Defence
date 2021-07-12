@@ -27,6 +27,10 @@ item_marker_placeholder = NodePath("HB/Carriage2/ItemMarkerPlaceholder")
 car_marker_placeholder = NodePath("CarControl/CarMarkerPlaceholder")
 hb = NodePath("HB")
 car_control = NodePath("CarControl")
+flashing_tween = NodePath("FlashingTween")
+max_flashes = 6
+
+[node name="FlashingTween" type="Tween" parent="."]
 
 [node name="CarControl" type="Control" parent="."]
 anchor_right = 1.0

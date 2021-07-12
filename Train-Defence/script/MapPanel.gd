@@ -6,9 +6,17 @@ export (NodePath) onready var item_marker_placeholder = get_node(item_marker_pla
 export (NodePath) onready var car_marker_placeholder = get_node(car_marker_placeholder)
 export (NodePath) onready var hb = get_node(hb)
 export (NodePath) onready var car_control = get_node(car_control)
+export (NodePath) onready var flashing_tween = get_node(flashing_tween)
 
 # Carriage_N = carriage_markers[N-1]
 var carriage_markers = [] # An array of $HB/Carriage1, $HB/Carriage2, etc
+var carriage_flash_count = [] # An array of values determining each carriages flash counter
+var carriage_flash_timers = [] # An array of timers to time each carriages flashes
+
+export var max_flashes = 10 # Each in/out counts as a single flash, so max_flashes/2 is the real flash count
+export var flash_time = 0.25 # Time the tween takes to change the carriage's flash colour
+export var flash_colour = Color.firebrick
+export var dead_colour = Color.indianred
 
 var items = [] # A copy of the spawned items array
 var item_markers = [] # item_markers[n] -> item[n]'s item_marker
@@ -28,6 +36,7 @@ onready var car_pos_old = []
 # ratio_scale pixels moved in the "game-world" is 1 pixel moved in the "map world"
 onready var scale = 3190 / hb.rect_size.x
 
+
 func _ready():
 # warning-ignore:return_value_discarded
 	GlobalEvents.connect("item_spawned", self, "_on_item_spawned")
@@ -41,15 +50,25 @@ func _ready():
 	GlobalEvents.connect("car_despawned", self, "_on_car_despawned")
 # warning-ignore:return_value_discarded
 	GlobalEvents.connect("carriage_died", self, "_on_carriage_died")
+# warning-ignore:return_value_discarded
+	GlobalEvents.connect("train_connector_damaged", self, "_on_train_connector_damaged")
 	
 	var temp_index = 0
 	for i in hb.get_children():
 		temp_index += 1
 		carriage_markers.append(i)
 		carriage_pos_old.append(train.carriages[temp_index].global_position)
+		carriage_flash_count.append(0) # Will increase by 1 everytime a flash occurs
+		var timer = Timer.new()
+		timer.one_shot = false
+		timer.wait_time = flash_time
+		carriage_flash_timers.append(timer)
+		add_child(timer)
+		carriage_flash_timers[carriage_flash_timers.size()-1].connect("timeout", self, "_on_carriage_flash_timer_timeout", [carriage_flash_timers[carriage_flash_timers.size()-1]])
 	
 	character_marker.rect_position =  carriage_markers[0].rect_size / 2 - character_marker.rect_size / 2 - Vector2(1,-1)
 
+# The worlds grossest _process function... So many loops...
 func _process(_delta):
 	# Car position
 	var car_index = 0
@@ -135,3 +154,30 @@ func _on_car_despawned(car):
 func _on_carriage_died(_carriage, index):
 	# To prevent the carriage positions from 'stacking-up' and becoming viewable
 	carriage_markers[index - 1].rect_position.x = -45
+
+func _on_train_connector_damaged(index):
+	if not train.carriages[index].alive:
+		for i in train.carriages:
+			if not i is String:
+				if i.index <= index and carriage_markers[i.index - 1].self_modulate != dead_colour:
+					flashing_tween.interpolate_property(carriage_markers[i.index-1], "self_modulate", self_modulate, dead_colour, 0.5,Tween.TRANS_SINE, Tween.EASE_IN)
+					flashing_tween.start()
+	else:
+		carriage_flash_timers[index - 1].start()
+		carriage_flash_count[index - 1] = 0
+
+func _on_carriage_flash_timer_timeout(timer):
+	var index = carriage_flash_timers.find(timer)
+	carriage_flash_count[index] += 1
+	if carriage_flash_count[index] > max_flashes or not train.carriages[index+1].alive:
+		carriage_flash_timers[index].stop()
+		carriage_flash_count[index] = 0
+		carriage_markers[index].self_modulate = Color.white
+		return
+	if carriage_markers[index].self_modulate == flash_colour:
+		flashing_tween.interpolate_property(carriage_markers[index], "self_modulate", flash_colour, Color.white, flash_time-0.1,Tween.TRANS_SINE, Tween.EASE_IN)
+		flashing_tween.start()
+	elif carriage_markers[index].self_modulate == Color.white:
+		flashing_tween.interpolate_property(carriage_markers[index], "self_modulate", Color.white, flash_colour, flash_time-0.1,Tween.TRANS_SINE, Tween.EASE_IN)
+		flashing_tween.start()
+

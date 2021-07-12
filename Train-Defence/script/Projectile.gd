@@ -12,8 +12,8 @@ var shooter # A reference to the shooter
 var shooter_position
 var shooter_weapon_name
 
-# Need a reference to the camera so projectiles are free'd when they go out of camera bounds
-onready var camera = get_tree().current_scene.get_node("Character/Camera2D")
+# Determines the bounding box (using center of the screen as origin) for projectiles to be free'd from memory
+onready var bounds = get_viewport().size
 
 # Debug feature to enable character to shoot as if he was an enemy
 var debug_shoot_as_enemy = false 
@@ -35,12 +35,13 @@ func _init_enemy_collision():
 
 func _physics_process(delta):
 	position += transform.x * speed * delta
-	
-	# Free the bullet when it goes outside the camera limits
-	if position.x < camera.limit_left or position.x > camera.limit_right or \
-			position.y < camera.limit_top or position.y > camera.limit_bottom:
-		queue_free()
 
+	# Treating the viewport origin as the center of the screen for convenience
+	var vp_transform = get_viewport_transform().origin
+	var vp_size = get_viewport().size
+	if position.x < -vp_transform.x + vp_size.x/2 - bounds.x or position.x > -vp_transform.x - vp_size.x/2+ bounds.x*2 or \
+			position.y < vp_transform.y + vp_size.y/2 - bounds.y or position.y > vp_transform.y - vp_size.y/2 + bounds.y*2:
+		queue_free()
 
 func _on_Projectile_body_entered(body):
 	if not body is Car: # Bullets should go 'over' the cars

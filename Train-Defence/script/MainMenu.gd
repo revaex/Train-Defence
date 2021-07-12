@@ -13,3 +13,7 @@ func _on_Play_pressed():
 
 func _on_Options_pressed():
 	GlobalSceneChange.goto_scene(GlobalSceneChange.scenes.Options)
+
+
+func _on_ExitGame_pressed():
+	get_tree().quit()

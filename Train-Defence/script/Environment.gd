@@ -6,8 +6,6 @@ var embellishment = preload("res://scene/environment/Embellishment.tscn")
 
 func _ready():
 	pass
-	#$Dirt.material.set_shader_param("speed_scale", scroll_speed)
-	#$Track.material.set_shader_param("speed_scale", scroll_speed*3)
 
 func _physics_process(delta):
 	$ParallaxBackground/ParallaxLayer.motion_offset.x -= scroll_speed * delta

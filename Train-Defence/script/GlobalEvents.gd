@@ -20,6 +20,9 @@ signal car_despawned(car)
 signal train_connector_broken(index)
 
 # warning-ignore:unused_signal
+signal train_connector_damaged(index)
+
+# warning-ignore:unused_signal
 signal carriage_died(carriage, index)
 
 # warning-ignore:unused_signal

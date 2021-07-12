@@ -16,6 +16,13 @@ func _on_options_menu_opened():
 	_init_options_viewport()
 
 
+func _on_options_menu_closed():
+	owner.get_node("MenuPanel").options_menu_open = false
+	options_menu.queue_free()
+	vp.queue_free()
+	vp_container.queue_free()
+
+
 func _init_options_viewport():
 	vp_container = ViewportContainer.new()
 	vp = Viewport.new()
@@ -28,10 +35,3 @@ func _init_options_viewport():
 	vp_container.rect_size = get_viewport().size - Vector2(get_constant("margin_right")*2, get_constant("margin_bottom")*2)
 	vp_container.rect_position += Vector2(get_constant("margin_right"), get_constant("margin_bottom"))
 	options_menu.connect("options_menu_closed", self, "_on_options_menu_closed")
-
-
-func _on_options_menu_closed():
-	owner.get_node("MenuPanel").options_menu_open = false
-	options_menu.queue_free()
-	vp.queue_free()
-	vp_container.queue_free()

@@ -24,6 +24,7 @@ func take_damage(dmg, _shooter, _incoming_direction):
 		if scaled_hp <= 0:
 			alive = false
 			break_connector()
+		GlobalEvents.emit_signal("train_connector_damaged", index)
 
 func break_connector():
 		print("Connector Broke!")
