@@ -34,7 +34,7 @@ func _process(_delta):
 				shoot(true)
 			elif not stunned:
 				shoot()
-		elif $WeaponHandler.firing_timer.is_stopped() and not stunned:
+		elif $FiringTimer.is_stopped() and not stunned:
 			shoot()
 
 
@@ -54,18 +54,34 @@ func _input(event):
 	if event is InputEventMouseButton:
 		if event.is_action_pressed("Dash"):
 			dash()
+			print($WeaponHandler.get_weapon_index(current_weapon))
+		if event.is_action_pressed("Mouse_Scroll_Up"):
+			var current_weapon_index = $WeaponHandler.get_weapon_index(current_weapon)
+			var total_weapons = $WeaponHandler.get_child_count()
+			if (current_weapon_index + 1) > total_weapons - 1:
+				$WeaponHandler.change_weapon(0)
+			else:
+				$WeaponHandler.change_weapon(current_weapon_index + 1)
+		elif event.is_action_pressed("Mouse_Scroll_Down"):
+			var current_weapon_index = $WeaponHandler.get_weapon_index(current_weapon)
+			var total_weapons = $WeaponHandler.get_child_count()
+			if (current_weapon_index - 1) < 0:
+				$WeaponHandler.change_weapon(total_weapons -1)
+			else:
+				$WeaponHandler.change_weapon(current_weapon_index - 1)
+		
 	if event is InputEventKey:
 		if event.is_pressed() and reload_timer.is_stopped():
 			if event.is_action_pressed("Weapon_Slot1"):
-				change_weapon(1)
+				change_weapon(0)
 			elif event.is_action_pressed("Weapon_Slot2"):
-				change_weapon(2)
+				change_weapon(1)
 			elif event.is_action_pressed("Weapon_Slot3"):
-				change_weapon(3)
+				change_weapon(2)
 			elif event.is_action_pressed("Weapon_Slot4"):
-				change_weapon(4)
+				change_weapon(3)
 			elif event.is_action_pressed("Weapon_Slot5"):
-				change_weapon(5)
+				change_weapon(4)
 			elif event.is_action_pressed("Reload"):
 				reload()
 			elif OS.is_debug_build():
@@ -168,22 +184,7 @@ func _on_item_picked_up(item):
 					$RegenTimer.start()
 					
 		item.ItemType.GUN:
-			var gun_type_owned = null
-			for i in $WeaponHandler.get_children():
-				if i.filename == item.filename:
-					gun_type_owned = i
-					break
-			if gun_type_owned == null:
-				GlobalEvents.emit_signal("item_picked_up_loot_panel", item, false)
-				print('picked up: ' + str(item.display_name))
-				var weapon_instance = load(item.filename).instance()
-				weapon_instance.picked_up = true
-				$WeaponHandler.add_weapon(weapon_instance)
-			else:
-				print("Picked up " + str(item.total_ammo) + " " + item.display_name + " ammo.")
-				gun_type_owned.total_ammo += item.total_ammo
-				GlobalEvents.emit_signal("update_ammo_label")
-				GlobalEvents.emit_signal("item_picked_up_loot_panel", item, item.total_ammo)
+			$WeaponHandler.add_weapon(item)
 
 
 func die():

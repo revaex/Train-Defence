@@ -19,7 +19,7 @@ var car = null # Reference to car enemy is riding
 
 func _ready():
 	randomize()
-	$WeaponHandler.firing_timer.set_wait_time(current_weapon.firing_rate + randf())
+	$FiringTimer.set_wait_time(current_weapon.firing_rate + randf())
 # warning-ignore:return_value_discarded
 	$DeathParticles.connect("finished_emitting", self, "_on_finished_emitting")
 

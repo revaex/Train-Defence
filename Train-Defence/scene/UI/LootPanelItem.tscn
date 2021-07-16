@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://assets/sprite/weapons/rocket_launcher.png" type="Texture" id=1]
+[ext_resource path="res://assets/sprite/weapons/machinegun.png" type="Texture" id=1]
 [ext_resource path="res://script/LootPanelItem.gd" type="Script" id=2]
 [ext_resource path="res://assets/fonts/droid-sans/DroidSans.ttf" type="DynamicFontData" id=3]
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://scene/entities/Character.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scene/vehicles/Train.tscn" type="PackedScene" id=2]
@@ -7,7 +7,6 @@
 [ext_resource path="res://scene/vehicles/CarSpawner.tscn" type="PackedScene" id=5]
 [ext_resource path="res://scene/environment/Environment.tscn" type="PackedScene" id=6]
 [ext_resource path="res://scene/UI/UI.tscn" type="PackedScene" id=7]
-[ext_resource path="res://scene/entities/Enemy.tscn" type="PackedScene" id=8]
 
 [node name="Game" type="Node2D"]
 script = ExtResource( 3 )
@@ -33,6 +32,3 @@ pause_mode = 2
 layer = 2
 
 [node name="UI" parent="UILayer" instance=ExtResource( 7 )]
-
-[node name="Enemy" parent="." instance=ExtResource( 8 )]
-position = Vector2( 1114.69, 145.647 )

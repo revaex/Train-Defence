@@ -2,7 +2,7 @@ extends KinematicBody2D
 
 class_name Entity
 
-onready var current_weapon = $WeaponHandler.get_child(1)
+onready var current_weapon = $WeaponHandler.get_child(0)
 
 export var speed = 180
 export var friction = 0.2
@@ -60,6 +60,7 @@ func take_damage(dmg, shooter, incoming_direction):
 		self.current_hp = 0
 		shooter.gain_experience(level * 5)
 		die()
+	
 
 func _set_max_hp(value):
 	max_hp = value

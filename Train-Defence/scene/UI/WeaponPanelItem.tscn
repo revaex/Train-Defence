@@ -1,0 +1,50 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://script/WeaponPanelItem.gd" type="Script" id=1]
+
+[sub_resource type="StyleBoxFlat" id=1]
+bg_color = Color( 0.6, 0.6, 0.6, 0.52549 )
+
+[sub_resource type="StreamTexture" id=2]
+load_path = "res://.import/machinegun2.png-65db44b578267ebc9f2e30719987cfe3.stex"
+
+[node name="WeaponPanelItem" type="Panel"]
+margin_right = 47.0
+margin_bottom = 47.0
+rect_min_size = Vector2( 47, 47 )
+custom_styles/panel = SubResource( 1 )
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ReferenceRect" type="ReferenceRect" parent="."]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+border_color = Color( 1, 1, 1, 1 )
+border_width = 2.0
+editor_only = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Control" type="Control" parent="."]
+margin_left = 5.0
+margin_top = 5.0
+margin_right = 42.0
+margin_bottom = 42.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect" type="TextureRect" parent="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+rect_rotation = 90.0
+rect_pivot_offset = Vector2( 18.5, 18.5 )
+texture = SubResource( 2 )
+stretch_mode = 6
+__meta__ = {
+"_edit_use_anchors_": false
+}

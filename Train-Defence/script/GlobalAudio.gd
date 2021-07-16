@@ -5,8 +5,8 @@ export (bool) var play_audio = false
 
 onready var sounds : Dictionary = {
 	"Pistol": $SFX/Gunshot,
-	"MachineGun": $SFX/Gunshot,
-	"RocketLauncher": $SFX/Rocket,
+	"Machine Gun": $SFX/Gunshot,
+	"Rocket Launcher": $SFX/Rocket,
 	"Train": $Ambient/TrainMovement,
 	"Explosion": $SFX/Explosion,
 }
